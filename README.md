@@ -13,6 +13,7 @@ Tais informações serão processadas para gerar um mapa de calor que pode ser c
 | Gabriel Monteiro de Souza            | 14746450   |
 | Gabriela Pinheiro Almeida Dantas     | 14573249   |
 | Ricardo Miranda Cordovil Filho       | 14658257   |
+| Matheus Silva Lopes da Costa         | 12674680   |
 
 
 ## Badges
