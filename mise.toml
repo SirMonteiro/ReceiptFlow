@@ -1,0 +1,8 @@
+# https://mise.jdx.dev/mise-cookbook/ruby.html
+[tools]
+ruby = "3.4.5"
+
+[tasks."bundle:install"]
+description = "Install gem dependencies"
+run = "bundle install"
+

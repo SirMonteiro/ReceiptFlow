@@ -8,8 +8,20 @@ Tais informações serão processadas para gerar um mapa de calor que pode ser c
 
 | Nome                                 | Número USP |
 |--------------------------------------|------------|
+| André Vieira Rocha                   | 12681611   |
 | Gabriel Dimant                       | 14653248   |
-| Gabriel Monteiro de Souza            | xxxx       |
+| Gabriel Monteiro de Souza            | 14746450   |
 | Gabriela Pinheiro Almeida Dantas     | 14573249   |
 | Ricardo Miranda Cordovil Filho       | 14658257   |
-| A definir                            |            |
+
+
+## Badges
+#### Branch Dev 
+![Dev Branch](https://github.com/SirMonteiro/heatmapp/actions/workflows/blank.yml/badge.svg?branch=dev)
+
+#### Branch Master 
+![Master Branch](https://github.com/SirMonteiro/heatmapp/actions/workflows/blank.yml/badge.svg?branch=main)
+
+#### CodeClimate
+[![Maintainability](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp/maintainability.svg)](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp)
+[![Code Coverage](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp/coverage.svg)](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp)
