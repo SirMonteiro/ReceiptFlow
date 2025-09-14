@@ -1,10 +1,10 @@
-# Heatmapp - Mapeando Soluções 
+# Heatmapp - Mapeando Soluções
 
-## Proposta 
-Desenvolver uma aplicação móvel que permita que usuários possam contribuir com informações relacionadas a nível de ruído, sintomas e áreas verdes associados a sua localização atual. 
+## Proposta
+Desenvolver uma aplicação móvel que permita que usuários possam contribuir com informações relacionadas a nível de ruído, sintomas e áreas verdes associados a sua localização atual.
 Tais informações serão processadas para gerar um mapa de calor que pode ser consultado por outras pessoas, permitindo que se preparem melhor para enfrentar as diferentes condições que surgem na cidade.
 
-## Integrantes 
+## Integrantes
 
 | Nome                                 | Número USP |
 |--------------------------------------|------------|
@@ -17,12 +17,103 @@ Tais informações serão processadas para gerar um mapa de calor que pode ser c
 
 
 ## Badges
-#### Branch Dev 
+#### Branch Dev
 ![Dev Branch](https://github.com/SirMonteiro/heatmapp/actions/workflows/blank.yml/badge.svg?branch=dev)
 
-#### Branch Master 
+#### Branch Master
 ![Master Branch](https://github.com/SirMonteiro/heatmapp/actions/workflows/blank.yml/badge.svg?branch=main)
 
 #### CodeClimate
 [![Maintainability](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp/maintainability.svg)](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp)
 [![Code Coverage](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp/coverage.svg)](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp)
+
+## Running the Project Locally
+
+To run this project locally, follow the steps below:
+
+### Prerequisites
+
+Ensure you have [Mise](https://mise.jdx.dev/) installed on your system. Mise is a tool for managing project environments and dependencies.
+
+In case you don't have Mise installed, you can follow setup environment instructions.
+
+### Steps
+
+1. **Install the Required Ruby Version**
+   Use Mise to install the Ruby version specified in the `mise.toml` file:
+  ```bash
+  mise run install
+  ```
+2. Install Project Dependencies**
+  Once the correct Ruby version is installed, install the required gems:
+  ```bash
+  mise run bundle:install
+  ```
+
+3. **Run Pre-Boot Functions**
+  Before starting the server, ensure the database is set up and migrations are applied:
+  ```bash
+  rails db:setup
+  rails db:migrate
+  ```
+
+4. **Start the Server**
+  Run the Rails server:
+  ```bash
+  rails server
+  ```
+
+5. **Access the Application**
+  Open your browser and navigate to `http://localhost:3000` to view the application.
+
+---
+
+## Running Tests and Measuring Coverage
+
+This project uses RSpec for unit and functional tests, Jasmine for JavaScript tests, and Cucumber with Capybara for user story tests. Follow these steps to run tests and measure coverage:
+
+### Running RSpec Tests
+Run the RSpec tests to ensure the backend functionality is working as expected:
+```bash
+rake spec
+```
+
+### Running Cucumber Tests
+Run the Cucumber tests to validate user stories:
+```bash
+rake cucumber
+```
+
+### Running JavaScript Tests
+Run the Jasmine tests for JavaScript functionality:
+```bash
+rake jasmine
+```
+
+### Measuring Test Coverage
+This project uses Coveralls to measure test coverage. To generate a local coverage report:
+```bash
+COVERAGE=true rake spec
+```
+The coverage report will be available in the `coverage/` directory.
+
+---
+
+## Code Quality and Static Analysis
+
+This project uses CodeClimate to measure code quality and identify potential issues. Ensure your code adheres to the quality standards by running:
+```bash
+rubocop
+
+
+## Setup development environment
+
+To set up the development environment, follow these steps:
+
+1. **Install Mise**:
+
+```bash
+curl https://mise.run | sh
+echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
+```
