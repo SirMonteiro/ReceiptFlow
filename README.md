@@ -104,7 +104,7 @@ The coverage report will be available in the `coverage/` directory.
 This project uses CodeClimate to measure code quality and identify potential issues. Ensure your code adheres to the quality standards by running:
 ```bash
 rubocop
-
+```
 
 ## Setup development environment
 
