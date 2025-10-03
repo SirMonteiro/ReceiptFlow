@@ -1,0 +1,6 @@
+<h1>Welcome to ReceiptFlow!</h1>
+<% if logged_in? %>
+  <p>You are logged in as <%= current_user.name %>.</p>
+<% else %>
+  <p>You are not logged in.</p>
+<% end %>
