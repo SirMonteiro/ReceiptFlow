@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # 1. Set the home page to your new upload form.
+  root "uploads#new"
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # 2. Correctly set up the necessary routes for uploading.
+  # This creates a GET route for `uploads/new` and a POST route for `uploads`.
+  resources :uploads, only: [:new, :create]
+
+  # 3. Keep the default health check route.
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end

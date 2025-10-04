@@ -1,0 +1,46 @@
+<div class="upload-container">
+  <h1>Upload XML File</h1>
+
+  <%= form_with(model: @upload, url: uploads_path, data: { turbo: false }) do |form| %>
+
+    <%# The styled label now acts as our button %>
+    <%= form.label :xml_file, "Choose a File...", class: "file-upload-label", for: "file_upload_input" %>
+
+    <%# The actual file input is hidden by our CSS %>
+    <%= form.file_field :xml_file, accept: ".xml", id: "file_upload_input" %>
+
+    <%# This is where we'll show the name of the chosen file %>
+    <p id="file-name-display">No file selected</p>
+
+    <%# The styled submit button %>
+    <%= form.submit "Upload File", class: "submit-btn" %>
+    
+  <% end %>
+</div>
+
+<%# Keep your script at the bottom %>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const fileInput = document.getElementById("file_upload_input");
+    const flashNotice = document.querySelector(".flash-notice");
+    const fileNameDisplay = document.getElementById("file-name-display");
+
+    if (fileInput) {
+      fileInput.addEventListener("change", function() {
+        // --- NEW ---
+        // Display the name of the chosen file
+        if (fileInput.files.length > 0) {
+          fileNameDisplay.textContent = fileInput.files[0].name;
+        } else {
+          fileNameDisplay.textContent = "No file selected";
+        }
+
+        // --- OLD ---
+        // Hide the flash message if it exists
+        if (flashNotice) {
+          flashNotice.style.display = "none";
+        }
+      });
+    }
+  });
+</script>
