@@ -7,14 +7,14 @@ Feature: Exportação de dados para planilha
         Given que existem pedidos cadastrados no sistema
         When eu acesso a página de exportação de dados
         And clico em "Exportar para Excel"
-        Then devo receber um arquivo "dados.xlsx"
+        Then devo receber um arquivo "pedidos.csv"
         And o arquivo deve conter os pedidos cadastrados
 
     Scenario: Dono da loja tenta exportar sem dados cadastrados
         Given que não existem pedidos cadastrados no sistema
         When eu acesso a página de exportação de dados
         And clico em "Exportar para Excel"
-        Then devo receber um arquivo "dados.xlsx"
+        Then devo receber um arquivo "pedidos.csv"
         And o arquivo deve conter apenas o cabeçalho sem pedidos
 
     Scenario: Usuário não autorizado tenta exportar
@@ -30,5 +30,5 @@ Feature: Exportação de dados para planilha
         
     Scenario: Dono da loja tenta exportar em formato não suportado
         Given que existem pedidos cadastrados no sistema
-        When eu tento exportar no formato "csv"
+        When eu tento exportar no formato "xml"
         Then devo ver um erro de formato não suportado

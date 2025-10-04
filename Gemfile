@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.4.5"
+ruby "3.4.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.0"
@@ -38,6 +38,9 @@ gem "jbuilder"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
+# CSV para exportação de dados
+gem "csv"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
@@ -47,6 +50,8 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -61,13 +66,16 @@ group :development do
 
 end
 
+group :test do
+  gem 'database_cleaner-active_record'
+  gem 'cucumber-rails', require: false
+end
+
 
 gem "rspec-rails", "~> 7.1"
-
-gem "cucumber-rails", "~> 4.0"
-
-gem "capybara", "~> 3.40"
 
 gem "coveralls", "~> 0.8.23"
 
 gem "simplecov", "~> 0.16.1"
+
+gem 'devise'

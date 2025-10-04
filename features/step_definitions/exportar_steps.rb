@@ -4,7 +4,7 @@ Given("que existem pedidos cadastrados no sistema") do
 end
 
 When("eu acesso a página de exportação de dados") do
-  visit exportacoes_path
+  visit root_path
 end
 
 When("clico em {string}") do |botao|
@@ -12,12 +12,13 @@ When("clico em {string}") do |botao|
 end
 
 Then("devo receber um arquivo {string}") do |nome_arquivo|
-    expect(page.response_headers['Content-Disposition']).to include(nome_arquivo)
+  expect(page.response_headers['Content-Disposition']).to include(nome_arquivo)
 end
 
 Then("o arquivo deve conter os pedidos cadastrados") do
     expect(page.body).to include("Usuarilson")
     expect(page.body).to include("André Jun Hirata")
+end
 
 Given("que não existem pedidos cadastrados no sistema") do
   Pedido.delete_all
@@ -30,8 +31,8 @@ Then("o arquivo deve conter apenas o cabeçalho sem pedidos") do
 end
 
 Given("que eu estou logado como cliente comum") do
-    user = User.create!(email: "cliente@teste.com", password: "123456", role: "cliente")
-    login_as(user, scope: :user)  # helper do Warden/Devise para testes
+  user = User.create!(email: "cliente@teste.com", password: "123456", role: "cliente")
+  sign_in(user) # Usar o método sign_in diretamente para simular login
 end
 
 Then("devo ver a mensagem {string}") do |mensagem|
@@ -39,17 +40,21 @@ Then("devo ver a mensagem {string}") do |mensagem|
 end
 
 Given("ocorre uma falha na geração da planilha") do
-    allow(Pedido).to receive(:all).and_raise(StandardError.new("Falha"))
+  allow(Pedido).to receive(:all).and_raise(StandardError.new("Falha"))
 end
 
-Then("devo ver a mensagem {string}") do |mensagem|
-    expect(page).to have_content(mensagem)
+Then("devo ver um erro de formato não suportado") do
+  expect(page.status_code).to eq(406)
 end
 
 When("eu tento exportar no formato {string}") do |formato|
     visit exportar_exportacoes_path(format: formato)
 end
 
-Then("devo ver um erro de formato não suportado") do
-    expect(page.status_code).to eq(406) # ou outro código que você definir
+Given("que existe um pedido cadastrado no sistema") do
+  FactoryBot.create(:pedido, cliente: "Cliente Teste", valor: 100.0)
+end
+
+When("eu tento exportar os dados") do
+  visit exportar_exportacoes_path(format: 'csv')
 end

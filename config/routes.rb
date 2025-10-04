@@ -7,4 +7,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  root 'exportacoes#index'
+
+  get 'exportar', to: 'exportacoes#exportar', as: :exportar_exportacoes
 end

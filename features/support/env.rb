@@ -6,6 +6,10 @@
 
 
 require 'cucumber/rails'
+require 'devise'
+require 'rspec/mocks'
+World(Devise::Test::IntegrationHelpers)
+World(RSpec::Mocks::ExampleMethods)
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -51,3 +55,18 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
+Before do
+  RSpec::Mocks.setup
+end
+
+After do
+  RSpec::Mocks.teardown
+end
+
+# Incluir suporte ao Warden para simular login no Cucumber
+Warden.test_mode!
+
+After do
+  Warden.test_reset!
+end
