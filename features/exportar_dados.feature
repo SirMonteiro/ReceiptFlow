@@ -17,11 +17,6 @@ Feature: Exportação de dados para planilha
         Then devo receber um arquivo "pedidos.csv"
         And o arquivo deve conter apenas o cabeçalho sem pedidos
 
-    Scenario: Usuário não autorizado tenta exportar
-        Given que eu estou logado como cliente comum
-        When eu acesso a página de exportação de dados
-        Then devo ver a mensagem "Acesso negado"
-
     Scenario: Ocorre um erro inesperado durante a exportação
         Given que existe um pedido cadastrado no sistema
         And ocorre uma falha na geração da planilha

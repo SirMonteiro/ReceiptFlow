@@ -32,7 +32,7 @@ end
 
 Given("que eu estou logado como cliente comum") do
   user = User.create!(email: "cliente@teste.com", password: "123456", role: "cliente")
-  sign_in(user) # Usar o método sign_in diretamente para simular login
+  login_as(user, scope: :user) # Usar o método login_as para simular login com Warden
 end
 
 Then("devo ver a mensagem {string}") do |mensagem|
