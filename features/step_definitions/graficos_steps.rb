@@ -40,7 +40,7 @@ Then("devo visualizar um gráfico de pizza com o valor total arrecadado no mês 
   expect(page).to have_css('#grafico_vendas_meta')
 end
 
-Then("devo ver a mensagem {string}") do |mensagem|
+Then("devo ver a mensagem {string} nos gráficos") do |mensagem|
   expect(page).to have_content(mensagem)
 end
 

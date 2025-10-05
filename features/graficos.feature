@@ -21,7 +21,7 @@ Feature: Visualização de gráficos
     Scenario: Nenhum dado cadastrado
         Given que não existem notas cadastradas no sistema
         When eu acesso a página de gráficos
-        Then devo ver a mensagem "Nenhum dado disponível para exibição"
+        Then devo ver a mensagem "Nenhum dado disponível para exibição" nos gráficos
         And não devo ver gráficos
 
     Scenario: Não há valor meta
