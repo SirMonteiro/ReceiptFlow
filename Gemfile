@@ -64,9 +64,12 @@ end
 
 gem "rspec-rails", "~> 7.1"
 
-gem "cucumber-rails", "~> 4.0"
-
-gem "capybara", "~> 3.40"
+group :test do
+  gem 'cucumber-rails', require: false
+  gem 'capybara'
+  gem 'database_cleaner-active_record'
+  gem 'rails-controller-testing'
+end
 
 gem "coveralls", "~> 0.8.23"
 

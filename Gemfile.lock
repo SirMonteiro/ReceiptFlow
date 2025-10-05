@@ -135,6 +135,10 @@ GEM
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
     cucumber-tag-expressions (6.1.2)
+    database_cleaner-active_record (2.2.2)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0)
+    database_cleaner-core (2.0.1)
     date (3.4.1)
     debug (1.11.0)
       irb (~> 1.10)
@@ -251,6 +255,10 @@ GEM
       activesupport (= 7.1.5.2)
       bundler (>= 1.15.0)
       railties (= 7.1.5.2)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -351,15 +359,17 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
-  capybara (~> 3.40)
+  capybara
   coveralls (~> 0.8.23)
-  cucumber-rails (~> 4.0)
+  cucumber-rails
+  database_cleaner-active_record
   debug
   importmap-rails
   jbuilder
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.1.0)
+  rails-controller-testing
   rspec-rails (~> 7.1)
   simplecov (~> 0.16.1)
   sprockets-rails

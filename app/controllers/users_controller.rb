@@ -1,19 +1,17 @@
 class UsersController < ApplicationController
-  # GET /users/new
   def new
     @user = User.new
   end
 
-  # POST /users
   def create
     @user = User.new(user_params)
 
     if @user.save
       flash[:notice] = "Usuário cadastrado com sucesso!"
-      redirect_to new_user_path
+      redirect_to new_session_path
     else
-      flash.now[:alert] = "Erro ao cadastrar usuário. Verifique os campos."
-      render :new, status: :unprocessable_entity
+      flash[:alert] = "Erro ao cadastrar usuário. Verifique os campos."
+      render :new
     end
   end
 

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :users, only: [:new, :create]
-  
-  # Faz a tela de cadastro ser a página inicial
+
+  get  'login',  to: 'sessions#new',     as: :new_session
+  post 'login',  to: 'sessions#create',  as: :sessions
+  delete 'logout', to: 'sessions#destroy', as: :destroy_session
+
   root "users#new"
 end
