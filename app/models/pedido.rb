@@ -1,8 +1,9 @@
 class Pedido < ApplicationRecord
+  # Validações para garantir que os campos obrigatórios estejam preenchidos
   validates :cliente, presence: true
   validates :valor, presence: true
 
-  # Campos adicionais da DANFE
+  # Validações específicas para os campos da DANFE
   validates :chave_acesso, presence: true
   validates :natureza_operacao, presence: true
   validates :remetente, presence: true
@@ -16,7 +17,7 @@ class Pedido < ApplicationRecord
   validates :transportadora, presence: true
   validates :data_saida, presence: true
 
-  # Métodos auxiliares (se necessário)
+  # Métodos auxiliares para acessar informações específicas
   def remetente_razao_social
     remetente['razao_social'] if remetente.is_a?(Hash)
   end

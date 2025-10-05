@@ -2,66 +2,59 @@ source "https://rubygems.org"
 
 ruby "3.4.1"
 
-# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+# Rails framework principal para desenvolvimento web
+# Versão 7.1.0 ou superior
+# gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.0"
 
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+# Pipeline de ativos para gerenciar CSS, JS e imagens
 gem "sprockets-rails"
 
-# Use postgresql as the database for Active Record
+# Adaptador PostgreSQL para Active Record
 gem "pg", "~> 1.1"
 
-# Use the Puma web server [https://github.com/puma/puma]
+# Servidor web Puma para produção
 gem "puma", ">= 5.0"
 
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+# Import maps para gerenciar dependências JavaScript
 gem "importmap-rails"
 
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+# Turbo para navegação SPA-like
 gem "turbo-rails"
 
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+# Stimulus para interatividade JavaScript
 gem "stimulus-rails"
 
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
+# JBuilder para construir APIs JSON
 gem "jbuilder"
 
-# Use Redis adapter to run Action Cable in production
-# gem "redis", ">= 4.0.1"
-
-# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
-# gem "kredis"
-
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+# Inclui dados de fuso horário para Windows e JRuby
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # CSV para exportação de dados
 gem "csv"
 
-# Reduces boot times through caching; required in config/boot.rb
+# Reduz o tempo de inicialização através de caching; necessário em config/boot.rb
 gem "bootsnap", require: false
 
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+# Variantes do Active Storage para transformação de imagens
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  # Depuração de aplicações Rails
   gem "debug", platforms: %i[ mri windows ]
 
   gem 'factory_bot_rails'
 end
 
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
+  # Console em páginas de exceção
   gem "web-console"
 
-  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
+  # Badges de velocidade
   # gem "rack-mini-profiler"
 
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
+  # Acelera comandos em máquinas lentas / apps grandes
   # gem "spring"
 
 end
