@@ -1,0 +1,2 @@
+class MetaMensal < ApplicationRecord
+end

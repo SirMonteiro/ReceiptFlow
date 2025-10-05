@@ -96,6 +96,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    chartkick (5.2.0)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
     coveralls (0.8.23)
@@ -134,6 +135,10 @@ GEM
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
     cucumber-tag-expressions (6.1.2)
+    database_cleaner-active_record (2.2.2)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0)
+    database_cleaner-core (2.0.1)
     date (3.4.1)
     debug (1.11.0)
       irb (~> 1.10)
@@ -143,6 +148,11 @@ GEM
     drb (2.2.3)
     erb (5.0.2)
     erubi (1.13.1)
+    factory_bot (6.5.5)
+      activesupport (>= 6.1.0)
+    factory_bot_rails (6.5.1)
+      factory_bot (~> 6.5)
+      railties (>= 6.1.0)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
     ffi (1.17.2-arm-linux-gnu)
@@ -153,6 +163,8 @@ GEM
     ffi (1.17.2-x86_64-linux-musl)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    groupdate (6.7.0)
+      activesupport (>= 7.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.2.2)
@@ -350,9 +362,13 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   capybara (~> 3.40)
+  chartkick
   coveralls (~> 0.8.23)
   cucumber-rails (~> 4.0)
+  database_cleaner-active_record
   debug
+  factory_bot_rails
+  groupdate
   importmap-rails
   jbuilder
   pg (~> 1.1)
