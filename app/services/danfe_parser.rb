@@ -1,10 +1,9 @@
-# app/services/danfe_parser.rb
 require 'nokogiri'
 
 class DanfeParser
   def initialize(xml_content)
     @doc = Nokogiri::XML(xml_content)
-    @doc.remove_namespaces! # This is important for simplifying XML parsing
+    @doc.remove_namespaces!
   end
 
   def parse

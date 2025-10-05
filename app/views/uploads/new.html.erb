@@ -16,7 +16,6 @@
 
     <%= form.label :xml_file, "Escolha um Arquivo", class: "file-upload-label", for: "file_upload_input" %>
 
-    <%# THE FIX IS HERE: It's "file_field" %>
     <%= form.file_field :xml_file, accept: ".xml", id: "file_upload_input" %>
 
     <p id="file-name-display">Nenhum arquivo selecionado</p>

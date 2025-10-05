@@ -5,7 +5,6 @@ Dado("que eu estou na página de novo upload") do
   end
   
   Quando("eu anexo um arquivo XML válido ao formulário") do
-    # Ajuste "upload[xml_file]" se o nome do campo de arquivo no seu formulário for diferente.
     attach_file("upload[xml_file]", Rails.root.join('spec', 'fixtures', 'files', 'receipt.xml'))
   end
   

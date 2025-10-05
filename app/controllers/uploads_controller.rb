@@ -1,5 +1,4 @@
 class UploadsController < ApplicationController
-  # ADDED: This line will catch the error if no file is submitted.
   rescue_from ActionController::ParameterMissing, with: :handle_missing_file
 
   def new
@@ -19,14 +18,12 @@ class UploadsController < ApplicationController
 
   def debug
     @upload = Upload.new
-    # This is the key: it tells Rails not to use any layout file.
     render layout: false
   end
 
   private
 
   def upload_params
-    # This line remains the same. The error it throws is now handled gracefully.
     params.require(:upload).permit(:xml_file)
   end
 
@@ -34,7 +31,6 @@ class UploadsController < ApplicationController
     require 'pp'
     xml_content = upload.xml_file.download
     
-    # Use the new, tested service object
     danfe_data = DanfeParser.new(xml_content).parse
     
     puts "--- EXTRACTED DANFE DATA ---"
@@ -42,11 +38,8 @@ class UploadsController < ApplicationController
     puts "--------------------------"
   end
   
-  # ADDED: This method runs when the ParameterMissing error occurs.
   def handle_missing_file
-    # Sets a user-friendly error message.
     flash[:alert] = "Por favor, selecione um arquivo para enviar."
-    # Sends the user back to the upload form.
     redirect_to new_upload_path 
   end
 end

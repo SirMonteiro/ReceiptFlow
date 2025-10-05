@@ -1,10 +1,10 @@
 # app/controllers/exportacoes_controller.rb
 class ExportacoesController < ApplicationController
     def index
-      # This will be the page with the "Exportar para Excel" button
+      # Pagina com botão exportar para Excel
     end
   
     def exportar
-      # This action will generate and send the file
+      # Gerar e enviar o arquivo
     end
   end
