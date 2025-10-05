@@ -27,5 +27,5 @@ Feature: Visualização de gráficos
     Scenario: Não há valor meta
         Given que não existe valor meta
         When eu acesso a página de gráficos
-        Then devo ver a mensagem "Não há uma meta estabelecida" no gráfico de vendas/meta
+        Then devo ver a mensagem "Não há uma meta estabelecida" no gráfico de vendas meta
         

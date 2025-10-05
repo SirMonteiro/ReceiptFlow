@@ -10,7 +10,7 @@ class GraficosController < ApplicationController
     end
 
     # Cenário: Exibir gráfico de vendas mensais (gráfico de barras)
-    @ganhos_mensais = notas.group_by { |n| n.emitida_em.strftime("%B") }
+    @ganhos_mensais = notas.group_by { |n| n.data.strftime("%B") }
                            .transform_values { |ns| ns.sum(&:valor) }
 
     # Cenário: Exibir gráfico de despesas/ganhos (gráfico de barras duplas)
