@@ -1,27 +1,54 @@
 class UploadsController < ApplicationController
-  # This action prepares an empty @upload object for our form.
+  # ADDED: This line will catch the error if no file is submitted.
+  rescue_from ActionController::ParameterMissing, with: :handle_missing_file
+
   def new
     @upload = Upload.new
   end
 
-  # This action handles the form submission.
   def create
     @upload = Upload.new(upload_params)
 
     if @upload.save
-      # If the upload saves successfully, redirect to the home page with a success message.
-      # In a real app, you might process the file here.
-      redirect_to root_path, notice: "File uploaded successfully!"
+      process_xml_file(@upload)
+      redirect_to root_path, status: :see_other, notice: "Arquivo enviado e processado com sucesso!"
     else
-      # If it fails, re-render the form.
-      render :new
+      render :new, status: :unprocessable_entity
     end
+  end
+
+  def debug
+    @upload = Upload.new
+    # This is the key: it tells Rails not to use any layout file.
+    render layout: false
   end
 
   private
 
-  # This is a security feature (Strong Parameters) to only allow the :xml_file attribute.
   def upload_params
+    # This line remains the same. The error it throws is now handled gracefully.
     params.require(:upload).permit(:xml_file)
+  end
+
+  def process_xml_file(upload)
+    require 'pp'
+    xml_content = upload.xml_file.download
+    doc = Nokogiri::XML(xml_content)
+    doc.remove_namespaces!
+    
+    danfe_data = {}
+    # ... (all your data extraction logic) ...
+    
+    puts "--- EXTRACTED DANFE DATA ---"
+    pp danfe_data
+    puts "--------------------------"
+  end
+  
+  # ADDED: This method runs when the ParameterMissing error occurs.
+  def handle_missing_file
+    # Sets a user-friendly error message.
+    flash[:alert] = "Por favor, selecione um arquivo para enviar."
+    # Sends the user back to the upload form.
+    redirect_to new_upload_path 
   end
 end

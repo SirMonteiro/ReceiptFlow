@@ -71,3 +71,5 @@ gem "capybara", "~> 3.40"
 gem "coveralls", "~> 0.8.23"
 
 gem "simplecov", "~> 0.16.1"
+
+gem "nokogiri", "~> 1.18"

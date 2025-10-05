@@ -8,4 +8,6 @@ Rails.application.routes.draw do
 
   # 3. Keep the default health check route.
   get "up" => "rails/health#show", as: :rails_health_check
+
+  get "/debug", to: "uploads#debug"
 end
