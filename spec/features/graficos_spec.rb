@@ -4,7 +4,7 @@ RSpec.describe "Visualização de gráficos", type: :feature do
   # Cenário: Exibir gráfico de vendas mensais
   context "quando existem notas fiscais cadastradas" do
     before do
-      create_list(:nota_grafico, 5, valor: 1000.0, emitida_em: Date.today)
+      create_list(:nota_grafico, 5, valor: 1000.0, data: Date.today)
       visit graficos_path
     end
 
@@ -16,7 +16,7 @@ RSpec.describe "Visualização de gráficos", type: :feature do
   # Cenário: Exibir gráfico de despesas/ganhos
   context "quando existem notas e despesas cadastradas" do
     before do
-      create_list(:nota_grafico, 5, valor: 1000.0, emitida_em: Date.today)
+      create_list(:nota_grafico, 5, valor: 1000.0, data: Date.today)
       create_list(:despesa, 3, valor: 500.0, data: Date.today)
       visit graficos_path
     end
@@ -29,7 +29,7 @@ RSpec.describe "Visualização de gráficos", type: :feature do
   # Cenário: Exibir gráfico de vendas/meta
   context "quando existe meta mensal" do
     before do
-      create_list(:nota_grafico, 5, valor: 1000.0, emitida_em: Date.today.beginning_of_month)
+      create_list(:nota_grafico, 5, valor: 1000.0, data: Date.today.beginning_of_month)
       create(:meta_mensal, mes: Date.today.month, valor_meta: 6000.0)
       visit graficos_path
     end
@@ -56,7 +56,7 @@ RSpec.describe "Visualização de gráficos", type: :feature do
   context "quando não há meta estabelecida" do
     before do
       MetaMensal.delete_all
-      create_list(:nota_grafico, 5, valor: 1000.0, emitida_em: Date.today)
+      create_list(:nota_grafico, 5, valor: 1000.0, data: Date.today)
       visit graficos_path
     end
 
