@@ -10,6 +10,11 @@ gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "jbuilder"
+
+
+gem "bcrypt", "~> 3.1.7"
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "csv"
 gem "bootsnap", require: false
@@ -32,13 +37,16 @@ group :development do
   # gem "spring"
 end
 
+
+gem "rspec-rails", "~> 7.1"
+
 group :test do
   gem 'database_cleaner-active_record'
   gem "rspec-rails", "~> 7.1"
   gem "cucumber-rails", "~> 4.0", require: false
   gem "capybara", "~> 3.40"
-  gem "coveralls", "~> 0.8.23"
-  gem "simplecov", "~> 0.16.1"
 end
+gem 'factory_bot_rails'
+gem "coveralls", "~> 0.8.23"
 
-gem 'devise'
+gem "simplecov", "~> 0.16.1"

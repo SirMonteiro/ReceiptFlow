@@ -20,10 +20,10 @@ RSpec.configure do |config|
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
   ]
-
-  # Se você não estiver usando ActiveRecord, ou preferir não executar cada um dos seus
-  # exemplos dentro de uma transação, remova a linha a seguir ou atribua false
-  # em vez de true.
+  config.include FactoryBot::Syntax::Methods
+  # If you're not using ActiveRecord, or you'd prefer not to run each of your
+  # examples within a transaction, remove the following line or assign false
+  # instead of true.
   config.use_transactional_fixtures = true
 
   # Você pode descomentar esta linha para desativar completamente o suporte ao ActiveRecord.
