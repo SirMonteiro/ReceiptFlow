@@ -70,7 +70,7 @@ group :test do
   gem 'database_cleaner-active_record'
   gem 'rails-controller-testing'
 end
-
+gem 'factory_bot_rails'
 gem "coveralls", "~> 0.8.23"
 
 gem "simplecov", "~> 0.16.1"

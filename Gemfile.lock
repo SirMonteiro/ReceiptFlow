@@ -148,6 +148,11 @@ GEM
     drb (2.2.3)
     erb (5.0.2)
     erubi (1.13.1)
+    factory_bot (6.5.5)
+      activesupport (>= 6.1.0)
+    factory_bot_rails (6.5.1)
+      factory_bot (~> 6.5)
+      railties (>= 6.1.0)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
     ffi (1.17.2-arm-linux-gnu)
@@ -364,6 +369,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner-active_record
   debug
+  factory_bot_rails
   importmap-rails
   jbuilder
   pg (~> 1.1)
