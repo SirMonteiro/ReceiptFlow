@@ -1,0 +1,2 @@
+class NotaGrafico < ApplicationRecord
+end

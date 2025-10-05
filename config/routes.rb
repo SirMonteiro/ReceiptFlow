@@ -4,4 +4,9 @@ Rails.application.routes.draw do
   root 'exportacoes#index'
 
   get 'exportar', to: 'exportacoes#exportar', as: :exportar_exportacoes
+
+
+  # Rota para gráficos
+  resources :graficos, only: [:index]
+
 end

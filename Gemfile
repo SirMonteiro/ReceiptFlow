@@ -37,13 +37,20 @@ gem "csv"
 # Reduz o tempo de inicialização através de caching; necessário em config/boot.rb
 gem "bootsnap", require: false
 
+# Necessário para criar gráficos
+gem 'chartkick'
+gem 'groupdate' # útil para agrupar por data (usar o mês...)
+
+# Necessário para criar gráficos
+gem 'chartkick'
+gem 'groupdate' # útil para agrupar por data (usar o mês...)
+
 # Variantes do Active Storage para transformação de imagens
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
   # Depuração de aplicações Rails
   gem "debug", platforms: %i[ mri windows ]
-
   gem 'factory_bot_rails'
 end
 
@@ -64,11 +71,13 @@ group :test do
   gem 'cucumber-rails', require: false
 end
 
-
-gem "rspec-rails", "~> 7.1"
-
-gem "coveralls", "~> 0.8.23"
-
-gem "simplecov", "~> 0.16.1"
-
 gem 'devise'
+
+group :test do
+  gem "rspec-rails", "~> 7.1"
+  gem "cucumber-rails", "~> 4.0", require: false
+  gem "capybara", "~> 3.40"
+  gem "coveralls", "~> 0.8.23"
+  gem "simplecov", "~> 0.16.1"
+  gem "database_cleaner-active_record"
+end
