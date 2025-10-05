@@ -379,12 +379,12 @@ DEPENDENCIES
   chartkick
   coveralls (~> 0.8.23)
   csv
-  cucumber-rails
+  cucumber-rails (~> 4.0)
   database_cleaner-active_record
   debug
+  devise
   factory_bot_rails
   groupdate
-  devise
   importmap-rails
   jbuilder
   pg (~> 1.1)
