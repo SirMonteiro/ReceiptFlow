@@ -1,0 +1,30 @@
+<h1>Gráficos da Silvaaaa</h1>
+
+<% if @nenhum_dado %>
+  <p>Nenhum dado disponível para exibição</p>
+<% else %>
+  <!-- 1) Vendas mensais -->
+  <div id="grafico_vendas_mensais">
+    <h2>Vendas Mensais</h2>
+    <%= column_chart @ganhos_mensais %>
+  </div>
+
+  <!-- 2) Despesas x Ganhos -->
+  <div id="grafico_despesas_ganhos">
+    <h2>Despesas x Ganhos</h2>
+    <%= column_chart [
+        { name: "Lucros", data: @lucros },
+        { name: "Despesas", data: @despesas }
+      ] %>
+  </div>
+
+  <!-- 3) Vendas x Meta -->
+  <div id="grafico_vendas_meta">
+    <h2>Vendas x Meta</h2>
+    <% if @vendas_meta.present? %>
+      <%= pie_chart @vendas_meta %>
+    <% else %>
+      <p>Não há uma meta estabelecida</p>
+    <% end %>
+  </div>
+<% end %>

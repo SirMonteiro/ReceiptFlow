@@ -10,9 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_04_130000) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_05_113337) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "despesas", force: :cascade do |t|
+    t.decimal "valor"
+    t.date "data"
+    t.string "descricao"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "meta_mensals", force: :cascade do |t|
+    t.integer "mes"
+    t.decimal "valor_meta"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "nota_graficos", force: :cascade do |t|
+    t.decimal "valor"
+    t.string "tipo"
+    t.date "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "pedidos", force: :cascade do |t|
     t.string "cliente", null: false
@@ -33,13 +56,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_04_130000) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", null: false
-    t.string "password", null: false
-    t.string "role", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-  end
-
 end
+

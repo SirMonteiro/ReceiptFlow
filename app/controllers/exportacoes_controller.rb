@@ -6,7 +6,6 @@ class ExportacoesController < ApplicationController
       begin
         pedidos = Pedido.all
 
-        # Verificar se todos os pedidos possuem os campos obrigatórios
         pedidos.each do |pedido|
           unless pedido.chave_acesso && pedido.natureza_operacao && pedido.remetente && pedido.destinatario && pedido.descricao_produtos && pedido.valores_totais && pedido.impostos && pedido.cfop && pedido.cst && pedido.ncm && pedido.transportadora && pedido.data_saida
             Rails.logger.error("Pedido inválido: ID #{pedido.id}")
@@ -15,7 +14,6 @@ class ExportacoesController < ApplicationController
         end
 
         csv_data = CSV.generate(headers: true) do |csv|
-          # Cabeçalho detalhado com todas as informações da DANFE
           csv << [
             'Chave de Acesso', 'Natureza da Operação', 'Remetente - Razão Social', 'Remetente - CNPJ', 'Remetente - Endereço',
             'Destinatário - Razão Social', 'Destinatário - CNPJ', 'Destinatário - Endereço',
@@ -23,7 +21,6 @@ class ExportacoesController < ApplicationController
             'CFOP', 'CST', 'NCM', 'Transportadora - Razão Social', 'Transportadora - CNPJ', 'Data de Saída'
           ]
 
-          # Dados dos pedidos
           pedidos.each do |pedido|
             csv << [
               pedido.chave_acesso,
