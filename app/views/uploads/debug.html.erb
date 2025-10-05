@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Debug Page</title>
+  </head>
+  <body>
+    <h1>Debug Form</h1>
+    <p>This page has no layout, CSS, or JavaScript.</p>
+
+    <%= form_with(model: @upload, url: uploads_path) do |form| %>
+      <div>
+        <%= form.label :xml_file %>
+        <br>
+        <%= form.file_field :xml_file %>
+      </div>
+
+      <br>
+
+      <div>
+        <%= form.submit "Submit from Debug Page" %>
+      </div>
+    <% end %>
+
+  </body>
+</html>

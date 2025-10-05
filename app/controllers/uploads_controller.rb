@@ -33,11 +33,9 @@ class UploadsController < ApplicationController
   def process_xml_file(upload)
     require 'pp'
     xml_content = upload.xml_file.download
-    doc = Nokogiri::XML(xml_content)
-    doc.remove_namespaces!
     
-    danfe_data = {}
-    # ... (all your data extraction logic) ...
+    # Use the new, tested service object
+    danfe_data = DanfeParser.new(xml_content).parse
     
     puts "--- EXTRACTED DANFE DATA ---"
     pp danfe_data
