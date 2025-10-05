@@ -1,5 +1,9 @@
 <h1>Login</h1>
 
+<% if flash[:alert] %>
+  <p style="color: red;"><%= flash[:alert] %></p>
+<% end %>
+
 <%= form_with url: sessions_path, method: :post, local: true do |f| %>
   <div>
     <%= label_tag :email, "E-mail" %><br>
@@ -17,4 +21,3 @@
 <% end %>
 
 <%= link_to "Cadastre-se", new_user_path %>
-
