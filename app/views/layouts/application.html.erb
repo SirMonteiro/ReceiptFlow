@@ -1,16 +1,94 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Backend</title>
+    <title>Receiptflow</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+  
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #f4f7f6;
+        color: #333;
+        display: flex;
+        flex-direction: column; 
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+    
+      .flash-notice, .flash-alert { 
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: white;
+        border-radius: 50px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        animation: fadeInOut 4s ease-in-out forwards;
+      }
+      
+      .flash-notice {
+        background-color: #2c3e50;
+      }
+
+      .flash-alert {
+        background-color: #c0392b;
+      }
+    
+      @keyframes fadeInOut {
+        0%    { opacity: 0; transform: translate(-50%, -20px); }
+        15%, 85% { opacity: 1; transform: translate(-50%, 0); }
+        100%  { opacity: 0; transform: translate(-50%, -20px); }
+      }
+    
+      .error-messages { width: 100%; max-width: 450px; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid #a00; background-color: #fbeae5; color: #c0392b; border-radius: 6px; text-align: left; }
+      .error-messages h2 { margin-top: 0; font-size: 1.1rem; color: #a00; }
+      .error-messages ul { margin-bottom: 0; padding-left: 20px; }
+      .upload-container { background-color: white; padding: 2rem 3rem; border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); text-align: center; width: 100%; max-width: 450px; }
+      .upload-container h1 { margin-bottom: 1.5rem; color: #2c3e50; }
+      #file_upload_input { display: none; }
+      .file-upload-label { display: inline-block; padding: 12px 25px; background-color: #3498db; color: white; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background-color 0.2s ease-in-out; }
+      .file-upload-label:hover { background-color: #2980b9; }
+      #file-name-display { margin-top: 1rem; color: #555; font-style: italic; min-height: 20px; }
+      .submit-btn { margin-top: 1.5rem; width: 100%; padding: 12px; background-color: #2ecc71; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.2s ease-in-out; }
+      .submit-btn:hover { background-color: #27ae60; }
+    </style>
   </head>
 
   <body>
+    <% flash.each do |key, message| %>
+      <% if key == "notice" %>
+        <div class="flash-notice">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px;">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <%= message %>
+        </div>
+      <% elsif key == "alert" %>
+        <div class="flash-alert">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <%= message %>
+        </div>
+      <% end %>
+    <% end %>
+    
     <%= yield %>
   </body>
 </html>

@@ -1,0 +1,48 @@
+<% if @upload.errors.any? %>
+  <div class="error-messages">
+    <h2>Por favor, corrija o seguinte erro:</h2>
+    <ul>
+      <% @upload.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="upload-container">
+  <h1>Enviar Arquivo XML</h1>
+
+  <%= form_with(model: @upload, url: uploads_path, data: { turbo: false }) do |form| %>
+
+    <%= form.label :xml_file, "Escolha um Arquivo", class: "file-upload-label", for: "file_upload_input" %>
+
+    <%= form.file_field :xml_file, accept: ".xml", id: "file_upload_input" %>
+
+    <p id="file-name-display">Nenhum arquivo selecionado</p>
+
+    <%= form.submit "Enviar Arquivo", class: "submit-btn" %>
+    
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const fileInput = document.getElementById("file_upload_input");
+    const flashNotice = document.querySelector(".flash-notice");
+    const fileNameDisplay = document.getElementById("file-name-display");
+
+    if (fileInput) {
+      fileInput.addEventListener("change", function() {
+        if (fileInput.files.length > 0) {
+          fileNameDisplay.textContent = fileInput.files[0].name;
+        } else {
+          fileNameDisplay.textContent = "Nenhum arquivo selecionado";
+        }
+
+        if (flashNotice) {
+          flashNotice.style.display = "none";
+        }
+      });
+    }
+  });
+</script>

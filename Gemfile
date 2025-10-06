@@ -2,6 +2,9 @@ source "https://rubygems.org"
 
 ruby "3.4.5"
 
+# Gemfile
+gem "bcrypt", "~> 3.1.7"
+
 gem "rails", "~> 7.1.0"
 gem "sprockets-rails"
 gem "pg", "~> 1.1"
@@ -11,11 +14,11 @@ gem "turbo-rails"
 gem "stimulus-rails"
 gem "jbuilder"
 
-
-gem "bcrypt", "~> 3.1.7"
+# Your app needs this to process XML files, so it stays global
+gem "nokogiri", "~> 1.18"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 gem "csv"
 gem "bootsnap", require: false
 
@@ -44,6 +47,12 @@ group :test do
   gem "capybara", "~> 3.40"
 end
 
-gem "coveralls", "~> 0.8.23"
+  # ADDED - Drives a real browser for testing
+  gem "selenium-webdriver"
 
-gem "simplecov", "~> 0.16.1"
+  # MOVED - Code coverage tools
+  gem "coveralls", require: false
+  gem "simplecov", require: false
+
+  gem "database_cleaner-active_record"
+end

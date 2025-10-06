@@ -139,3 +139,5 @@ build-iPhoneSimulator/
 !/tmp/storage/
 !/tmp/storage/.keep
 
+receipts.xml
+db/migrate/
