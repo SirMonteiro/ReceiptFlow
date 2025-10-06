@@ -5,20 +5,23 @@ class UploadsController < ApplicationController
     @upload = Upload.new
   end
 
-  def create
-    @upload = Upload.new(upload_params)
+def create
+  @upload = Upload.new(upload_params)
 
-    if params[:upload] && params[:upload][:xml_file]
-      @upload.file_name = params[:upload][:xml_file].original_filename
-    end
+  if params[:upload] && params[:upload][:xml_file]
+    uploaded_file = params[:upload][:xml_file]
 
-    if @upload.save
-      process_xml_file(@upload)
-      redirect_to root_path, status: :see_other, notice: "Arquivo enviado e processado com sucesso!"
-    else
-      render :new, status: :unprocessable_entity
-    end
+    @upload.file_name = uploaded_file.original_filename
+    @upload.file_type = uploaded_file.content_type
+    @upload.file_data = uploaded_file.read
   end
+
+  if @upload.save
+    redirect_to root_path, status: :see_other, notice: "Arquivo enviado e processado com sucesso!"
+  else
+    render :new, status: :unprocessable_entity
+  end
+end
 
   def debug
     @upload = Upload.new
