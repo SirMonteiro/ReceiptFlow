@@ -15,9 +15,14 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   resources :users, only: [:new, :create]
 
+ # login
   get    'login',  to: 'sessions#new',     as: :new_session
   post   'login',  to: 'sessions#create',  as: :sessions
   delete 'logout', to: 'sessions#destroy', as: :destroy_session
+
+  # Rota para busca
+  get '/busca', to: 'busca#index'
+
 
   # This line was a duplicate and should be removed.
   # get 'exportar', to: 'exportacoes#exportar', as: :exportar_exportacoes

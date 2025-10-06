@@ -14,6 +14,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_05_140850) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "clientes", force: :cascade do |t|
+    t.string "codigo"
+    t.string "descricao"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "despesas", force: :cascade do |t|
     t.decimal "valor"
     t.date "data"
