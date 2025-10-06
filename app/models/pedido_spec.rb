@@ -1,4 +1,4 @@
-require 'rails_helper'
+git require 'rails_helper'
 
 RSpec.describe Pedido, type: :model do
     it "é válido com cliente e valor" do
