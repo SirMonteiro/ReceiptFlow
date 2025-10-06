@@ -8,6 +8,10 @@ class UploadsController < ApplicationController
   def create
     @upload = Upload.new(upload_params)
 
+    if params[:upload] && params[:upload][:xml_file]
+      @upload.file_name = params[:upload][:xml_file].original_filename
+    end
+
     if @upload.save
       process_xml_file(@upload)
       redirect_to root_path, status: :see_other, notice: "Arquivo enviado e processado com sucesso!"
