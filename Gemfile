@@ -18,12 +18,16 @@ gem "bootsnap", require: false
 gem 'chartkick'
 gem 'groupdate' # útil para agrupar por data (usar o mês...)
 
+# Busca em texto PostgreSQL
+gem 'pg_search'
+
 # Variantes do Active Storage para transformação de imagens
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem 'factory_bot_rails'
+  gem 'faker'
 end
 
 group :development do

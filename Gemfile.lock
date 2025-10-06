@@ -161,6 +161,8 @@ GEM
     factory_bot_rails (6.5.1)
       factory_bot (~> 6.5)
       railties (>= 6.1.0)
+    faker (3.5.2)
+      i18n (>= 1.8.11, < 2)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
     ffi (1.17.2-arm-linux-gnu)
@@ -239,6 +241,9 @@ GEM
     pg (1.6.2-x86_64-darwin)
     pg (1.6.2-x86_64-linux)
     pg (1.6.2-x86_64-linux-musl)
+    pg_search (2.3.7)
+      activerecord (>= 6.1)
+      activesupport (>= 6.1)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -379,15 +384,17 @@ DEPENDENCIES
   chartkick
   coveralls (~> 0.8.23)
   csv
-  cucumber-rails
+  cucumber-rails (~> 4.0)
   database_cleaner-active_record
   debug
-  factory_bot_rails
-  groupdate
   devise
+  factory_bot_rails
+  faker
+  groupdate
   importmap-rails
   jbuilder
   pg (~> 1.1)
+  pg_search
   puma (>= 5.0)
   rails (~> 7.1.0)
   rspec-rails (~> 7.1)
@@ -399,7 +406,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.4.1p0
+   ruby 3.4.5p51
 
 BUNDLED WITH
    2.6.2

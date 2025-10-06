@@ -1,0 +1,26 @@
+<h1>Busca</h1>
+
+<%= form_with url: busca_path, method: :get, local: true do |f| %>
+  <%= f.text_field :query, value: @query, placeholder: "Pesquise aqui...", class: "search-input" %>
+  <%= f.submit "Pesquisar", class: "search-button" %>
+<% end %>
+
+<% if @query.present? %>
+  <h2>Resultados para "<%= @query %>"</h2>
+
+  <% if @results.any? %>
+    <p>Foram encontrados <%= @results.count %> resultados</p>
+
+    <div class="search-results">
+      <% @results.each do |result| %>
+        <div class="result-item">
+          <h3><%= result.codigo %></h3>
+          <p><%= truncate(result.descricao, length: 200) %></p>
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <p>Nenhum resultado encontrado.</p>
+  <% end %>
+<% end %>
