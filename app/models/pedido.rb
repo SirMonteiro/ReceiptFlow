@@ -1,4 +1,5 @@
 class Pedido < ApplicationRecord
+  self.table_name = 'pedido'
   # Validações para garantir que os campos obrigatórios estejam preenchidos
   validates :cliente, presence: true
   validates :valor, presence: true

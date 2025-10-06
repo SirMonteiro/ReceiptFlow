@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_05_140850) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_06_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,29 +37,37 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_05_140850) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "pedidos", force: :cascade do |t|
+  create_table "pedido", force: :cascade do |t|
     t.string "cliente", null: false
-    t.decimal "valor", precision: 10, scale: 2, null: false
-    t.string "chave_acesso"
-    t.string "natureza_operacao"
-    t.jsonb "remetente"
-    t.jsonb "destinatario"
-    t.jsonb "descricao_produtos"
-    t.decimal "valores_totais", precision: 15, scale: 2
-    t.jsonb "impostos"
-    t.string "cfop"
-    t.string "cst"
-    t.string "ncm"
-    t.jsonb "transportadora"
-    t.datetime "data_saida"
+    t.decimal "valor", null: false
+    t.string "chave_acesso", null: false
+    t.string "natureza_operacao", null: false
+    t.string "remetente", null: false
+    t.string "destinatario", null: false
+    t.text "descricao_produtos", null: false
+    t.decimal "valores_totais", null: false
+    t.decimal "impostos", null: false
+    t.string "cfop", null: false
+    t.string "cst", null: false
+    t.string "ncm", null: false
+    t.string "transportadora", null: false
+    t.date "data_saida", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "uploads", force: :cascade do |t|
+    t.string "file_name", null: false
+    t.string "file_type", null: false
+    t.binary "file_data", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email"
-    t.string "nome"
-    t.string "password_digest"
+    t.string "email", null: false
+    t.string "nome", null: false
+    t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

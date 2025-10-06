@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.4.5"
+ruby "3.4.1"
 
 # Gemfile
 gem "bcrypt", "~> 3.1.7"
@@ -47,11 +47,8 @@ group :test do
   gem "capybara", "~> 3.40"
 end
 
-  # ADDED - Drives a real browser for testing
   gem "selenium-webdriver"
 
-  # MOVED - Code coverage tools
   gem "coveralls", require: false
   gem "simplecov", require: false
   gem 'devise'
-  gem "database_cleaner-active_record"
