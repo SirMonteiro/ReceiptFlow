@@ -9,7 +9,11 @@ class UploadsController < ApplicationController
     @upload = Upload.new(upload_params)
 
     if params[:upload] && params[:upload][:xml_file]
-      @upload.file_name = params[:upload][:xml_file].original_filename
+      uploaded_file = params[:upload][:xml_file]
+      
+      @upload.file_name = uploaded_file.original_filename
+      @upload.file_type = uploaded_file.content_type
+      @upload.file_data = uploaded_file.read
     end
 
     if @upload.save
@@ -19,6 +23,7 @@ class UploadsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
 
   def debug
     @upload = Upload.new
