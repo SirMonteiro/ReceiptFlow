@@ -91,6 +91,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_06_130000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pedidos", force: :cascade do |t|
+    t.string "cliente"
+    t.decimal "valor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "chave_acesso"
+    t.string "natureza_operacao"
+    t.text "descricao_produtos"
+    t.string "remetente"
+    t.string "valores_totais"
+    t.string "destinatario"
+  end
+
   create_table "uploads", force: :cascade do |t|
     t.string "file_name", null: false
     t.string "file_type", null: false
@@ -103,9 +116,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_06_130000) do
     t.string "email", null: false
     t.string "nome", null: false
     t.string "password_digest", null: false
-    t.string "email", null: false
-    t.string "nome", null: false
-    t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
@@ -114,4 +124,3 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_06_130000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end
-
