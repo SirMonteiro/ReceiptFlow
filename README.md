@@ -1,8 +1,7 @@
-# Heatmapp - Mapeando Soluções
+# ReceiptFlow
 
 ## Proposta
-Desenvolver uma aplicação móvel que permita que usuários possam contribuir com informações relacionadas a nível de ruído, sintomas e áreas verdes associados a sua localização atual.
-Tais informações serão processadas para gerar um mapa de calor que pode ser consultado por outras pessoas, permitindo que se preparem melhor para enfrentar as diferentes condições que surgem na cidade.
+O ReceiptFlow é uma aplicação web desenvolvida em Ruby on Rails que visa facilitar a gestão e o compartilhamento de recibos entre usuários. A plataforma permite que os usuários façam upload, visualizem e compartilhem recibos de maneira eficiente, promovendo a organização financeira pessoal e empresarial.
 
 ## Integrantes
 
