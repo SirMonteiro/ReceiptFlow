@@ -53,5 +53,5 @@ end
   # MOVED - Code coverage tools
   gem "coveralls", require: false
   gem "simplecov", require: false
-
+  gem 'devise'
   gem "database_cleaner-active_record"
