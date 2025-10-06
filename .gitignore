@@ -140,4 +140,3 @@ build-iPhoneSimulator/
 !/tmp/storage/.keep
 
 receipts.xml
-db/migrate/
