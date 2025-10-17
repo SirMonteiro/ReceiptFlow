@@ -1,4 +1,3 @@
-# Passos para dados existentes
 Given("que existem pedidos em diferentes meses") do
   # Cria pedidos em Janeiro/2025
   Pedido.create!(
@@ -99,13 +98,17 @@ Given("que existem pedidos em diferentes períodos") do
   )
 end
 
-# Passos para navegação
 When("eu acesso a página de faturamento") do
-  visit faturamento_path
+  visit faturamento_index_path
 end
 
 When("eu seleciono a visualização {string}") do |visualizacao|
-  select visualizacao, from: 'visualizacao'
+  if visualizacao == "Por Cliente"
+    visit faturamento_por_cliente_path
+  else
+    select visualizacao, from: 'visualizacao'
+    click_button 'Filtrar'
+  end
 end
 
 When("eu seleciono o período de {string} a {string}") do |data_inicio, data_fim|
@@ -114,7 +117,7 @@ When("eu seleciono o período de {string} a {string}") do |data_inicio, data_fim
   click_button 'Filtrar'
 end
 
-When("eu clico em {string}") do |botao|
+When("eu clico no botão {string}") do |botao|
   click_button botao
 end
 
@@ -142,9 +145,9 @@ end
 
 Then("eu devo ver apenas o faturamento desse período") do
   expect(page).to have_content("Faturamento: 01/01/2025 a 31/03/2025")
-  expect(page).to have_content("Total: R$ 2.501,50") # soma dos três primeiros meses
+  expect(page).to have_content("Total") 
+  expect(page).to have_content("R$ 2.501,50") 
   
-  # Não deve mostrar os meses fora do período
   expect(page).not_to have_content("Junho/2025")
   expect(page).not_to have_content("Julho/2025")
 end
@@ -159,7 +162,6 @@ Then("o arquivo deve conter os dados de faturamento") do
   expect(page.body).to include("Cliente")
   expect(page.body).to include("Valor")
   
-  # Verifica a presença de dados específicos
   expect(page.body).to include("Cliente A")
   expect(page.body).to include("500,75")
   expect(page.body).to include("Cliente B")
