@@ -37,6 +37,9 @@ Rails.application.routes.draw do
       get :filtrar
     end
   end
+  
+  # Rota especial para testes de visualização por cliente
+  get 'faturamento_por_cliente', to: 'faturamento_por_cliente#index'
   resources :graficos, only: [:index]
 
   # Rota para visualizar danfes

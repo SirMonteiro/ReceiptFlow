@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.4.1"
+ruby "3.4.5"
 
 # Gemfile
 gem "bcrypt", "~> 3.1.7"
@@ -49,6 +49,7 @@ group :test do
   gem 'rails-controller-testing'
   gem "rspec-rails", "~> 7.1"
   gem "cucumber-rails", "~> 4.0", require: false
+  gem "rails-controller-testing"
   gem "capybara", "~> 3.40"
 end
 

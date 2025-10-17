@@ -23,7 +23,7 @@ Feature: Cálculo de Faturamento
   Scenario: Exportar relatório de faturamento
     Given que existem pedidos cadastrados no sistema
     When eu acesso a página de faturamento
-    And eu clico em "Exportar Relatório"
+    And eu clico no botão "Exportar Relatório"
     Then eu devo receber um arquivo "faturamento.csv"
     And o arquivo deve conter os dados de faturamento
 
