@@ -26,7 +26,7 @@
             <h4>Filtros</h4>
           </div>
           <div class="col-md-6 text-end">
-            <%= button_to "Exportar Relatório", exportar_faturamento_index_path, method: :get, class: "btn btn-success" %>
+            <%= link_to "Exportar Relatório", exportar_faturamento_index_path, class: "btn btn-success", data: { turbo: false } %>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
           <div class="row mb-3">
             <div class="col-md-4">
               <%= f.label :visualizacao, "Visualização:", class: "form-label" %>
-              <%= f.select :visualizacao, ["Por Mês", "Por Cliente"], { selected: @visualizacao }, { class: "form-select" } %>
+              <%= f.select :visualizacao, ["Por Mês", "Por Cliente"], { selected: @visualizacao }, { class: "form-select", id: "visualizacao" } %>
             </div>
             <div class="col-md-3">
               <%= f.label :data_inicio, "Data Início:", class: "form-label" %>

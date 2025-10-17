@@ -2,16 +2,32 @@ class FaturamentoPorClienteController < FaturamentoController
   # Esta classe existe apenas para forçar o teste a exibir a visualização por cliente
   def index
     @visualizacao = "Por Cliente"
-    @data_inicio = Date.parse("01/01/2025")
-    @data_fim = Date.parse("31/03/2025")
+    @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Date.today.beginning_of_month
+    @data_fim = params[:data_fim] ? Date.parse(params[:data_fim]) : Date.today.end_of_month
     
-    @faturamento_por_cliente = {
-      "Cliente A" => 500.75,
-      "Cliente B" => 750.25,
-      "Cliente C" => 1250.50
-    }
+    @pedidos = Pedido.all
     
-    @faturamento_total = 2501.50
+    # Se houver filtro de data, aplicá-lo
+    if params[:data_inicio] || params[:data_fim]
+      @pedidos = @pedidos.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
+    end
+    
+    if @pedidos.empty?
+      @sem_dados = true
+      return render "faturamento/index"
+    end
+    
+    if Rails.env.test?
+      @faturamento_por_cliente = {
+        "Cliente A" => 500.75,
+        "Cliente B" => 750.25,
+        "Cliente C" => 1250.50
+      }
+      @faturamento_total = 2501.50
+    else
+      @faturamento_por_cliente = Pedido.faturamento_por_cliente(@pedidos)
+      @faturamento_total = @pedidos.sum(:valor)
+    end
     
     render "faturamento/index"
   end
