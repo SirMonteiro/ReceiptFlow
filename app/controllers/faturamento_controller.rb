@@ -34,25 +34,43 @@ class FaturamentoController < ApplicationController
       end
     else
       # Em ambiente normal, calcular os valores
+      Rails.logger.info("Visualização selecionada: #{@visualizacao}")
+      
       case @visualizacao
       when "Por Cliente"
+        Rails.logger.info("Calculando faturamento por cliente")
         @faturamento_por_cliente = Pedido.faturamento_por_cliente(@pedidos)
+        Rails.logger.info("Faturamento por cliente: #{@faturamento_por_cliente.inspect}")
       else # Por Mês (padrão)
+        Rails.logger.info("Calculando faturamento por mês")
         @faturamento_por_mes = Pedido.faturamento_por_mes(@pedidos)
+        Rails.logger.info("Faturamento por mês: #{@faturamento_por_mes.inspect}")
       end
     end
     
     @faturamento_total = @pedidos.sum(:valor)
+    Rails.logger.info("Faturamento total: #{@faturamento_total}")
   end
   
   def exportar
+    # Usar os mesmos filtros que foram aplicados na tela
+    @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Date.today.beginning_of_month
+    @data_fim = params[:data_fim] ? Date.parse(params[:data_fim]) : Date.today.end_of_month
+    
     @pedidos = Pedido.all
+    
+    # Se houver filtro de data, aplicá-lo
+    if params[:data_inicio] || params[:data_fim]
+      @pedidos = @pedidos.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
+    end
     
     if @pedidos.empty?
       flash[:alert] = "Não há dados de faturamento disponíveis para exportar"
       redirect_to faturamento_index_path
       return
     end
+    
+    Rails.logger.info("Exportando dados de faturamento: #{@pedidos.count} pedidos")
     
     # Mapeamento de meses em inglês para português
     meses_pt = {
