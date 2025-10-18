@@ -49,6 +49,7 @@ group :test do
   gem 'rails-controller-testing'
   gem "rspec-rails", "~> 7.1"
   gem "cucumber-rails", "~> 4.0", require: false
+  gem "rails-controller-testing"
   gem "capybara", "~> 3.40"
 end
 

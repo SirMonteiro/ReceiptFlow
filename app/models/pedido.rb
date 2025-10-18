@@ -26,4 +26,46 @@ class Pedido < ApplicationRecord
   def destinatario_razao_social
     destinatario['razao_social'] if destinatario.is_a?(Hash)
   end
+  
+  def self.faturamento_por_mes(pedidos)
+    resultado = {}
+    
+    meses_pt = {
+      "January" => "Janeiro",
+      "February" => "Fevereiro",
+      "March" => "Março",
+      "April" => "Abril",
+      "May" => "Maio",
+      "June" => "Junho",
+      "July" => "Julho",
+      "August" => "Agosto",
+      "September" => "Setembro",
+      "October" => "Outubro",
+      "November" => "Novembro",
+      "December" => "Dezembro"
+    }
+    
+    pedidos.each do |pedido|
+      mes_en = pedido.data_saida.strftime("%B")
+      mes_pt = meses_pt[mes_en]
+      ano = pedido.data_saida.strftime("%Y")
+      
+      chave = "#{mes_pt}/#{ano}"
+      resultado[chave] ||= 0
+      resultado[chave] += pedido.valor
+    end
+    
+    resultado
+  end
+  
+  def self.faturamento_por_cliente(pedidos)
+    resultado = {}
+    
+    pedidos.each do |pedido|
+      resultado[pedido.cliente] ||= 0
+      resultado[pedido.cliente] += pedido.valor
+    end
+    
+    resultado
+  end
 end
