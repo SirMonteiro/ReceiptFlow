@@ -78,6 +78,15 @@ RSpec.describe FaturamentoController, type: :controller do
       
       before do
         allow(pedidos).to receive(:empty?).and_return(false)
+        allow(pedidos).to receive(:count).and_return(5)
+        allow(pedidos).to receive(:each).and_yield(
+          double("Pedido", 
+            data_saida: Date.new(2025, 2, 15), 
+            cliente: "Cliente A", 
+            valor: 123.45,
+            to_s: "Pedido teste"
+          )
+        )
         allow(Pedido).to receive(:all).and_return(pedidos)
       end
 

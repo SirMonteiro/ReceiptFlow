@@ -6,7 +6,6 @@ class FaturamentoController < ApplicationController
     
     @pedidos = Pedido.all
     
-    # Se houver filtro de data, aplicá-lo
     if params[:data_inicio] || params[:data_fim]
       @pedidos = @pedidos.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
     end
@@ -16,9 +15,7 @@ class FaturamentoController < ApplicationController
       return
     end
     
-    # Para testes, forçamos os dados a serem consistentes
     if Rails.env.test?
-      # Em ambiente de teste, usar dados fixos
       if @visualizacao == "Por Cliente"
         @faturamento_por_cliente = {
           "Cliente A" => 500.75,
@@ -33,7 +30,6 @@ class FaturamentoController < ApplicationController
         }
       end
     else
-      # Em ambiente normal, calcular os valores
       Rails.logger.info("Visualização selecionada: #{@visualizacao}")
       
       case @visualizacao
@@ -41,7 +37,7 @@ class FaturamentoController < ApplicationController
         Rails.logger.info("Calculando faturamento por cliente")
         @faturamento_por_cliente = Pedido.faturamento_por_cliente(@pedidos)
         Rails.logger.info("Faturamento por cliente: #{@faturamento_por_cliente.inspect}")
-      else # Por Mês (padrão)
+      else 
         Rails.logger.info("Calculando faturamento por mês")
         @faturamento_por_mes = Pedido.faturamento_por_mes(@pedidos)
         Rails.logger.info("Faturamento por mês: #{@faturamento_por_mes.inspect}")
@@ -53,13 +49,11 @@ class FaturamentoController < ApplicationController
   end
   
   def exportar
-    # Usar os mesmos filtros que foram aplicados na tela
     @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Date.today.beginning_of_month
     @data_fim = params[:data_fim] ? Date.parse(params[:data_fim]) : Date.today.end_of_month
     
     @pedidos = Pedido.all
     
-    # Se houver filtro de data, aplicá-lo
     if params[:data_inicio] || params[:data_fim]
       @pedidos = @pedidos.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
     end
@@ -72,7 +66,6 @@ class FaturamentoController < ApplicationController
     
     Rails.logger.info("Exportando dados de faturamento: #{@pedidos.count} pedidos")
     
-    # Mapeamento de meses em inglês para português
     meses_pt = {
       "January" => "Janeiro",
       "February" => "Fevereiro",
@@ -88,18 +81,13 @@ class FaturamentoController < ApplicationController
       "December" => "Dezembro"
     }
     
-    # Para testes, inserir dados esperados
     if Rails.env.test?
-      # Preparar dados para CSV
       csv_data = "Período,Cliente,Valor,Data\nJaneiro/2025,Cliente A,500,75,15/01/2025\nFevereiro/2025,Cliente B,750,25,10/02/2025\n"
     else
-      # Preparar dados para CSV no ambiente normal
       require 'csv'
       csv_data = CSV.generate(headers: true) do |csv|
-        # Adicionar cabeçalho
         csv << ['Período', 'Cliente', 'Valor', 'Data']
         
-        # Adicionar dados
         @pedidos.each do |pedido|
           mes_en = pedido.data_saida.strftime("%B")
           mes_pt = meses_pt[mes_en]
@@ -125,7 +113,6 @@ class FaturamentoController < ApplicationController
   def calcular_faturamento_por_mes(pedidos)
     faturamento = {}
     
-    # Mapeamento de meses em inglês para português
     meses_pt = {
       "January" => "Janeiro",
       "February" => "Fevereiro",
@@ -141,12 +128,11 @@ class FaturamentoController < ApplicationController
       "December" => "Dezembro"
     }
     
-    # Agrupar pedidos por mês e somar valores
     pedidos.each do |pedido|
       mes_en = pedido.data_saida.strftime("%B")
       mes_pt = meses_pt[mes_en]
       ano = pedido.data_saida.strftime("%Y")
-      mes_ano = "#{mes_pt}/#{ano}" # Nome do mês/ano em português
+      mes_ano = "#{mes_pt}/#{ano}"
       
       if faturamento[mes_ano]
         faturamento[mes_ano] += pedido.valor

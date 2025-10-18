@@ -27,11 +27,9 @@ class Pedido < ApplicationRecord
     destinatario['razao_social'] if destinatario.is_a?(Hash)
   end
   
-  # Métodos para cálculo de faturamento
   def self.faturamento_por_mes(pedidos)
     resultado = {}
     
-    # Mapeamento de meses em inglês para português
     meses_pt = {
       "January" => "Janeiro",
       "February" => "Fevereiro",
