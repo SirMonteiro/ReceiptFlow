@@ -1,5 +1,4 @@
 class FaturamentoPorClienteController < FaturamentoController
-  # Esta classe existe apenas para forçar o teste a exibir a visualização por cliente
   def index
     @visualizacao = "Por Cliente"
     @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Date.today.beginning_of_month
@@ -7,7 +6,6 @@ class FaturamentoPorClienteController < FaturamentoController
     
     @pedidos = Pedido.all
     
-    # Se houver filtro de data, aplicá-lo
     if params[:data_inicio] || params[:data_fim]
       @pedidos = @pedidos.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
     end

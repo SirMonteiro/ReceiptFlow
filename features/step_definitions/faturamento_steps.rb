@@ -118,7 +118,11 @@ When("eu seleciono o período de {string} a {string}") do |data_inicio, data_fim
 end
 
 When("eu clico no botão {string}") do |botao|
-  click_button botao
+  if botao == "Exportar Relatório"
+    click_link botao
+  else
+    click_button botao
+  end
 end
 
 Then("eu devo ver o faturamento total agrupado por mês") do

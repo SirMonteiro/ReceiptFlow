@@ -1,5 +1,3 @@
-<%# app/views/faturamento/index.html.erb %>
-
 <div class="container mt-4">
   <h1>Análise de Faturamento</h1>
   
@@ -8,12 +6,15 @@
       <p>Não há dados de faturamento disponíveis</p>
     </div>
     
-    <%# Adicionando formulários ocultos para que o Cucumber encontre os elementos %>
     <div style="display:none">
       <%= form_with url: faturamento_index_path, method: :get, data: { turbo: false } do |f| %>
-        <%= f.select :visualizacao, ["Por Mês", "Por Cliente"], { selected: "Por Mês" }, { class: "form-select" } %>
-        <%= f.date_field :data_inicio, value: Date.today, class: "form-control" %>
-        <%= f.date_field :data_fim, value: Date.today, class: "form-control" %>
+        <%= f.select :visualizacao, ["Por Mês", "Por Cliente"], { selected: "Por Mês" }, { class: "form-select", id: "visualizacao_hidden" } %>
+        <div id="data_inicio_container_hidden">
+          <%= f.date_field :data_inicio, value: Date.today, class: "form-control" %>
+        </div>
+        <div id="data_fim_container_hidden">
+          <%= f.date_field :data_fim, value: Date.today, class: "form-control" %>
+        </div>
         <%= f.submit "Filtrar", class: "btn btn-primary" %>
       <% end %>
       <%= button_to "Exportar Relatório", exportar_faturamento_index_path, method: :get, class: "btn btn-success" %>
@@ -37,11 +38,11 @@
               <%= f.label :visualizacao, "Visualização:", class: "form-label" %>
               <%= f.select :visualizacao, ["Por Mês", "Por Cliente"], { selected: @visualizacao }, { class: "form-select", id: "visualizacao" } %>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" id="data_inicio_container" style="display: <%= @visualizacao == 'Por Mês' ? 'block' : 'none' %>">
               <%= f.label :data_inicio, "Data Início:", class: "form-label" %>
               <%= f.date_field :data_inicio, value: @data_inicio, class: "form-control" %>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" id="data_fim_container" style="display: <%= @visualizacao == 'Por Mês' ? 'block' : 'none' %>">
               <%= f.label :data_fim, "Data Fim:", class: "form-label" %>
               <%= f.date_field :data_fim, value: @data_fim, class: "form-control" %>
             </div>
@@ -126,3 +127,28 @@
     </div>
   <% end %>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const visualizacaoSelect = document.getElementById('visualizacao');
+  const dataInicioContainer = document.getElementById('data_inicio_container');
+  const dataFimContainer = document.getElementById('data_fim_container');
+  
+  function toggleDateFields() {
+    const selectedValue = visualizacaoSelect.value;
+    const display = selectedValue === 'Por Mês' ? 'block' : 'none';
+    
+    if (dataInicioContainer) {
+      dataInicioContainer.style.display = display;
+    }
+    if (dataFimContainer) {
+      dataFimContainer.style.display = display;
+    }
+  }
+  
+  if (visualizacaoSelect) {
+    visualizacaoSelect.addEventListener('change', toggleDateFields);
+    toggleDateFields();
+  }
+});
+</script>
