@@ -19,7 +19,7 @@ Then("devo ver {string}") do |mensagem|
 end
 
 Then("devo estar na página inicial") do
-  expect(current_path).to eq(root_path)
+  expect(current_path).to eq(danfes_path)
 end
 
 Then("devo permanecer na página de login") do

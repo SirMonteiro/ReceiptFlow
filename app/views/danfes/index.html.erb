@@ -1,0 +1,46 @@
+<h1>Página provisória de visualização de DANFEs kkkkkkk</h1>
+
+<% if @danfes.any? %>
+  <table border="1" cellspacing="0" cellpadding="6">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Valor</th>
+        <th>Chave de Acesso</th>
+        <th>Natureza da Operação</th>
+        <th>Remetente</th>
+        <th>Destinatário</th>
+        <th>Descrição dos Produtos</th>
+        <th>Valores Totais</th>
+        <th>Impostos</th>
+        <th>CFOP</th>
+        <th>CST</th>
+        <th>NCM</th>
+        <th>Transportadora</th>
+        <th>Data de Saída</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @danfes.each do |danfe| %>
+        <tr>
+          <td><%= danfe.cliente %></td>
+          <td><%= number_to_currency(danfe.valor) %></td>
+          <td><%= danfe.chave_acesso %></td>
+          <td><%= danfe.natureza_operacao %></td>
+          <td><%= danfe.remetente %></td>
+          <td><%= danfe.destinatario %></td>
+          <td><%= danfe.descricao_produtos %></td>
+          <td><%= number_to_currency(danfe.valores_totais) %></td>
+          <td><%= number_to_currency(danfe.impostos) %></td>
+          <td><%= danfe.cfop %></td>
+          <td><%= danfe.cst %></td>
+          <td><%= danfe.ncm %></td>
+          <td><%= danfe.transportadora %></td>
+          <td><%= danfe.data_saida.strftime("%d/%m/%Y") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>Você não possui DANFEs cadastradas.</p>
+<% end %>
