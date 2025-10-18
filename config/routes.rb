@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   # Rota para gráficos
   resources :graficos, only: [:index]
 
+  # Rota para visualizar danfes
+  resources :danfes, only: [:index]
+
   # This will be the actual root of your application.
   root "sessions#new"
 

@@ -277,6 +277,10 @@ GEM
       activesupport (= 7.1.5.2)
       bundler (>= 1.15.0)
       railties (= 7.1.5.2)
+    rails-controller-testing (1.0.5)
+      actionpack (>= 5.0.1.rc1)
+      actionview (>= 5.0.1.rc1)
+      activesupport (>= 5.0.1.rc1)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -413,6 +417,7 @@ DEPENDENCIES
   pg_search
   puma (>= 5.0)
   rails (~> 7.1.0)
+  rails-controller-testing
   rspec-rails (~> 7.1)
   selenium-webdriver
   simplecov
@@ -423,7 +428,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.4.1p0
+   ruby 3.4.5p51
 
 BUNDLED WITH
    2.6.2
