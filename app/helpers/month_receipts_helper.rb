@@ -1,0 +1,2 @@
+module MonthReceiptsHelper
+end

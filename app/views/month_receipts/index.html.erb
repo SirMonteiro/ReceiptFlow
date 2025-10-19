@@ -1,0 +1,95 @@
+<div class="container">
+  <h1>Comprovantes por Mês</h1>
+
+  <div class="month-selector mb-4">
+    <%= form_with url: month_receipts_path, method: :get, local: true do |form| %>
+      <div class="row">
+        <div class="col-md-3">
+          <%= form.label :month, "Selecione o Mês:" %>
+          <%= form.select :month,
+              options_for_select([
+                ["Janeiro", 1],
+                ["Fevereiro", 2],
+                ["Março", 3],
+                ["Abril", 4],
+                ["Maio", 5],
+                ["Junho", 6],
+                ["Julho", 7],
+                ["Agosto", 8],
+                ["Setembro", 9],
+                ["Outubro", 10],
+                ["Novembro", 11],
+                ["Dezembro", 12]
+              ], @selected_month_num),
+              {},
+              class: "form-control",
+              onchange: "this.form.submit()" %>
+        </div>
+        <div class="col-md-2">
+          <%= form.label :year, "Ano:" %>
+          <%= form.number_field :year,
+              value: @ano,
+              class: "form-control",
+              min: 2000,
+              max: 2100,
+              onchange: "this.form.submit()" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @danfes.empty? %>
+    <div class="alert alert-warning" role="alert">
+      <strong>Nenhum comprovante encontrado!</strong>
+      <p>Não há DANFEs registradas para <%= @mes_pt %> de <%= @ano %>.</p>
+      <p>Por favor, selecione outro mês.</p>
+    </div>
+  <% else %>
+    <div class="card">
+      <div class="card-header">
+        <h5>Comprovantes de <%= @mes_pt %> de <%= @ano %></h5>
+        <small class="text-muted"><%= @danfes.count %> comprovante(s) encontrado(s)</small>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Data Saída</th>
+                <th>Chave de Acesso</th>
+                <th>Cliente</th>
+                <th>Remetente</th>
+                <th>Destinatário</th>
+                <th>Valor</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @danfes.each do |danfe| %>
+                <tr>
+                  <td><%= danfe.data_saida.strftime("%d/%m/%Y") %></td>
+                  <td><%= danfe.chave_acesso.truncate(20) %></td>
+                  <td><%= danfe.cliente %></td>
+                  <td><%= danfe.remetente_razao_social %></td>
+                  <td><%= danfe.destinatario_razao_social %></td>
+                  <td><%= number_to_currency(danfe.valor, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                  <td>
+                    <%= link_to "Ver Detalhes", "#", class: "btn btn-sm btn-primary", data: { danfe_id: danfe.id } %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5" class="text-end"><strong>Total:</strong></td>
+                <td colspan="2">
+                  <strong><%= number_to_currency(@danfes.sum(:valor), unit: "R$ ", separator: ",", delimiter: ".") %></strong>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

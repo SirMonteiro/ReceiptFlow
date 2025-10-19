@@ -1,0 +1,2 @@
+class MonthReceipt < ApplicationRecord
+end
