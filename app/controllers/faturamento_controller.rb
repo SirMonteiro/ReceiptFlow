@@ -4,13 +4,13 @@ class FaturamentoController < ApplicationController
     @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Date.today.beginning_of_month
     @data_fim = params[:data_fim] ? Date.parse(params[:data_fim]) : Date.today.end_of_month
     
-    @pedidos = Pedido.all
+    @danfes = Danfe.where(user: current_user)
     
     if params[:data_inicio] || params[:data_fim]
-      @pedidos = @pedidos.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
+      @danfes = @danfes.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
     end
     
-    if @pedidos.empty?
+    if @danfes.empty?
       @sem_dados = true
       return
     end
@@ -35,16 +35,16 @@ class FaturamentoController < ApplicationController
       case @visualizacao
       when "Por Cliente"
         Rails.logger.info("Calculando faturamento por cliente")
-        @faturamento_por_cliente = Pedido.faturamento_por_cliente(@pedidos)
+        @faturamento_por_cliente = Danfe.faturamento_por_cliente(@danfes)
         Rails.logger.info("Faturamento por cliente: #{@faturamento_por_cliente.inspect}")
       else 
         Rails.logger.info("Calculando faturamento por mês")
-        @faturamento_por_mes = Pedido.faturamento_por_mes(@pedidos)
+        @faturamento_por_mes = Danfe.faturamento_por_mes(@danfes)
         Rails.logger.info("Faturamento por mês: #{@faturamento_por_mes.inspect}")
       end
     end
     
-    @faturamento_total = @pedidos.sum(:valor)
+    @faturamento_total = @danfes.sum(:valor)
     Rails.logger.info("Faturamento total: #{@faturamento_total}")
   end
   
@@ -52,19 +52,19 @@ class FaturamentoController < ApplicationController
     @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Date.today.beginning_of_month
     @data_fim = params[:data_fim] ? Date.parse(params[:data_fim]) : Date.today.end_of_month
     
-    @pedidos = Pedido.all
+    @danfes = Danfe.all
     
     if params[:data_inicio] || params[:data_fim]
-      @pedidos = @pedidos.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
+      @danfes = @danfes.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
     end
     
-    if @pedidos.empty?
+    if @danfes.empty?
       flash[:alert] = "Não há dados de faturamento disponíveis para exportar"
       redirect_to faturamento_index_path
       return
     end
     
-    Rails.logger.info("Exportando dados de faturamento: #{@pedidos.count} pedidos")
+    Rails.logger.info("Exportando dados de faturamento: #{@danfes.count} pedidos")
     
     meses_pt = {
       "January" => "Janeiro",
@@ -88,16 +88,16 @@ class FaturamentoController < ApplicationController
       csv_data = CSV.generate(headers: true) do |csv|
         csv << ['Período', 'Cliente', 'Valor', 'Data']
         
-        @pedidos.each do |pedido|
-          mes_en = pedido.data_saida.strftime("%B")
+        @danfes.each do |danfe|
+          mes_en = danfe.data_saida.strftime("%B")
           mes_pt = meses_pt[mes_en]
-          ano = pedido.data_saida.strftime("%Y")
+          ano = danfe.data_saida.strftime("%Y")
           
           csv << [
             "#{mes_pt}/#{ano}",
-            pedido.cliente,
-            sprintf("%.2f", pedido.valor),
-            pedido.data_saida.strftime("%d/%m/%Y")
+            danfe.cliente,
+            sprintf("%.2f", danfe.valor),
+            danfe.data_saida.strftime("%d/%m/%Y")
           ]
         end
       end
@@ -110,7 +110,7 @@ class FaturamentoController < ApplicationController
   
   private
   
-  def calcular_faturamento_por_mes(pedidos)
+  def calcular_faturamento_por_mes(danfes)
     faturamento = {}
     
     meses_pt = {
@@ -128,30 +128,30 @@ class FaturamentoController < ApplicationController
       "December" => "Dezembro"
     }
     
-    pedidos.each do |pedido|
-      mes_en = pedido.data_saida.strftime("%B")
+    danfes.each do |danfe|
+      mes_en = danfe.data_saida.strftime("%B")
       mes_pt = meses_pt[mes_en]
-      ano = pedido.data_saida.strftime("%Y")
+      ano = danfe.data_saida.strftime("%Y")
       mes_ano = "#{mes_pt}/#{ano}"
       
       if faturamento[mes_ano]
-        faturamento[mes_ano] += pedido.valor
+        faturamento[mes_ano] += danfe.valor
       else
-        faturamento[mes_ano] = pedido.valor
+        faturamento[mes_ano] = danfe.valor
       end
     end
     
     faturamento
   end
   
-  def calcular_faturamento_por_cliente(pedidos)
+  def calcular_faturamento_por_cliente(danfes)
     faturamento = {}
     
-    pedidos.each do |pedido|
-      if faturamento[pedido.cliente]
-        faturamento[pedido.cliente] += pedido.valor
+    danfes.each do |danfe|
+      if faturamento[danfe.cliente]
+        faturamento[danfe.cliente] += danfe.valor
       else
-        faturamento[pedido.cliente] = pedido.valor
+        faturamento[danfe.cliente] = danfe.valor
       end
     end
     

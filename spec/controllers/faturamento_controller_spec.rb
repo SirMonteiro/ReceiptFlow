@@ -1,10 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe FaturamentoController, type: :controller do
+
+   # precisa de user agora...
+  before do
+    @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
+      user.nome = "Usuarilson" 
+      user.password = "123456" 
+    end
+  allow_any_instance_of(ApplicationController)
+      .to receive(:current_user)
+      .and_return(@user)
+  end
+
   describe "GET #index" do
     context "quando não existem pedidos" do
       before do
-        allow(Pedido).to receive(:all).and_return([])
+        allow(Danfe).to receive(:where).with(user: @user).and_return([])
       end
 
       it "define @sem_dados como true" do
@@ -14,13 +26,13 @@ RSpec.describe FaturamentoController, type: :controller do
     end
 
     context "quando existem pedidos" do
-      let(:pedidos) { double("ActiveRecord::Relation") }
+      let(:danfes) { double("ActiveRecord::Relation") }
       
       before do
-        allow(Pedido).to receive(:all).and_return(pedidos)
-        allow(pedidos).to receive(:where).and_return(pedidos)
-        allow(pedidos).to receive(:empty?).and_return(false)
-        allow(pedidos).to receive(:sum).with(:valor).and_return(2501.50)
+        allow(Danfe).to receive(:where).with(user: @user).and_return(danfes)
+        allow(danfes).to receive(:where).and_return(danfes)
+        allow(danfes).to receive(:empty?).and_return(false)
+        allow(danfes).to receive(:sum).with(:valor).and_return(2501.50)
       end
 
       it "calcula o faturamento total corretamente" do
@@ -40,20 +52,22 @@ RSpec.describe FaturamentoController, type: :controller do
     end
     
     context "quando filtrado por período" do
-      let(:pedidos) { double("ActiveRecord::Relation") }
+      let(:danfes) { double("ActiveRecord::Relation") }
       
       before do
-        allow(Pedido).to receive(:all).and_return(pedidos)
-        allow(pedidos).to receive(:empty?).and_return(false)
-        allow(pedidos).to receive(:sum).with(:valor).and_return(1251.00)
+        allow(Danfe).to receive(:where).with(user: @user).and_return(danfes)
+        allow(danfes).to receive(:where).and_return(danfes)
+        allow(Danfe).to receive(:all).and_return(danfes)
+        allow(danfes).to receive(:empty?).and_return(false)
+        allow(danfes).to receive(:sum).with(:valor).and_return(1251.00)
       end
 
       it "aplica o filtro de período corretamente" do
-        expect(pedidos).to receive(:where).with(
+        expect(danfes).to receive(:where).with(
           "data_saida >= ? AND data_saida <= ?", 
           Date.parse("01/01/2025").beginning_of_day, 
           Date.parse("28/02/2025").end_of_day
-        ).and_return(pedidos)
+        ).and_return(danfes)
           
         get :index, params: { data_inicio: "01/01/2025", data_fim: "28/02/2025" }
       end
@@ -63,7 +77,7 @@ RSpec.describe FaturamentoController, type: :controller do
   describe "GET #exportar" do
     context "quando não existem pedidos" do
       before do
-        allow(Pedido).to receive(:all).and_return([])
+        allow(Danfe).to receive(:all).and_return([])
       end
 
       it "redireciona para a página de faturamento com mensagem de erro" do
@@ -74,12 +88,12 @@ RSpec.describe FaturamentoController, type: :controller do
     end
 
     context "quando existem pedidos" do
-      let(:pedidos) { double("ActiveRecord::Relation") }
+      let(:danfes) { double("ActiveRecord::Relation") }
       
       before do
-        allow(pedidos).to receive(:empty?).and_return(false)
-        allow(pedidos).to receive(:count).and_return(5)
-        allow(pedidos).to receive(:each).and_yield(
+        allow(danfes).to receive(:empty?).and_return(false)
+        allow(danfes).to receive(:count).and_return(5)
+        allow(danfes).to receive(:each).and_yield(
           double("Pedido", 
             data_saida: Date.new(2025, 2, 15), 
             cliente: "Cliente A", 
@@ -87,7 +101,7 @@ RSpec.describe FaturamentoController, type: :controller do
             to_s: "Pedido teste"
           )
         )
-        allow(Pedido).to receive(:all).and_return(pedidos)
+        allow(Danfe).to receive(:all).and_return(danfes)
       end
 
       it "retorna um arquivo CSV" do
@@ -104,10 +118,10 @@ RSpec.describe FaturamentoController, type: :controller do
     controller = FaturamentoController.new
     
     describe "#calcular_faturamento_por_mes" do
-      let(:pedido1) { instance_double(Pedido, valor: 500.75, data_saida: Time.new(2025, 1, 15), cliente: "Cliente A") }
-      let(:pedido2) { instance_double(Pedido, valor: 750.25, data_saida: Time.new(2025, 1, 20), cliente: "Cliente B") }
-      let(:pedido3) { instance_double(Pedido, valor: 1250.50, data_saida: Time.new(2025, 2, 5), cliente: "Cliente C") }
-      let(:pedidos) { [pedido1, pedido2, pedido3] }
+      let(:danfe1) { instance_double(Danfe, valor: 500.75, data_saida: Time.new(2025, 1, 15), cliente: "Cliente A") }
+      let(:danfe2) { instance_double(Danfe, valor: 750.25, data_saida: Time.new(2025, 1, 20), cliente: "Cliente B") }
+      let(:danfe3) { instance_double(Danfe, valor: 1250.50, data_saida: Time.new(2025, 2, 5), cliente: "Cliente C") }
+      let(:danfes) { [danfe1, danfe2, danfe3] }
 
       it "agrupa corretamente o faturamento por mês", skip: "Implementar quando o método for acessível" do
         # Este teste requer o método ser acessível ou usar send

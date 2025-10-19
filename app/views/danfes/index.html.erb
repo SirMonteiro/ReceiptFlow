@@ -24,14 +24,14 @@
       <% @danfes.each do |danfe| %>
         <tr>
           <td><%= danfe.cliente %></td>
-          <td><%= number_to_currency(danfe.valor) %></td>
+          <td><%= number_to_currency(danfe.valor, unit: "R$ ", separator: ",", delimiter: "." ) %></td>
           <td><%= danfe.chave_acesso %></td>
           <td><%= danfe.natureza_operacao %></td>
           <td><%= danfe.remetente %></td>
           <td><%= danfe.destinatario %></td>
           <td><%= danfe.descricao_produtos %></td>
-          <td><%= number_to_currency(danfe.valores_totais) %></td>
-          <td><%= number_to_currency(danfe.impostos) %></td>
+          <td><%= number_to_currency(danfe.valores_totais, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+          <td><%= number_to_currency(danfe.impostos, unit: "R$ ", separator: ",", delimiter: ".") %></td>
           <td><%= danfe.cfop %></td>
           <td><%= danfe.cst %></td>
           <td><%= danfe.ncm %></td>
