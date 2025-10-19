@@ -29,6 +29,21 @@ Rails.application.routes.draw do
 
   # Rota para gráficos
   resources :graficos, only: [:index]
+  
+  # Rotas para faturamento
+  resources :faturamento, only: [:index] do
+    collection do
+      get :exportar
+      get :filtrar
+    end
+  end
+  
+  # Rota especial para testes de visualização por cliente
+  get 'faturamento_por_cliente', to: 'faturamento_por_cliente#index'
+  resources :graficos, only: [:index]
+
+  # Rota para visualizar danfes
+  resources :danfes, only: [:index]
 
   # This will be the actual root of your application.
   root "sessions#new"

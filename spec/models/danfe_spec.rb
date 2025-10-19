@@ -1,9 +1,22 @@
 require 'rails_helper'
 
-RSpec.describe Pedido, type: :model do
+RSpec.describe Danfe, type: :model do
+
+  # precisa de user agora...
+  before do
+    @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
+      user.nome = "Usuarilson" 
+      user.password = "123456" 
+    end
+  allow_any_instance_of(ApplicationController)
+      .to receive(:current_user)
+      .and_return(@user)
+  end
+
   describe 'validações básicas' do
     it 'é válido com todos os campos obrigatórios preenchidos' do
-      pedido = Pedido.new(
+      danfe = Danfe.new(
+        user: @user,
         cliente: 'Teste',
         valor: 123.45,
         chave_acesso: '12345678901234567890123456789012345678901234',
@@ -19,23 +32,24 @@ RSpec.describe Pedido, type: :model do
         transportadora: 'Transportadora Z',
         data_saida: Date.today
       )
-      expect(pedido).to be_valid
+      expect(danfe).to be_valid
     end
 
     it 'não é válido sem cliente' do
-      pedido = Pedido.new(valor: 123.45)
-      expect(pedido).not_to be_valid
+      danfe = Danfe.new(valor: 123.45)
+      expect(danfe).not_to be_valid
     end
 
     it 'não é válido sem valor' do
-      pedido = Pedido.new(cliente: 'Teste')
-      expect(pedido).not_to be_valid
+      danfe = Danfe.new(cliente: 'Teste')
+      expect(danfe).not_to be_valid
     end
   end
   
   describe 'métodos de faturamento' do
-    let(:pedido_jan) do
-      Pedido.new(
+    let(:danfe_jan) do
+      Danfe.new(
+        user: @user,
         cliente: 'Cliente A',
         valor: 500.75,
         chave_acesso: '12345678901234567890123456789012345678901234',
@@ -53,8 +67,9 @@ RSpec.describe Pedido, type: :model do
       )
     end
     
-    let(:pedido_jan_2) do
-      Pedido.new(
+    let(:danfe_jan_2) do
+      Danfe.new(
+        user: @user,
         cliente: 'Cliente B',
         valor: 750.25,
         chave_acesso: '09876543210987654321098765432109876543210987',
@@ -72,8 +87,9 @@ RSpec.describe Pedido, type: :model do
       )
     end
     
-    let(:pedido_fev) do
-      Pedido.new(
+    let(:danfe_fev) do
+      Danfe.new(
+        user: @user,
         cliente: 'Cliente A',
         valor: 1250.50,
         chave_acesso: '13579246801357924680135792468013579246801357',
@@ -93,29 +109,29 @@ RSpec.describe Pedido, type: :model do
     
     describe '.faturamento_por_mes' do
       it 'agrupa corretamente o faturamento por mês' do
-        pedidos = [pedido_jan, pedido_jan_2, pedido_fev]
-        resultado = Pedido.faturamento_por_mes(pedidos)
+        danfes = [danfe_jan, danfe_jan_2, danfe_fev]
+        resultado = Danfe.faturamento_por_mes(danfes)
         
         expect(resultado["Janeiro/2025"]).to eq(1251.0)
         expect(resultado["Fevereiro/2025"]).to eq(1250.50)
       end
       
       it 'retorna hash vazio quando não há pedidos' do
-        expect(Pedido.faturamento_por_mes([])).to eq({})
+        expect(Danfe.faturamento_por_mes([])).to eq({})
       end
     end
     
     describe '.faturamento_por_cliente' do
       it 'agrupa corretamente o faturamento por cliente' do
-        pedidos = [pedido_jan, pedido_jan_2, pedido_fev]
-        resultado = Pedido.faturamento_por_cliente(pedidos)
+        danfes = [danfe_jan, danfe_jan_2, danfe_fev]
+        resultado = Danfe.faturamento_por_cliente(danfes)
         
         expect(resultado["Cliente A"]).to eq(1751.25)
         expect(resultado["Cliente B"]).to eq(750.25)
       end
       
       it 'retorna hash vazio quando não há pedidos' do
-        expect(Pedido.faturamento_por_cliente([])).to eq({})
+        expect(Danfe.faturamento_por_cliente([])).to eq({})
       end
     end
   end

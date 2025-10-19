@@ -1,0 +1,154 @@
+<div class="container mt-4">
+  <h1>Análise de Faturamento</h1>
+  
+  <% if @sem_dados %>
+    <div class="alert alert-info mt-3">
+      <p>Não há dados de faturamento disponíveis</p>
+    </div>
+    
+    <div style="display:none">
+      <%= form_with url: faturamento_index_path, method: :get, data: { turbo: false } do |f| %>
+        <%= f.select :visualizacao, ["Por Mês", "Por Cliente"], { selected: "Por Mês" }, { class: "form-select", id: "visualizacao_hidden" } %>
+        <div id="data_inicio_container_hidden">
+          <%= f.date_field :data_inicio, value: Date.today, class: "form-control" %>
+        </div>
+        <div id="data_fim_container_hidden">
+          <%= f.date_field :data_fim, value: Date.today, class: "form-control" %>
+        </div>
+        <%= f.submit "Filtrar", class: "btn btn-primary" %>
+      <% end %>
+      <%= button_to "Exportar Relatório", exportar_faturamento_index_path, method: :get, class: "btn btn-success" %>
+    </div>
+  <% else %>
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Filtros</h4>
+          </div>
+          <div class="col-md-6 text-end">
+            <%= link_to "Exportar Relatório", exportar_faturamento_index_path, class: "btn btn-success", data: { turbo: false } %>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <%= form_with url: faturamento_index_path, method: :get, data: { turbo: false } do |f| %>
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <%= f.label :visualizacao, "Visualização:", class: "form-label" %>
+              <%= f.select :visualizacao, ["Por Mês", "Por Cliente"], { selected: @visualizacao }, { class: "form-select", id: "visualizacao" } %>
+            </div>
+            <div class="col-md-3" id="data_inicio_container" style="display: <%= @visualizacao == 'Por Mês' ? 'block' : 'none' %>">
+              <%= f.label :data_inicio, "Data Início:", class: "form-label" %>
+              <%= f.date_field :data_inicio, value: @data_inicio, class: "form-control" %>
+            </div>
+            <div class="col-md-3" id="data_fim_container" style="display: <%= @visualizacao == 'Por Mês' ? 'block' : 'none' %>">
+              <%= f.label :data_fim, "Data Fim:", class: "form-label" %>
+              <%= f.date_field :data_fim, value: @data_fim, class: "form-control" %>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <%= f.submit "Filtrar", class: "btn btn-primary w-100" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h4 id="titulo-faturamento">
+          <% if @visualizacao == "Por Cliente" %>
+            Faturamento por Cliente
+          <% else %>
+            Faturamento por Mês
+          <% end %>
+        </h4>
+        <p class="text-muted">
+          Faturamento: <%= @data_inicio.strftime("%d/%m/%Y") %> a <%= @data_fim.strftime("%d/%m/%Y") %>
+        </p>
+      </div>
+      <div class="card-body">
+        <% if @visualizacao == "Por Cliente" %>
+          <% if @faturamento_por_cliente.present? %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th class="text-end">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @faturamento_por_cliente.each do |cliente, valor| %>
+                  <tr>
+                    <td><%= cliente %></td>
+                    <td class="text-end"><%= number_to_currency(valor, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Total</th>
+                  <th class="text-end"><%= number_to_currency(@faturamento_total, unit: "R$ ", separator: ",", delimiter: ".") %></th>
+                </tr>
+              </tfoot>
+            </table>
+          <% else %>
+            <p>Nenhum dado disponível para o período selecionado</p>
+          <% end %>
+        <% else %>
+          <% if @faturamento_por_mes.present? %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Mês/Ano</th>
+                  <th class="text-end">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @faturamento_por_mes.each do |mes_ano, valor| %>
+                  <tr>
+                    <td><%= mes_ano %></td>
+                    <td class="text-end"><%= number_to_currency(valor, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Total</th>
+                  <th class="text-end"><%= number_to_currency(@faturamento_total, unit: "R$ ", separator: ",", delimiter: ".") %></th>
+                </tr>
+              </tfoot>
+            </table>
+          <% else %>
+            <p>Nenhum dado disponível para o período selecionado</p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const visualizacaoSelect = document.getElementById('visualizacao');
+  const dataInicioContainer = document.getElementById('data_inicio_container');
+  const dataFimContainer = document.getElementById('data_fim_container');
+  
+  function toggleDateFields() {
+    const selectedValue = visualizacaoSelect.value;
+    const display = selectedValue === 'Por Mês' ? 'block' : 'none';
+    
+    if (dataInicioContainer) {
+      dataInicioContainer.style.display = display;
+    }
+    if (dataFimContainer) {
+      dataFimContainer.style.display = display;
+    }
+  }
+  
+  if (visualizacaoSelect) {
+    visualizacaoSelect.addEventListener('change', toggleDateFields);
+    toggleDateFields();
+  }
+});
+</script>
