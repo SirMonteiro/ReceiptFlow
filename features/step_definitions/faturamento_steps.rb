@@ -1,6 +1,13 @@
 Given("que existem pedidos em diferentes meses") do
+  # precisa de user agora... 
+  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
+  user.nome = "Usuarilson" 
+  user.password = "123456" 
+  end 
+  allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   # Cria pedidos em Janeiro/2025
-  Pedido.create!(
+  Danfe.create!(
+    user: @user,
     cliente: "Cliente A",
     valor: 500.75,
     chave_acesso: "12345678901234567890123456789012345678901234",
@@ -18,7 +25,8 @@ Given("que existem pedidos em diferentes meses") do
   )
 
   # Cria pedidos em Fevereiro/2025
-  Pedido.create!(
+  Danfe.create!(
+    user: @user,
     cliente: "Cliente B",
     valor: 750.25,
     chave_acesso: "09876543210987654321098765432109876543210987",
@@ -36,7 +44,8 @@ Given("que existem pedidos em diferentes meses") do
   )
 
   # Cria pedidos em Março/2025
-  Pedido.create!(
+  Danfe.create!(
+    user: @user,
     cliente: "Cliente C",
     valor: 1250.50,
     chave_acesso: "13579246801357924680135792468013579246801357",
@@ -56,13 +65,26 @@ end
 
 Given("que existem pedidos de diferentes clientes") do
   step "que existem pedidos em diferentes meses"
+  # precisa de user agora... 
+  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
+  user.nome = "Usuarilson" 
+  user.password = "123456" 
+  end 
+  allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 end
 
 Given("que existem pedidos em diferentes períodos") do
   step "que existem pedidos em diferentes meses"
-  
+  # precisa de user agora... 
+  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
+  user.nome = "Usuarilson" 
+  user.password = "123456" 
+  end 
+  allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
   # Adicionar pedido em Junho/2025
-  Pedido.create!(
+  Danfe.create!(
+    user: @user,
     cliente: "Cliente D",
     valor: 875.30,
     chave_acesso: "24681357924681357924681357924681357924681357",
@@ -80,7 +102,8 @@ Given("que existem pedidos em diferentes períodos") do
   )
   
   # Adicionar pedido em Julho/2025
-  Pedido.create!(
+  Danfe.create!(
+    user: @user,
     cliente: "Cliente E",
     valor: 1500.00,
     chave_acesso: "35791357913579135791357913579135791357913579",
@@ -96,7 +119,7 @@ Given("que existem pedidos em diferentes períodos") do
     transportadora: { razao_social: "Transportadora V", cnpj: "55667788000199" },
     data_saida: Time.new(2025, 7, 15)
   )
-end
+end  
 
 When("eu acesso a página de faturamento") do
   visit faturamento_index_path

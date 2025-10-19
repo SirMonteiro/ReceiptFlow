@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe FaturamentoPorClienteController, type: :controller do
+
+   # precisa de user agora...
+  before do
+    @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
+      user.nome = "Usuarilson" 
+      user.password = "123456" 
+    end
+  allow_any_instance_of(ApplicationController)
+      .to receive(:current_user)
+      .and_return(@user)
+  end
+
   describe "GET #index" do
     it "configura a visualização para 'Por Cliente'" do
       get :index
@@ -15,11 +27,11 @@ RSpec.describe FaturamentoPorClienteController, type: :controller do
     
     it "configura o faturamento por cliente" do
       # Mock de pedidos para o ambiente de teste
-      pedidos = double("ActiveRecord::Relation")
-      allow(pedidos).to receive(:empty?).and_return(false)
-      allow(pedidos).to receive(:where).and_return(pedidos)
-      allow(pedidos).to receive(:sum).and_return(2501.50)
-      allow(Pedido).to receive(:all).and_return(pedidos)
+      danfes = double("ActiveRecord::Relation")
+      allow(danfes).to receive(:empty?).and_return(false)
+      allow(danfes).to receive(:where).and_return(danfes)
+      allow(danfes).to receive(:sum).and_return(2501.50)
+      allow(Danfe).to receive(:where).with(user: @user).and_return(danfes)
       
       get :index
       expect(assigns(:faturamento_por_cliente)).to be_a(Hash)
@@ -30,11 +42,11 @@ RSpec.describe FaturamentoPorClienteController, type: :controller do
     
     it "calcula o faturamento total corretamente" do
       # Mock de pedidos para o ambiente de teste
-      pedidos = double("ActiveRecord::Relation")
-      allow(pedidos).to receive(:empty?).and_return(false)
-      allow(pedidos).to receive(:where).and_return(pedidos)
-      allow(pedidos).to receive(:sum).and_return(2501.50)
-      allow(Pedido).to receive(:all).and_return(pedidos)
+      danfes = double("ActiveRecord::Relation")
+      allow(danfes).to receive(:empty?).and_return(false)
+      allow(danfes).to receive(:where).and_return(danfes)
+      allow(danfes).to receive(:sum).and_return(2501.50)
+      allow(Danfe).to receive(:where).with(user: @user).and_return(danfes)
       
       get :index
       expect(assigns(:faturamento_total)).to eq(2501.50)

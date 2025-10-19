@@ -4,13 +4,13 @@ class FaturamentoPorClienteController < FaturamentoController
     @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Date.today.beginning_of_month
     @data_fim = params[:data_fim] ? Date.parse(params[:data_fim]) : Date.today.end_of_month
     
-    @pedidos = Pedido.all
+    @danfes = Danfe.where(user: current_user)
     
     if params[:data_inicio] || params[:data_fim]
-      @pedidos = @pedidos.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
+      @danfes = @danfes.where("data_saida >= ? AND data_saida <= ?", @data_inicio.beginning_of_day, @data_fim.end_of_day)
     end
     
-    if @pedidos.empty?
+    if @danfes.empty?
       @sem_dados = true
       return render "faturamento/index"
     end
@@ -23,8 +23,8 @@ class FaturamentoPorClienteController < FaturamentoController
       }
       @faturamento_total = 2501.50
     else
-      @faturamento_por_cliente = Pedido.faturamento_por_cliente(@pedidos)
-      @faturamento_total = @pedidos.sum(:valor)
+      @faturamento_por_cliente = Danfe.faturamento_por_cliente(@danfes)
+      @faturamento_total = @danfes.sum(:valor)
     end
     
     render "faturamento/index"
