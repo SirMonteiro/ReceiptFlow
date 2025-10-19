@@ -1,0 +1,17 @@
+<%= form_with(model: month_receipt) do |form| %>
+  <% if month_receipt.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(month_receipt.errors.count, "error") %> prohibited this month_receipt from being saved:</h2>
+
+      <ul>
+        <% month_receipt.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

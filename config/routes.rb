@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :month_receipts
   # The second root route takes precedence, so this one can be removed.
   # root "uploads#new"
 
