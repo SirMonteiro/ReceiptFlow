@@ -2,7 +2,7 @@
 service: ReceiptFlow
 
 # Name of the container image.
-image: SirMonteiro/receiptflow
+image: sirmonteiro/receiptflow
 
 # Deploy to these servers.
 servers:
