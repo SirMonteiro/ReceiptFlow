@@ -36,9 +36,15 @@ registry:
 
 # Configure builder setup.
 builder:
-  arch: amd64
+  arch: arm64
+  local: false
+  remote: ssh://docker@168.138.133.66
   # Pass in additional build args needed for your Dockerfile.
-  # args:
+  args:
+    RUBY_VERSION: 3.4.5
+  secrets:
+    - KAMAL_REGISTRY_PASSWORD
+    - RAILS_MASTER_KEY
   #   RUBY_VERSION: <%= ENV["RBENV_VERSION"] || ENV["rvm_ruby_string"] || "#{RUBY_ENGINE}-#{RUBY_ENGINE_VERSION}" %>
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
