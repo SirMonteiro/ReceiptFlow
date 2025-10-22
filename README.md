@@ -14,17 +14,17 @@ O ReceiptFlow é uma aplicação web desenvolvida em Ruby on Rails que visa faci
 | Ricardo Miranda Cordovil Filho       | 14658257   |
 | Matheus Silva Lopes da Costa         | 12674680   |
 
-
+<!--
 ## Badges
 #### Branch Dev
 ![Dev Branch](https://github.com/SirMonteiro/heatmapp/actions/workflows/blank.yml/badge.svg?branch=dev)
 
 #### Branch Master
-![Master Branch](https://github.com/SirMonteiro/heatmapp/actions/workflows/blank.yml/badge.svg?branch=main)
+![Master Branch](https://github.com/SirMonteiro/heatmapp/actions/workflows/blank.yml/badge.svg?branch=main)-->
 
-#### CodeClimate
-[![Maintainability](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp/maintainability.svg)](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp)
-[![Code Coverage](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp/coverage.svg)](https://qlty.sh/gh/gabi-pinheiro/projects/heatmapp)
+#### Qlty.sh Badges
+[![Maintainability](https://qlty.sh/gh/SirMonteiro/projects/heatmapp/maintainability.svg)](https://qlty.sh/gh/SirMonteiro/projects/heatmapp)
+[![Code Coverage](https://qlty.sh/gh/SirMonteiro/projects/heatmapp/coverage.svg)](https://qlty.sh/gh/SirMonteiro/projects/heatmapp)
 
 ## Running the Project Locally
 
@@ -52,14 +52,13 @@ In case you don't have Mise installed, you can follow setup environment instruct
 3. **Run Pre-Boot Functions**
   Before starting the server, ensure the database is set up and migrations are applied:
   ```bash
-  rails db:setup
-  rails db:migrate
+  mise run db:prepare
   ```
 
 4. **Start the Server**
   Run the Rails server:
   ```bash
-  rails server
+  mise start
   ```
 
 5. **Access the Application**
@@ -74,25 +73,25 @@ This project uses RSpec for unit and functional tests, Jasmine for JavaScript te
 ### Running RSpec Tests
 Run the RSpec tests to ensure the backend functionality is working as expected:
 ```bash
-rake spec
+mise run test:unit
 ```
 
 ### Running Cucumber Tests
 Run the Cucumber tests to validate user stories:
 ```bash
-rake cucumber
+mise run test:integration
 ```
 
 ### Running JavaScript Tests
 Run the Jasmine tests for JavaScript functionality:
 ```bash
-rake jasmine
+bundle run jasmine
 ```
 
 ### Measuring Test Coverage
 This project uses Coveralls to measure test coverage. To generate a local coverage report:
 ```bash
-COVERAGE=true rake spec
+COVERAGE=true bundle run spec
 ```
 The coverage report will be available in the `coverage/` directory.
 
@@ -100,9 +99,9 @@ The coverage report will be available in the `coverage/` directory.
 
 ## Code Quality and Static Analysis
 
-This project uses CodeClimate to measure code quality and identify potential issues. Ensure your code adheres to the quality standards by running:
+This project uses Qlty to measure code quality and identify potential issues. Ensure your code adheres to the quality standards by running:
 ```bash
-rubocop
+mise run lint
 ```
 
 ## Setup development environment

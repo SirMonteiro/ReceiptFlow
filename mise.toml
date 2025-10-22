@@ -1,8 +1,57 @@
 # https://mise.jdx.dev/mise-cookbook/ruby.html
 [tools]
 ruby = "3.4.5"
+"github:qltysh/qlty" = "latest"
 
 [tasks."bundle:install"]
 description = "Install gem dependencies"
 run = "bundle install"
 
+[tasks."db:prepare"]
+description = "Prepare the database"
+run = "bin/rails db:prepare"
+
+[tasks."setup"]
+description = "Set up the development environment"
+depends = ["bundle:install", "db:prepare"]
+
+[tasks."start"]
+description = "Start the Rails server"
+run = "bin/rails server"
+
+[tasks."test"]
+description = "Run the test suite"
+run = "bundle exec rspec && bundle exec cucumber"
+depends = ["bundle:install"]
+
+[tasks."test:unit"]
+description = "Run the unit tests"
+run = "bundle exec rspec"
+
+[tasks."test:integration"]
+description = "Run the integration tests"
+run = "bundle exec cucumber"
+
+[tasks."lint"]
+description = "Run code linters"
+run = "qlty check"
+
+[tasks."lint:fix"]
+description = "Fix code style issues"
+run = "qlty check --fix"
+
+[tasks."metrics"]
+description = "Generate code metrics"
+run = "qlty metrics --all"
+
+[tasks."smells"]
+description = "Detect code smells"
+run = "qlty smells --all"
+
+# [tasks."docker:postgres:start"]
+# description = "Start PostgreSQL Docker container"
+# run = "docker run --rm --name postgres-$(basename $(pwd)) -p 5432:5432 -e POSTGRES_PASSWORD=password -e TZ=America/Sao_Paulo postgres:alpine"
+
+# [tasks."docker:postgres:cli"]
+# description = "Access PostgreSQL Docker container CLI"
+# run = "docker exec -it postgres-$(basename $(pwd)) psql -U postgres
