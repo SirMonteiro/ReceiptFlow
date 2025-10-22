@@ -23,8 +23,8 @@ O ReceiptFlow é uma aplicação web desenvolvida em Ruby on Rails que visa faci
 ![Master Branch](https://github.com/SirMonteiro/heatmapp/actions/workflows/blank.yml/badge.svg?branch=main)-->
 
 #### Qlty.sh Badges
-[![Maintainability](https://qlty.sh/gh/SirMonteiro/projects/heatmapp/maintainability.svg)](https://qlty.sh/gh/SirMonteiro/projects/heatmapp)
-[![Code Coverage](https://qlty.sh/gh/SirMonteiro/projects/heatmapp/coverage.svg)](https://qlty.sh/gh/SirMonteiro/projects/heatmapp)
+[![Maintainability](https://qlty.sh/gh/SirMonteiro/projects/ReceiptFlow/maintainability.svg)](https://qlty.sh/gh/SirMonteiro/projects/ReceiptFlow)
+[![Code Coverage](https://qlty.sh/gh/SirMonteiro/projects/ReceiptFlow/coverage.svg)](https://qlty.sh/gh/SirMonteiro/projects/ReceiptFlow)
 
 ## Running the Project Locally
 
