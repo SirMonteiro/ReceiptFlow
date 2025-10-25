@@ -46,6 +46,13 @@ Rails.application.routes.draw do
   # Rota para visualizar danfes
   resources :danfes, only: [:index]
 
+  # Rotas para impostos
+  resources :impostos, only: [:index] do
+    collection do
+      get :exportar
+    end
+  end
+
   # This will be the actual root of your application.
   root "sessions#new"
 

@@ -1,0 +1,214 @@
+<div class="container mt-4">
+  <h1>Análise de Impostos</h1>
+  
+  <% if @sem_dados %>
+    <div class="alert alert-info mt-3">
+      <p>Não há dados de impostos disponíveis</p>
+    </div>
+    
+    <div style="display:none">
+      <%= form_with url: impostos_path, method: :get, data: { turbo: false } do |f| %>
+        <%= f.select :visualizacao, ["Por Mês", "Por Cliente", "Análise de Margem"], { selected: "Por Mês" }, { class: "form-select", id: "visualizacao" } %>
+        <%= f.date_field :data_inicio, value: Date.today, class: "form-control" %>
+        <%= f.date_field :data_fim, value: Date.today, class: "form-control" %>
+        <%= f.submit "Filtrar", class: "btn btn-primary" %>
+      <% end %>
+      <%= link_to "Exportar Relatório de Impostos", exportar_impostos_path, class: "btn btn-success" %>
+    </div>
+  <% else %>
+    <div class="card mb-4">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Filtros</h4>
+          </div>
+          <div class="col-md-6 text-end">
+            <%= link_to "Exportar Relatório de Impostos", 
+                exportar_impostos_path(
+                  visualizacao: @visualizacao,
+                  data_inicio: @data_inicio,
+                  data_fim: @data_fim
+                ), 
+                class: "btn btn-success", 
+                data: { turbo: false } %>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <%= form_with url: impostos_path, method: :get, data: { turbo: false } do |f| %>
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <%= f.label :visualizacao, "Visualização:", class: "form-label" %>
+              <%= f.select :visualizacao, ["Por Mês", "Por Cliente", "Análise de Margem"], { selected: @visualizacao }, { class: "form-select", id: "visualizacao" } %>
+            </div>
+            <div class="col-md-3" id="data_inicio_container" style="display: <%= @visualizacao != 'Análise de Margem' ? 'block' : 'none' %>">
+              <%= f.label :data_inicio, "Data Início:", class: "form-label" %>
+              <%= f.date_field :data_inicio, value: @data_inicio, class: "form-control" %>
+            </div>
+            <div class="col-md-3" id="data_fim_container" style="display: <%= @visualizacao != 'Análise de Margem' ? 'block' : 'none' %>">
+              <%= f.label :data_fim, "Data Fim:", class: "form-label" %>
+              <%= f.date_field :data_fim, value: @data_fim, class: "form-control" %>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <%= f.submit "Filtrar", class: "btn btn-primary w-100" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h4 id="titulo-impostos">
+          <% if @visualizacao == "Por Cliente" %>
+            Impostos por Cliente
+          <% elsif @visualizacao == "Análise de Margem" %>
+            Análise de Margem
+          <% else %>
+            Impostos por Mês
+          <% end %>
+        </h4>
+        <% unless @visualizacao == "Análise de Margem" %>
+          <p class="text-muted">
+            Período: <%= @data_inicio.strftime("%d/%m/%Y") %> a <%= @data_fim.strftime("%d/%m/%Y") %>
+          </p>
+        <% end %>
+      </div>
+      <div class="card-body">
+        <% if @visualizacao == "Análise de Margem" %>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card bg-primary text-white">
+                <div class="card-body">
+                  <h5>Total de Vendas</h5>
+                  <h3><%= number_to_currency(@total_vendas, unit: "R$ ", separator: ",", delimiter: ".") %></h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card bg-danger text-white">
+                <div class="card-body">
+                  <h5>Total de Impostos</h5>
+                  <h3><%= number_to_currency(@total_impostos, unit: "R$ ", separator: ",", delimiter: ".") %></h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card bg-success text-white">
+                <div class="card-body">
+                  <h5>Margem Líquida</h5>
+                  <h3><%= number_to_currency(@margem_liquida, unit: "R$ ", separator: ",", delimiter: ".") %></h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card bg-info text-white">
+                <div class="card-body">
+                  <h5>Margem Líquida (%)</h5>
+                  <h3><%= sprintf("%.2f%%", @percentual_margem) %></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% elsif @visualizacao == "Por Cliente" %>
+          <% if @impostos_por_cliente.present? %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th class="text-end">ICMS</th>
+                  <th class="text-end">IPI</th>
+                  <th class="text-end">Total Impostos</th>
+                  <th class="text-end">% sobre Faturamento</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @impostos_por_cliente.each do |cliente, dados| %>
+                  <tr>
+                    <td><%= cliente %></td>
+                    <td class="text-end"><%= number_to_currency(dados[:icms], unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                    <td class="text-end"><%= number_to_currency(dados[:ipi], unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                    <td class="text-end"><%= number_to_currency(dados[:total], unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                    <td class="text-end"><%= sprintf("%.2f%%", dados[:percentual]) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Total</th>
+                  <th class="text-end"><%= number_to_currency(@impostos_por_cliente.values.sum { |d| d[:icms] }, unit: "R$ ", separator: ",", delimiter: ".") %></th>
+                  <th class="text-end"><%= number_to_currency(@impostos_por_cliente.values.sum { |d| d[:ipi] }, unit: "R$ ", separator: ",", delimiter: ".") %></th>
+                  <th class="text-end"><%= number_to_currency(@impostos_por_cliente.values.sum { |d| d[:total] }, unit: "R$ ", separator: ",", delimiter: ".") %></th>
+                  <th class="text-end">-</th>
+                </tr>
+              </tfoot>
+            </table>
+          <% else %>
+            <p>Nenhum dado disponível para o período selecionado</p>
+          <% end %>
+        <% else %>
+          <% if @impostos_por_mes.present? %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Mês/Ano</th>
+                  <th class="text-end">ICMS</th>
+                  <th class="text-end">IPI</th>
+                  <th class="text-end">Total Impostos</th>
+                  <th class="text-end">Percentual de Impostos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @impostos_por_mes.each do |mes_ano, dados| %>
+                  <tr>
+                    <td><%= mes_ano %></td>
+                    <td class="text-end"><%= number_to_currency(dados[:icms], unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                    <td class="text-end"><%= number_to_currency(dados[:ipi], unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                    <td class="text-end"><%= number_to_currency(dados[:total], unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                    <td class="text-end"><%= sprintf("%.2f%%", dados[:percentual]) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Total</th>
+                  <th class="text-end"><%= number_to_currency(@impostos_por_mes.values.sum { |d| d[:icms] }, unit: "R$ ", separator: ",", delimiter: ".") %></th>
+                  <th class="text-end"><%= number_to_currency(@impostos_por_mes.values.sum { |d| d[:ipi] }, unit: "R$ ", separator: ",", delimiter: ".") %></th>
+                  <th class="text-end"><%= number_to_currency(@impostos_por_mes.values.sum { |d| d[:total] }, unit: "R$ ", separator: ",", delimiter: ".") %></th>
+                  <th class="text-end">-</th>
+                </tr>
+              </tfoot>
+            </table>
+          <% else %>
+            <p>Nenhum dado disponível para o período selecionado</p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const visualizacaoSelect = document.getElementById('visualizacao');
+  const dataInicioContainer = document.getElementById('data_inicio_container');
+  const dataFimContainer = document.getElementById('data_fim_container');
+  
+  function toggleFields() {
+    const selectedValue = visualizacaoSelect.value;
+    const display = selectedValue !== 'Análise de Margem' ? 'block' : 'none';
+    
+    if (dataInicioContainer) {
+      dataInicioContainer.style.display = display;
+    }
+    if (dataFimContainer) {
+      dataFimContainer.style.display = display;
+    }
+  }
+  
+  if (visualizacaoSelect) {
+    visualizacaoSelect.addEventListener('change', toggleFields);
+    toggleFields();
+  }
+});
+</script>
