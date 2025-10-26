@@ -1,5 +1,5 @@
 class FaturamentoController < ApplicationController
-  before_action :require_login, only: [:home]
+  before_action :require_login, only: [:index, :exportar]
   def index
     @visualizacao = params[:visualizacao] || "Por Mês"
     @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Date.today.beginning_of_month
