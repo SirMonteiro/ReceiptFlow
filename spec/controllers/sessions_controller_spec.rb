@@ -18,10 +18,10 @@ RSpec.describe SessionsController, type: :controller do
         allow(user).to receive(:authenticate).with("senha123").and_return(user)
       end
 
-      it "loga o usuário e redireciona para root_path" do
+      it "loga o usuário e redireciona para home_path" do
         post :create, params: { email: user.email, password: "senha123" }
         expect(session[:user_id]).to eq(user.id)
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(home_path)
         expect(flash[:notice]).to eq("Login realizado com sucesso!")
       end
     end

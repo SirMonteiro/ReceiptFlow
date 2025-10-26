@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
+  # This will be the actual root of your application.
+  root "sessions#new"
+  get 'home', to: 'pages#home'
   # The second root route takes precedence, so this one can be removed.
+  # login
+  get    'login',  to: 'sessions#new',     as: :new_session
+  post   'login',  to: 'sessions#create',  as: :sessions
+  delete 'logout', to: 'sessions#destroy', as: :destroy_session
+  
   # root "uploads#new"
 
   resources :uploads, only: [:new, :create]
@@ -15,10 +23,6 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   resources :users, only: [:new, :create]
 
- # login
-  get    'login',  to: 'sessions#new',     as: :new_session
-  post   'login',  to: 'sessions#create',  as: :sessions
-  delete 'logout', to: 'sessions#destroy', as: :destroy_session
 
   # Rota para busca
   get '/busca', to: 'busca#index'
@@ -30,8 +34,6 @@ Rails.application.routes.draw do
   # Rota para gráficos
   resources :graficos, only: [:index]
 
-  # This will be the actual root of your application.
-  root "sessions#new"
 
   get "/debug", to: "uploads#debug"
 end
