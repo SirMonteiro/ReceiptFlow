@@ -1,4 +1,5 @@
 class MonthReceiptsController < ApplicationController
+  before_action :require_login, only: [:home]
   before_action :set_month_receipt, only: %i[ show edit update destroy ]
 
   MESES_PT = {

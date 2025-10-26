@@ -1,4 +1,5 @@
 class GraficosController < ApplicationController
+  before_action :require_login, only: [:home]
   def index
     notas = NotaGrafico.all
     despesas = Despesa.all
