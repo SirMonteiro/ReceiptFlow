@@ -5,6 +5,19 @@ Rails.application.routes.draw do
 
   resources :uploads, only: [:new, :create]
 
+    # 1. GET /products -> products#index (to show the upload form and product list)
+    # 2. POST /products/import -> products#import (to handle the file upload)
+    resources :products, only: [:index] do
+      collection do
+        post :import
+      end
+    end
+  
+    # You might want to set this as your root page for easy testing
+    # root "products#index"
+  end
+  
+
   # This block correctly defines the route to /exportacoes/exportar
   # with the name exportar_exportacoes.
   resources :exportacoes, only: [:index] do
