@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_17_225355) do
+ActiveRecord::Schema[7.1].define(version: 2025_26_10_225553) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -78,6 +78,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_17_225355) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "item_notas", force: :cascade do |t|
+    t.bigint "nota_fiscal_id", null: false
+    t.integer "item_number"
+    t.string "product_code"
+    t.text "description"
+    t.decimal "quantity", precision: 14, scale: 4
+    t.decimal "unit_price", precision: 14, scale: 2
+    t.decimal "total_price", precision: 14, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nota_fiscal_id"], name: "index_item_notas_on_nota_fiscal_id"
+  end
+
   create_table "meta_mensals", force: :cascade do |t|
     t.integer "mes"
     t.decimal "valor_meta"
@@ -88,6 +101,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_17_225355) do
   create_table "month_receipts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "nota_fiscais", force: :cascade do |t|
+    t.string "access_key"
+    t.integer "number"
+    t.integer "series"
+    t.date "emission_date"
+    t.string "emitter_name"
+    t.string "emitter_cnpj"
+    t.string "recipient_name"
+    t.string "recipient_cnpj"
+    t.decimal "total_value", precision: 14, scale: 2
+    t.decimal "products_value", precision: 14, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["access_key"], name: "index_nota_fiscais_on_access_key", unique: true
   end
 
   create_table "nota_graficos", force: :cascade do |t|
@@ -150,4 +179,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_17_225355) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "danfes", "users"
+  add_foreign_key "item_notas", "nota_fiscais", column: "nota_fiscal_id"
 end
