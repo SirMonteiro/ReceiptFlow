@@ -1,0 +1,14 @@
+<h1>Bem-vindo, <%= current_user.nome %>!</h1>
+<p>Escolha uma funcionalidade abaixo:</p>
+
+<ul>
+  <li><%= link_to "Novo Upload", new_upload_path %></li>
+  <li><%= link_to "Exportações", exportacoes_path %></li>
+  <li><%= link_to "Gráficos", graficos_path %></li>
+  <li><%= link_to "Busca", busca_path %></li>
+</ul>
+
+<hr>
+
+<%= button_to "Sair", destroy_session_path, method: :delete %>
+
