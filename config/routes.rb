@@ -47,9 +47,10 @@ Rails.application.routes.draw do
   get 'faturamento_por_cliente', to: 'faturamento_por_cliente#index'
   resources :graficos, only: [:index]
 
-  # Rota para visualizar danfes
-  resources :danfes, only: [:index]
-
-
+  # Rotas para exibição de DANFEs por período
+  resources :danfes, only: [:index, :filter, :result]
+  get    'filtrar',  to: 'danfes#filter',     as: :filter_danfes
+  post   'resultado',  to: 'danfes#result',  as: :result_danfes
+  
   get "/debug", to: "uploads#debug"
 end

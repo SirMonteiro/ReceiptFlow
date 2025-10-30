@@ -29,14 +29,14 @@ Given("existem as seguintes notas fiscais:") do |table|
 end
 
 When("eu clico em notas fiscais na home page") do
-  click_link "DANFEs"
+  click_link "DANFEs por período"
 end
 
 When(
   /^eu filtro as notas fiscais pelo período de "([^"]+)" até "([^"]+)"$/
 ) do |data_inicial, data_final|
-  fill_in "Data inicial", with: data_inicial
-  fill_in "Data final", with: data_final
+  fill_in "data_inicial", with: data_inicial
+  fill_in "data_final", with: data_final
   click_button "Filtrar"
 end
 

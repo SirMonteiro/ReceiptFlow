@@ -19,6 +19,8 @@ class Danfe < ApplicationRecord
   validates :transportadora, presence: true
   validates :data_saida, presence: true
 
+  # Escopo para filtrar DANFEs por período
+  scope :do_periodo, ->(data_inicial:, data_final:) {  }
   # Métodos auxiliares para acessar informações específicas
   def remetente_razao_social
     remetente['razao_social'] if remetente.is_a?(Hash)
