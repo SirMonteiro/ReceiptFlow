@@ -20,6 +20,16 @@ class DanfesController < ApplicationController
     end
   end
 
+  def result
+    if params[:data_inicial].present? && params[:data_final].present?
+      inicio = Date.parse(params[:data_inicial])
+      fim = Date.parse(params[:data_final])
+      @danfes = Danfe.do_periodo(data_inicial: inicio, data_final: fim)
+    else
+      @danfes = []
+    end
+  end
+  
   private
 
   def datas_validas?(data_inicial, data_final)
@@ -32,6 +42,4 @@ class DanfesController < ApplicationController
     end
   end
 
-    def result
-    end
 end

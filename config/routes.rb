@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   # Rotas para exibição de DANFEs por período
   resources :danfes, only: [:index, :filter, :result]
   get    'filtrar',  to: 'danfes#filter',     as: :filter_danfes
-  post   'resultado',  to: 'danfes#result',  as: :result_danfes
+  get    'resultado',  to: 'danfes#result',  as: :result_danfes
   
   get "/debug", to: "uploads#debug"
 end

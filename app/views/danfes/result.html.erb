@@ -1,0 +1,38 @@
+<h1>Resultados das DANFEs</h1>
+
+<% if @danfes.any? %>
+  <div style="overflow-x:auto;">
+    <table style="min-width: 800px; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th style="min-width: 150px; border: 1px solid #ddd; padding: 8px;">Cliente</th>
+          <th style="min-width: 100px; border: 1px solid #ddd; padding: 8px;">Valor</th>
+          <th style="min-width: 200px; border: 1px solid #ddd; padding: 8px;">Chave de Acesso</th>
+          <th style="min-width: 150px; border: 1px solid #ddd; padding: 8px;">Natureza da Operação</th>
+          <th style="min-width: 150px; border: 1px solid #ddd; padding: 8px;">Remetente</th>
+          <th style="min-width: 150px; border: 1px solid #ddd; padding: 8px;">Destinatário</th>
+          <th style="min-width: 120px; border: 1px solid #ddd; padding: 8px;">Data de Saída</th>
+          <th style="min-width: 150px; border: 1px solid #ddd; padding: 8px;">Transportadora</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @danfes.each do |danfe| %>
+          <tr>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.cliente %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= number_to_currency(danfe.valor) %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.chave_acesso %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.natureza_operacao %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.remetente %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.destinatario %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.data_saida.strftime("%d/%m/%Y") %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.transportadora %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <p>Nenhum resultado encontrado</p>
+<% end %>
+
+<%= link_to "Voltar", filter_danfes_path, class: "btn" %>
