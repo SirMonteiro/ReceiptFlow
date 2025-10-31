@@ -50,6 +50,7 @@ group :test do
   gem "rspec-rails", "~> 7.1"
   gem "cucumber-rails", "~> 4.0", require: false
   gem "capybara", "~> 3.40"
+  gem "database_cleaner-active_record"
 end
 
   gem "selenium-webdriver"

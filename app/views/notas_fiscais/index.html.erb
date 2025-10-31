@@ -1,0 +1,78 @@
+<div style="font-family: Arial, sans-serif; max-width: 1200px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+
+  <h1 style="border-bottom: 2px solid #eee; padding-bottom: 10px;">Importar NF-e</h1>
+
+  <!-- Flash Messages for success/alert -->
+  <% if flash[:notice] %>
+    <div style="padding: 15px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px; margin-bottom: 15px;">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  <% if flash[:alert] %>
+    <div style="padding: 15px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px; margin-bottom: 15px;">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  <h2>Enviar Arquivo XML de NF-e</h2>
+  <p>Envie um arquivo XML (NF-e) para importá-lo na base de dados.</p>
+
+  <%= form_with(url: import_notas_fiscais_path, method: :post, multipart: true, local: true) do |form| %>
+    <div>
+      <%= form.label :xml_file, 'Selecione Arquivo XML:' %>
+      <%= form.file_field :xml_file, accept: '.xml', style: "margin-top: 10px; display: block;" %>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <%= form.submit 'Envie e Importe NF-e', style: "padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;" %>
+    </div>
+  <% end %>
+
+  <h2 style="border-top: 2px solid #eee; padding-top: 20px; margin-top: 30px;">Recibos Importados</h2>
+
+  <% @notas_fiscais.each do |nota| %>
+    <div style="border: 1px solid #ccc; border-radius: 8px; margin-bottom: 20px; padding: 15px;">
+      <h3>Recibo #<%= nota.number %> (Série: <%= nota.series %>)</h3>
+      <p><strong>Chave de Acesso:</strong> <%= nota.access_key %></p>
+      <p>
+        <strong>Emissor:</strong> <%= nota.emitter_name %> (CNPJ: <%= nota.emitter_cnpj %>)
+      </p>
+      <p>
+        <strong>Destinatário:</strong> <%= nota.recipient_name %> (CNPJ: <%= nota.recipient_cnpj %>)
+      </p>
+      <p>
+        <strong>Data de Emissão:</strong> <%= nota.emission_date %> |
+        <strong>Valor Total:</strong> R$ <%= '%.2f' % nota.total_value %>
+      </p>
+
+      <h4 style="margin-top: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Itens</h4>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+        <thead>
+          <tr style="background-color: #f9f9f9;">
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Item #</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Descrição</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Qtd</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Preço Unitário</th>
+            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Preço Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% nota.item_notas.each do |item| %>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 8px;"><%= item.item_number %></td>
+              <td style="border: 1px solid #ddd; padding: 8px;"><%= item.description %></td>
+              <td style="border: 1px solid #ddd; padding: 8px;"><%= '%.4f' % item.quantity %></td>
+              <td style="border: 1px solid #ddd; padding: 8px;">R$ <%= '%.2f' % item.unit_price %></td>
+              <td style="border: 1px solid #ddd; padding: 8px;">R$ <%= '%.2f' % item.total_price %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <% if @notas_fiscais.empty? %>
+    <p style="text-align: center; color: #777;">No invoices in database yet.</p>
+  <% end %>
+
+</div>
