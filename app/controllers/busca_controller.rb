@@ -1,6 +1,6 @@
 class BuscaController < ApplicationController
-  before_action :require_login, only: [:home] 
-   
+  before_action :require_login, only: [:index] 
+
   def index
     @query = params[:query]
 

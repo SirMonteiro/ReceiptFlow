@@ -1,5 +1,5 @@
 class UploadsController < ApplicationController
-  before_action :require_login, only: [:home]
+  before_action :require_login, only: [:new, :create, :debug]
   rescue_from ActionController::ParameterMissing, with: :handle_missing_file
 
   def new

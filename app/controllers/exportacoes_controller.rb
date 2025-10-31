@@ -1,5 +1,5 @@
 class ExportacoesController < ApplicationController
-  before_action :require_login, only: [:home]
+  before_action :require_login, only: [:exportar]
   require 'csv'
 
   def exportar
