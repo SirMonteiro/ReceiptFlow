@@ -1,10 +1,16 @@
+<!-- Array pra usar os meses em português lmfao -->
+<% meses = [nil, "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"] %>
+
+
 <h1>Controle Financeiro</h1>
 
 <hr>
 
 <h2>Meta de Vendas</h2>
 <% if @meta_atual %>
-  <p>Sua meta de <%= Date::MONTHNAMES[@mes_atual] %>/<%= @ano_atual %>: <strong><%= @meta_atual.valor_meta %></strong></p>
+  <p>Sua meta de <%= meses[@mes_atual] %>/<%= @ano_atual %>: <strong><%= 
+  number_to_currency(@meta_atual.valor_meta, unit: "R$ ", separator: ",", delimiter: ".")%></strong></p>
 
   <%= form_with model: @meta_atual, url: atualizar_meta_path(@meta_atual), method: :patch do |f| %>
     <%= f.number_field :valor_meta, step: 0.01 %>
@@ -13,7 +19,7 @@
 
   <%= button_to "Excluir meta", deletar_meta_path(@meta_atual), method: :delete, data: { confirm: "Tem certeza?" } %>
 <% else %>
-  <p>Você não tem meta para <%= Date::MONTHNAMES[@mes_atual] %>/<%= @ano_atual %>.</p>
+  <p>Você não tem meta para <%= meses[@mes_atual] %>/<%= @ano_atual %>.</p>
   <%= form_with model: @nova_meta, url: controle_financeiro_metas_path do |f| %>
     <%= f.hidden_field :mes, value: @mes_atual %>
     <%= f.hidden_field :ano, value: @ano_atual %>
@@ -25,7 +31,8 @@
 <h3>Metas anteriores</h3>
 <ul>
   <% @metas_anteriores.each do |m| %>
-    <li><%= Date::MONTHNAMES[m.mes] %>/<%= m.ano %> — <%= m.valor_meta %>
+    <li><%= meses[m.mes] %>/<%= m.ano %> — <%= 
+    number_to_currency(m.valor_meta, unit: "R$ ", separator: ",", delimiter: ".")%>
       <%= button_to "Excluir", deletar_meta_path(m), method: :delete, data: { confirm: "Excluir?" } %>
     </li>
   <% end %>
@@ -35,7 +42,8 @@
 
 <h2>Orçamento Mensal</h2>
 <% if @orcamento_atual %>
-  <p>Sua meta de <%= Date::MONTHNAMES[@mes_atual] %>/<%= @ano_atual %>: <strong><%= @orcamento_atual.valor%></strong></p>
+  <p>Sua meta de <%= meses[@mes_atual] %>/<%= @ano_atual %>: <strong><%= 
+  number_to_currency(@orcamento_atual.valor, unit: "R$ ", separator: ",", delimiter: ".")%></strong></p>
 
   <%= form_with model: @orcamento_atual, url: atualizar_orcamento_path(@orcamento_atual), method: :patch do |f| %>
     <%= f.number_field :valor, step: 0.01 %>
@@ -44,7 +52,7 @@
 
   <%= button_to "Excluir orçamento", deletar_orcamento_path(@orcamento_atual), method: :delete, data: { confirm: "Tem certeza?" } %>
 <% else %>
-  <p>Você não tem orçamento para <%= Date::MONTHNAMES[@mes_atual] %>/<%= @ano_atual %>.</p>
+  <p>Você não tem orçamento para <%= meses[@mes_atual] %>/<%= @ano_atual %>.</p>
   <%= form_with model: @novo_orcamento, url: controle_financeiro_orcamentos_path do |f| %>
     <%= f.hidden_field :mes, value: @mes_atual %>
     <%= f.hidden_field :ano, value: @ano_atual %>
@@ -56,7 +64,7 @@
 <h3>Orçamentos anteriores</h3>
 <ul>
   <% @orcamentos_anteriores.each do |m| %>
-    <li><%= Date::MONTHNAMES[m.mes] %>/<%= m.ano %> — <%= m.valor_meta %>
+    <li><%= meses[m.mes] %>/<%= m.ano %> — <%= number_to_currency(m.valor, unit: "R$ ", separator: ",", delimiter: ".") %>
       <%= button_to "Excluir", deletar_orcamento_path(m), method: :delete, data: { confirm: "Excluir?" } %>
     </li>
   <% end %>
@@ -71,11 +79,25 @@
   <%= f.text_field :descricao, placeholder: "Descrição" %>
   <%= f.submit "Adicionar" %>
 <% end %>
-
-<ul>
-  <% @despesas.each do |d| %>
-    <li><%= d.data %>: <%= d.descricao %> — <%= d.valor %>
-      <%= button_to "Excluir", deletar_despesa_path(d), method: :delete %>
-    </li>
-  <% end %>
-</ul>
+<table border="1" cellspacing="0" cellpadding="6">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Descrição</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @despesas.each do |d| %>
+       <tr>
+        <td><%= d.data.strftime("%d/%m/%Y") %></td>
+        <td><%= d.descricao %></td>
+        <td><%= number_to_currency(d.valor, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+        <td>
+          <%= button_to "Excluir", deletar_despesa_path(d), method: :delete, class: "btn btn-danger btn-sm" %>
+        </td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+  

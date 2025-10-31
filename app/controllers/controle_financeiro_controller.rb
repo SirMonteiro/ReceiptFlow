@@ -4,19 +4,19 @@ class ControleFinanceiroController < ApplicationController
   def index
     @user = current_user
 
-    # Mês e ano atuais
+
     @mes_atual = Date.today.month
     @ano_atual = Date.today.year
 
-    # Meta e orçamento atuais
+
     @meta_atual = @user.metas_mensais.find_by(mes: @mes_atual, ano: @ano_atual)
     @orcamento_atual = @user.orcamentos_mensais.find_by(mes: @mes_atual, ano: @ano_atual)
 
-    # Metas e orçamentos antigos
+
     @metas_anteriores = @user.metas_mensais.where.not(mes: @mes_atual, ano: @ano_atual)
     @orcamentos_anteriores = @user.orcamentos_mensais.where.not(mes: @mes_atual, ano: @ano_atual)
 
-    # Despesas
+
     @despesas = @user.despesas.order(data: :desc)
 
     # Instâncias novas para formulários
@@ -25,7 +25,6 @@ class ControleFinanceiroController < ApplicationController
     @nova_despesa = Despesa.new
   end
 
-  # ==== CRUDs simplificados ====
 
   def criar_meta
     @meta = current_user.metas_mensais.new(meta_params)
