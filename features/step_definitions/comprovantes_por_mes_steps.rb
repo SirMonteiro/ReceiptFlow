@@ -120,9 +120,8 @@ Então("o seletor de mês deve conter as opções:") do |table|
   end
 end
 
-# Reuse existing login steps from login_steps.rb
 Given("que eu estou logado como {string} com senha {string}") do |email, senha|
-  visit login_path
+  visit new_session_path
   fill_in "Email", with: email
   fill_in "Password", with: senha
   click_button "Entrar"

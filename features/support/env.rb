@@ -15,7 +15,8 @@ Before do
   DatabaseCleaner.clean
 end
 
-Capybara.default_driver = :selenium_chrome_headless
+Capybara.default_driver = :rack_test
+Capybara.javascript_driver = :rack_test
 
 World(Rails.application.routes.url_helpers)
 
