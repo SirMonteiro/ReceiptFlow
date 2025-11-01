@@ -13,6 +13,7 @@
   number_to_currency(@meta_atual.valor_meta, unit: "R$ ", separator: ",", delimiter: ".")%></strong></p>
 
   <%= form_with model: @meta_atual, url: atualizar_meta_path(@meta_atual), method: :patch do |f| %>
+    <%= f.label :valor_meta, "Valor de meta" %>
     <%= f.number_field :valor_meta, step: 0.01 %>
     <%= f.submit "Atualizar meta" %>
   <% end %>
@@ -23,6 +24,7 @@
   <%= form_with model: @nova_meta, url: controle_financeiro_metas_path do |f| %>
     <%= f.hidden_field :mes, value: @mes_atual %>
     <%= f.hidden_field :ano, value: @ano_atual %>
+    <%= f.label :valor_meta, "Valor de meta" %>
     <%= f.number_field :valor_meta, step: 0.01, placeholder: "Valor da meta" %>
     <%= f.submit "Criar meta" %>
   <% end %>
@@ -42,10 +44,11 @@
 
 <h2>Orçamento Mensal</h2>
 <% if @orcamento_atual %>
-  <p>Sua meta de <%= meses[@mes_atual] %>/<%= @ano_atual %>: <strong><%= 
+  <p>Sua orçamento de <%= meses[@mes_atual] %>/<%= @ano_atual %>: <strong><%= 
   number_to_currency(@orcamento_atual.valor, unit: "R$ ", separator: ",", delimiter: ".")%></strong></p>
 
   <%= form_with model: @orcamento_atual, url: atualizar_orcamento_path(@orcamento_atual), method: :patch do |f| %>
+    <%= f.label :valor, "Valor do orçamento" %>
     <%= f.number_field :valor, step: 0.01 %>
     <%= f.submit "Atualizar orçamento" %>
   <% end %>
@@ -56,6 +59,7 @@
   <%= form_with model: @novo_orcamento, url: controle_financeiro_orcamentos_path do |f| %>
     <%= f.hidden_field :mes, value: @mes_atual %>
     <%= f.hidden_field :ano, value: @ano_atual %>
+    <%= f.label :valor, "Valor do orçamento" %>
     <%= f.number_field :valor, step: 0.01, placeholder: "Valor do orçamento" %>
     <%= f.submit "Criar orçamento" %>
   <% end %>
@@ -74,10 +78,14 @@
 
 <h2>Despesas</h2>
 <%= form_with model: @nova_despesa, url: controle_financeiro_despesas_path do |f| %>
+  <%= f.label :valor, "Valor" %>
   <%= f.number_field :valor, step: 0.01, placeholder: "Valor" %>
+  <%= f.label :data, "Data" %>
   <%= f.date_field :data %>
+  <%= f.label :descricao, "Descrição" %>
   <%= f.text_field :descricao, placeholder: "Descrição" %>
   <%= f.submit "Adicionar" %>
+
 <% end %>
 <table border="1" cellspacing="0" cellpadding="6">
   <thead>
@@ -94,7 +102,7 @@
         <td><%= d.descricao %></td>
         <td><%= number_to_currency(d.valor, unit: "R$ ", separator: ",", delimiter: ".") %></td>
         <td>
-          <%= button_to "Excluir", deletar_despesa_path(d), method: :delete, class: "btn btn-danger btn-sm" %>
+          <%= button_to "Excluir despesa", deletar_despesa_path(d), method: :delete, class: "btn btn-danger btn-sm" %>
         </td>
       </tr>
     <%end%>
