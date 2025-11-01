@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_26_10_225553) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_31_192417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_26_10_225553) do
     t.string "destinatario", null: false
     t.text "descricao_produtos", null: false
     t.decimal "valores_totais", null: false
-    t.decimal "impostos", null: false
+    t.text "impostos", null: false
     t.string "cfop", null: false
     t.string "cst", null: false
     t.string "ncm", null: false

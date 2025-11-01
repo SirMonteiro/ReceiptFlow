@@ -1,6 +1,7 @@
 class Danfe < ApplicationRecord
     self.table_name = "danfes"
     belongs_to :user
+    
     # Validações para garantir que os campos obrigatórios estejam preenchidos
   validates :cliente, presence: true
   validates :valor, presence: true
@@ -19,13 +20,77 @@ class Danfe < ApplicationRecord
   validates :transportadora, presence: true
   validates :data_saida, presence: true
 
+  def impostos_hash
+    return {} unless impostos.present?
+    return impostos if impostos.is_a?(Hash)
+    
+    # Se é uma string, tentar fazer o parse JSON
+    if impostos.is_a?(String)
+      begin
+        first_parse = JSON.parse(impostos)
+        if first_parse.is_a?(String)
+          second_parse = JSON.parse(first_parse)
+          return second_parse if second_parse.is_a?(Hash)
+        elsif first_parse.is_a?(Hash)
+          return first_parse
+        end
+      rescue JSON::ParserError
+        Rails.logger.error "Erro ao fazer parse do JSON de impostos: #{impostos}"
+      end
+    end
+    
+    {}
+  end
+  
+  def remetente_hash
+    return {} unless remetente.present?
+    return remetente if remetente.is_a?(Hash)
+    
+    if remetente.is_a?(String)
+      begin
+        first_parse = JSON.parse(remetente)
+        if first_parse.is_a?(String)
+          second_parse = JSON.parse(first_parse)
+          return second_parse if second_parse.is_a?(Hash)
+        elsif first_parse.is_a?(Hash)
+          return first_parse
+        end
+      rescue JSON::ParserError
+        Rails.logger.error "Erro ao fazer parse do JSON de remetente: #{remetente}"
+      end
+    end
+    
+    {}
+  end
+  
+  def destinatario_hash
+    return {} unless destinatario.present?
+    return destinatario if destinatario.is_a?(Hash)
+    
+    if destinatario.is_a?(String)
+      begin
+        first_parse = JSON.parse(destinatario)
+        if first_parse.is_a?(String)
+          second_parse = JSON.parse(first_parse)
+          return second_parse if second_parse.is_a?(Hash)
+        elsif first_parse.is_a?(Hash)
+          return first_parse
+        end
+      rescue JSON::ParserError
+        Rails.logger.error "Erro ao fazer parse do JSON de destinatario: #{destinatario}"
+      end
+    end
+    
+    {}
+  end
+
   # Métodos auxiliares para acessar informações específicas
   def remetente_razao_social
-    remetente['razao_social'] if remetente.is_a?(Hash)
+    remetente_hash['razao_social']
   end
 
   def destinatario_razao_social
-    destinatario['razao_social'] if destinatario.is_a?(Hash)
+    destinatario_hash['razao_social']
   end
   
   def self.faturamento_por_mes(danfes)
@@ -68,5 +133,101 @@ class Danfe < ApplicationRecord
     end
     
     resultado
+  end
+  
+  def self.impostos_por_mes(danfes)
+    resultado = {}
+    
+    meses_pt = {
+      "January" => "Janeiro",
+      "February" => "Fevereiro",
+      "March" => "Março",
+      "April" => "Abril",
+      "May" => "Maio",
+      "June" => "Junho",
+      "July" => "Julho",
+      "August" => "Agosto",
+      "September" => "Setembro",
+      "October" => "Outubro",
+      "November" => "Novembro",
+      "December" => "Dezembro"
+    }
+    
+    danfes.each do |danfe|
+      mes_en = danfe.data_saida.strftime("%B")
+      mes_pt = meses_pt[mes_en]
+      ano = danfe.data_saida.strftime("%Y")
+      
+      chave = "#{mes_pt}/#{ano}"
+      
+      impostos_data = danfe.impostos_hash
+      icms = (impostos_data['icms'] || 0).to_f
+      ipi = (impostos_data['ipi'] || 0).to_f
+      total_impostos = icms + ipi
+      
+      if resultado[chave]
+        resultado[chave][:icms] += icms
+        resultado[chave][:ipi] += ipi
+        resultado[chave][:total] += total_impostos
+        resultado[chave][:valor_vendas] += danfe.valor
+      else
+        resultado[chave] = {
+          icms: icms,
+          ipi: ipi,
+          total: total_impostos,
+          valor_vendas: danfe.valor,
+          percentual: 0
+        }
+      end
+    end
+    
+    resultado.each do |mes, dados|
+      dados[:percentual] = (dados[:total] / dados[:valor_vendas] * 100).round(2) if dados[:valor_vendas] > 0
+    end
+    
+    resultado
+  end
+  
+  def self.impostos_por_cliente(danfes)
+    resultado = {}
+    
+    danfes.each do |danfe|
+      impostos_data = danfe.impostos_hash
+      icms = (impostos_data['icms'] || 0).to_f
+      ipi = (impostos_data['ipi'] || 0).to_f
+      total_impostos = icms + ipi
+      
+      if resultado[danfe.cliente]
+        resultado[danfe.cliente][:icms] += icms
+        resultado[danfe.cliente][:ipi] += ipi
+        resultado[danfe.cliente][:total] += total_impostos
+        resultado[danfe.cliente][:valor_vendas] += danfe.valor
+      else
+        resultado[danfe.cliente] = {
+          icms: icms,
+          ipi: ipi,
+          total: total_impostos,
+          valor_vendas: danfe.valor,
+          percentual: 0
+        }
+      end
+    end
+    
+    resultado.each do |cliente, dados|
+      dados[:percentual] = (dados[:total] / dados[:valor_vendas] * 100).round(2) if dados[:valor_vendas] > 0
+    end
+    
+    resultado
+  end
+  
+  def self.total_impostos(danfes)
+    total = 0
+    danfes.each do |danfe|
+      impostos_data = danfe.impostos_hash
+      icms = (impostos_data['icms'] || 0).to_f
+      ipi = (impostos_data['ipi'] || 0).to_f
+      total += icms + ipi
+    end
+    total
   end
 end
