@@ -1,6 +1,7 @@
 class Danfe < ApplicationRecord
     self.table_name = "danfes"
     belongs_to :user
+    
     # Validações para garantir que os campos obrigatórios estejam preenchidos
   validates :cliente, presence: true
   validates :valor, presence: true
@@ -19,13 +20,77 @@ class Danfe < ApplicationRecord
   validates :transportadora, presence: true
   validates :data_saida, presence: true
 
+  def impostos_hash
+    return {} unless impostos.present?
+    return impostos if impostos.is_a?(Hash)
+    
+    # Se é uma string, tentar fazer o parse JSON
+    if impostos.is_a?(String)
+      begin
+        first_parse = JSON.parse(impostos)
+        if first_parse.is_a?(String)
+          second_parse = JSON.parse(first_parse)
+          return second_parse if second_parse.is_a?(Hash)
+        elsif first_parse.is_a?(Hash)
+          return first_parse
+        end
+      rescue JSON::ParserError
+        Rails.logger.error "Erro ao fazer parse do JSON de impostos: #{impostos}"
+      end
+    end
+    
+    {}
+  end
+  
+  def remetente_hash
+    return {} unless remetente.present?
+    return remetente if remetente.is_a?(Hash)
+    
+    if remetente.is_a?(String)
+      begin
+        first_parse = JSON.parse(remetente)
+        if first_parse.is_a?(String)
+          second_parse = JSON.parse(first_parse)
+          return second_parse if second_parse.is_a?(Hash)
+        elsif first_parse.is_a?(Hash)
+          return first_parse
+        end
+      rescue JSON::ParserError
+        Rails.logger.error "Erro ao fazer parse do JSON de remetente: #{remetente}"
+      end
+    end
+    
+    {}
+  end
+  
+  def destinatario_hash
+    return {} unless destinatario.present?
+    return destinatario if destinatario.is_a?(Hash)
+    
+    if destinatario.is_a?(String)
+      begin
+        first_parse = JSON.parse(destinatario)
+        if first_parse.is_a?(String)
+          second_parse = JSON.parse(first_parse)
+          return second_parse if second_parse.is_a?(Hash)
+        elsif first_parse.is_a?(Hash)
+          return first_parse
+        end
+      rescue JSON::ParserError
+        Rails.logger.error "Erro ao fazer parse do JSON de destinatario: #{destinatario}"
+      end
+    end
+    
+    {}
+  end
+
   # Métodos auxiliares para acessar informações específicas
   def remetente_razao_social
-    remetente['razao_social'] if remetente.is_a?(Hash)
+    remetente_hash['razao_social']
   end
 
   def destinatario_razao_social
-    destinatario['razao_social'] if destinatario.is_a?(Hash)
+    destinatario_hash['razao_social']
   end
   
   def self.faturamento_por_mes(danfes)
@@ -95,8 +160,9 @@ class Danfe < ApplicationRecord
       
       chave = "#{mes_pt}/#{ano}"
       
-      icms = danfe.impostos.is_a?(Hash) ? (danfe.impostos['icms'] || 0) : 0
-      ipi = danfe.impostos.is_a?(Hash) ? (danfe.impostos['ipi'] || 0) : 0
+      impostos_data = danfe.impostos_hash
+      icms = (impostos_data['icms'] || 0).to_f
+      ipi = (impostos_data['ipi'] || 0).to_f
       total_impostos = icms + ipi
       
       if resultado[chave]
@@ -126,8 +192,9 @@ class Danfe < ApplicationRecord
     resultado = {}
     
     danfes.each do |danfe|
-      icms = danfe.impostos.is_a?(Hash) ? (danfe.impostos['icms'] || 0) : 0
-      ipi = danfe.impostos.is_a?(Hash) ? (danfe.impostos['ipi'] || 0) : 0
+      impostos_data = danfe.impostos_hash
+      icms = (impostos_data['icms'] || 0).to_f
+      ipi = (impostos_data['ipi'] || 0).to_f
       total_impostos = icms + ipi
       
       if resultado[danfe.cliente]
@@ -156,8 +223,9 @@ class Danfe < ApplicationRecord
   def self.total_impostos(danfes)
     total = 0
     danfes.each do |danfe|
-      icms = danfe.impostos.is_a?(Hash) ? (danfe.impostos['icms'] || 0) : 0
-      ipi = danfe.impostos.is_a?(Hash) ? (danfe.impostos['ipi'] || 0) : 0
+      impostos_data = danfe.impostos_hash
+      icms = (impostos_data['icms'] || 0).to_f
+      ipi = (impostos_data['ipi'] || 0).to_f
       total += icms + ipi
     end
     total

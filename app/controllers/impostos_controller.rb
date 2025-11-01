@@ -70,7 +70,7 @@ class ImpostosController < ApplicationController
     
     if @danfes.empty?
       flash[:alert] = "Não há dados de impostos disponíveis para exportar"
-      redirect_to impostos_index_path
+      redirect_to impostos_path
       return
     end
     
@@ -82,8 +82,9 @@ class ImpostosController < ApplicationController
         csv << ['Cliente', 'Valor', 'ICMS', 'IPI', 'Total Impostos', 'Data']
         
         @danfes.each do |danfe|
-          icms = danfe.impostos.is_a?(Hash) ? (danfe.impostos['icms'] || 0) : 0
-          ipi = danfe.impostos.is_a?(Hash) ? (danfe.impostos['ipi'] || 0) : 0
+          impostos_data = danfe.impostos_hash
+          icms = (impostos_data['icms'] || 0).to_f
+          ipi = (impostos_data['ipi'] || 0).to_f
           total_impostos = icms + ipi
           
           csv << [

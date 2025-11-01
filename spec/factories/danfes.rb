@@ -5,11 +5,11 @@ FactoryBot.define do
     valor { 1000.00 }
     chave_acesso { "12345678901234567890123456789012345678901234" }
     natureza_operacao { "Venda" }
-    remetente { { razao_social: "Empresa Remetente LTDA", cnpj: "12345678000195", endereco: "Rua A, 123" } }
-    destinatario { { razao_social: "Cliente Destinatário LTDA", cnpj: "98765432000195", endereco: "Rua B, 456" } }
-    descricao_produtos { [{ nome: "Produto 1", quantidade: 2, valor_unitario: 500.00 }] }
+    remetente { { razao_social: "Empresa Remetente LTDA", cnpj: "12345678000195", endereco: "Rua A, 123" }.to_json }
+    destinatario { { razao_social: "Cliente Destinatário LTDA", cnpj: "98765432000195", endereco: "Rua B, 456" }.to_json }
+    descricao_produtos { "Produto 1 - Quantidade: 2 - Valor unitário: R$ 500,00" }
     valores_totais { 1000.00 }
-    impostos { { icms: 18.0, ipi: 5.0 } }
+    impostos { { icms: 18.0, ipi: 5.0, pis: 16.5, cofins: 76.0 }.to_json }
     cfop { "5102" }
     cst { "060" }
     ncm { "12345678" }
