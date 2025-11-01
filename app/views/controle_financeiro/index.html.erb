@@ -1,0 +1,111 @@
+<!-- Array pra usar os meses em português lmfao -->
+<% meses = [nil, "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+            "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"] %>
+
+
+<h1>Controle Financeiro</h1>
+
+<hr>
+
+<h2>Meta de Vendas</h2>
+<% if @meta_atual %>
+  <p>Sua meta de <%= meses[@mes_atual] %>/<%= @ano_atual %>: <strong><%= 
+  number_to_currency(@meta_atual.valor_meta, unit: "R$ ", separator: ",", delimiter: ".")%></strong></p>
+
+  <%= form_with model: @meta_atual, url: atualizar_meta_path(@meta_atual), method: :patch do |f| %>
+    <%= f.label :valor_meta, "Valor de meta" %>
+    <%= f.number_field :valor_meta, step: 0.01 %>
+    <%= f.submit "Atualizar meta" %>
+  <% end %>
+
+  <%= button_to "Excluir meta", deletar_meta_path(@meta_atual), method: :delete, data: { confirm: "Tem certeza?" } %>
+<% else %>
+  <p>Você não tem meta para <%= meses[@mes_atual] %>/<%= @ano_atual %>.</p>
+  <%= form_with model: @nova_meta, url: controle_financeiro_metas_path do |f| %>
+    <%= f.hidden_field :mes, value: @mes_atual %>
+    <%= f.hidden_field :ano, value: @ano_atual %>
+    <%= f.label :valor_meta, "Valor de meta" %>
+    <%= f.number_field :valor_meta, step: 0.01, placeholder: "Valor da meta" %>
+    <%= f.submit "Criar meta" %>
+  <% end %>
+<% end %>
+
+<h3>Metas anteriores</h3>
+<ul>
+  <% @metas_anteriores.each do |m| %>
+    <li><%= meses[m.mes] %>/<%= m.ano %> — <%= 
+    number_to_currency(m.valor_meta, unit: "R$ ", separator: ",", delimiter: ".")%>
+      <%= button_to "Excluir", deletar_meta_path(m), method: :delete, data: { confirm: "Excluir?" } %>
+    </li>
+  <% end %>
+</ul>
+
+<hr>
+
+<h2>Orçamento Mensal</h2>
+<% if @orcamento_atual %>
+  <p>Sua orçamento de <%= meses[@mes_atual] %>/<%= @ano_atual %>: <strong><%= 
+  number_to_currency(@orcamento_atual.valor, unit: "R$ ", separator: ",", delimiter: ".")%></strong></p>
+
+  <%= form_with model: @orcamento_atual, url: atualizar_orcamento_path(@orcamento_atual), method: :patch do |f| %>
+    <%= f.label :valor, "Valor do orçamento" %>
+    <%= f.number_field :valor, step: 0.01 %>
+    <%= f.submit "Atualizar orçamento" %>
+  <% end %>
+
+  <%= button_to "Excluir orçamento", deletar_orcamento_path(@orcamento_atual), method: :delete, data: { confirm: "Tem certeza?" } %>
+<% else %>
+  <p>Você não tem orçamento para <%= meses[@mes_atual] %>/<%= @ano_atual %>.</p>
+  <%= form_with model: @novo_orcamento, url: controle_financeiro_orcamentos_path do |f| %>
+    <%= f.hidden_field :mes, value: @mes_atual %>
+    <%= f.hidden_field :ano, value: @ano_atual %>
+    <%= f.label :valor, "Valor do orçamento" %>
+    <%= f.number_field :valor, step: 0.01, placeholder: "Valor do orçamento" %>
+    <%= f.submit "Criar orçamento" %>
+  <% end %>
+<% end %>
+
+<h3>Orçamentos anteriores</h3>
+<ul>
+  <% @orcamentos_anteriores.each do |m| %>
+    <li><%= meses[m.mes] %>/<%= m.ano %> — <%= number_to_currency(m.valor, unit: "R$ ", separator: ",", delimiter: ".") %>
+      <%= button_to "Excluir", deletar_orcamento_path(m), method: :delete, data: { confirm: "Excluir?" } %>
+    </li>
+  <% end %>
+</ul>
+
+<hr>
+
+<h2>Despesas</h2>
+<%= form_with model: @nova_despesa, url: controle_financeiro_despesas_path do |f| %>
+  <%= f.label :valor, "Valor" %>
+  <%= f.number_field :valor, step: 0.01, placeholder: "Valor" %>
+  <%= f.label :data, "Data" %>
+  <%= f.date_field :data %>
+  <%= f.label :descricao, "Descrição" %>
+  <%= f.text_field :descricao, placeholder: "Descrição" %>
+  <%= f.submit "Adicionar" %>
+
+<% end %>
+<table border="1" cellspacing="0" cellpadding="6">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Descrição</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @despesas.each do |d| %>
+       <tr>
+        <td><%= d.data.strftime("%d/%m/%Y") %></td>
+        <td><%= d.descricao %></td>
+        <td><%= number_to_currency(d.valor, unit: "R$ ", separator: ",", delimiter: ".") %></td>
+        <td>
+          <%= button_to "Excluir despesa", deletar_despesa_path(d), method: :delete, class: "btn btn-danger btn-sm" %>
+        </td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+  

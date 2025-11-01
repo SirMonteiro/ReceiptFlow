@@ -1,4 +1,3 @@
-# features/step_definitions/graficos_steps.rb
 
 Given("que existem notas fiscais cadastradas no sistema") do
   # DANFE são notas fiscais, aqui criamos objetos fake
