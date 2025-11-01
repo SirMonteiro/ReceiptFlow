@@ -2,7 +2,7 @@
 
 <% if @danfes.any? %>
   <div style="overflow-x:auto;">
-    <table style="min-width: 800px; border-collapse: collapse;">
+    <table style="min-width: 1000px; border-collapse: collapse;">
       <thead>
         <tr>
           <th style="min-width: 150px; border: 1px solid #ddd; padding: 8px;">Cliente</th>
@@ -13,19 +13,31 @@
           <th style="min-width: 150px; border: 1px solid #ddd; padding: 8px;">Destinatário</th>
           <th style="min-width: 120px; border: 1px solid #ddd; padding: 8px;">Data de Saída</th>
           <th style="min-width: 150px; border: 1px solid #ddd; padding: 8px;">Transportadora</th>
+          <th style="min-width: 200px; border: 1px solid #ddd; padding: 8px;">Descrição Produtos</th>
+          <th style="min-width: 120px; border: 1px solid #ddd; padding: 8px;">Valores Totais</th>
+          <th style="min-width: 100px; border: 1px solid #ddd; padding: 8px;">Impostos</th>
+          <th style="min-width: 80px; border: 1px solid #ddd; padding: 8px;">CFOP</th>
+          <th style="min-width: 80px; border: 1px solid #ddd; padding: 8px;">CST</th>
+          <th style="min-width: 100px; border: 1px solid #ddd; padding: 8px;">NCM</th>
         </tr>
       </thead>
       <tbody>
         <% @danfes.each do |danfe| %>
           <tr>
             <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.cliente %></td>
-            <td style="border: 1px solid #ddd; padding: 8px;"><%= number_to_currency(danfe.valor) %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= number_to_currency(danfe.valor, unit: "R$ ") %></td>
             <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.chave_acesso %></td>
             <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.natureza_operacao %></td>
             <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.remetente %></td>
             <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.destinatario %></td>
             <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.data_saida.strftime("%d/%m/%Y") %></td>
             <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.transportadora %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.descricao_produtos %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= number_to_currency(danfe.valores_totais, unit: "R$ ") %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= number_to_currency(danfe.impostos, unit: "R$ ") %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.cfop %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.cst %></td>
+            <td style="border: 1px solid #ddd; padding: 8px;"><%= danfe.ncm %></td>
           </tr>
         <% end %>
       </tbody>
