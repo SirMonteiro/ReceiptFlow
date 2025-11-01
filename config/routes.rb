@@ -58,10 +58,11 @@ Rails.application.routes.draw do
   # Rota especial para testes de visualização por cliente
   get 'faturamento_por_cliente', to: 'faturamento_por_cliente#index'
 
-  # Rota para visualizar danfes
-  resources :danfes, only: [:index]
-
-
+  # Rotas para exibição de DANFEs por período
+  resources :danfes, only: [:index, :filter, :result]
+  get    'filtrar',  to: 'danfes#filter',     as: :filter_danfes
+  get    'resultado',  to: 'danfes#result',  as: :result_danfes
+  
   get "/debug", to: "uploads#debug"
 end
 

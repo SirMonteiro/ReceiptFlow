@@ -19,7 +19,10 @@ class Danfe < ApplicationRecord
   validates :transportadora, presence: true
   validates :data_saida, presence: true
 
-  # Métodos auxiliares para acessar informações específicas
+  scope :do_periodo, ->(data_inicial:, data_final:) {
+    where(data_saida: data_inicial..data_final)
+  }
+
   def remetente_razao_social
     remetente['razao_social'] if remetente.is_a?(Hash)
   end
