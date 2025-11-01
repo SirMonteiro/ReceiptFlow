@@ -20,6 +20,12 @@ class Danfe < ApplicationRecord
   validates :transportadora, presence: true
   validates :data_saida, presence: true
 
+  # Scope para filtrar por período
+  scope :do_periodo, ->(data_inicial:, data_final:) {
+    where(data_saida: data_inicial..data_final)
+  }
+
+  # Métodos auxiliares para trabalhar com campos JSON
   def impostos_hash
     return {} unless impostos.present?
     return impostos if impostos.is_a?(Hash)
