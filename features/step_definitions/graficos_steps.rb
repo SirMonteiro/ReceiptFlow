@@ -1,6 +1,5 @@
 
 Given("que existem notas fiscais cadastradas no sistema") do
-  # DANFE são notas fiscais, aqui criamos objetos fake
   @notas = FactoryBot.create_list(:nota_grafico, 5, valor: 1000.0, data: Date.today)
 end
 

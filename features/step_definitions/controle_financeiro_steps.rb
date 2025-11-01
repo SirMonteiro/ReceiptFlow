@@ -4,11 +4,10 @@ Given("que eu estou logado no sistema") do
     user.password = "123456"
   end
 
-  # visita a página de login e faz login "real"
   visit new_session_path
   fill_in "E-mail", with: @user.email
   fill_in "Senha", with: "123456"
-  click_button "Entrar"  # ou o texto correto do botão
+  click_button "Entrar"  
 end
 
 Given("não existe uma meta para o mês atual") do

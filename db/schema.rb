@@ -76,6 +76,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_26_10_230000) do
     t.string "descricao"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_despesas_on_user_id"
   end
 
   create_table "item_notas", force: :cascade do |t|
@@ -91,11 +93,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_26_10_230000) do
     t.index ["nota_fiscal_id"], name: "index_item_notas_on_nota_fiscal_id"
   end
 
-  create_table "meta_mensals", force: :cascade do |t|
+  create_table "metas_mensais", force: :cascade do |t|
     t.integer "mes"
     t.decimal "valor_meta"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "ano"
+    t.bigint "user_id"
+    t.index ["user_id", "mes", "ano"], name: "index_metas_mensais_on_user_id_and_mes_and_ano", unique: true
+    t.index ["user_id"], name: "index_metas_mensais_on_user_id"
   end
 
   create_table "month_receipts", force: :cascade do |t|
@@ -125,6 +131,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_26_10_230000) do
     t.date "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "orcamentos_mensais", force: :cascade do |t|
+    t.integer "mes"
+    t.integer "ano"
+    t.decimal "valor"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_orcamentos_mensais_on_user_id"
   end
 
   create_table "pedido", force: :cascade do |t|
@@ -179,5 +195,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_26_10_230000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "danfes", "users"
+  add_foreign_key "despesas", "users"
   add_foreign_key "item_notas", "nota_fiscais", column: "nota_fiscal_id"
+  add_foreign_key "metas_mensais", "users"
+  add_foreign_key "orcamentos_mensais", "users"
 end
