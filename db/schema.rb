@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_26_10_230000) do
+ActiveRecord::Schema[7.1].define(version: 2025_26_10_230001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -133,14 +133,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_26_10_230000) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "orcamentos_mensais", force: :cascade do |t|
+  create_table "orcamento_mensals", force: :cascade do |t|
     t.integer "mes"
     t.integer "ano"
     t.decimal "valor"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_orcamentos_mensais_on_user_id"
+    t.index ["user_id"], name: "index_orcamento_mensals_on_user_id"
   end
 
   create_table "pedido", force: :cascade do |t|
@@ -192,11 +192,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_26_10_230000) do
     t.string "name"
   end
 
+  create_table "volume_vendas", force: :cascade do |t|
+    t.string "loja", null: false
+    t.string "cnpj"
+    t.date "data_inicial", null: false
+    t.date "data_final", null: false
+    t.decimal "valor_total", precision: 15, scale: 2, default: "0.0", null: false
+    t.integer "quantidade_notas", default: 0, null: false
+    t.decimal "ticket_medio", precision: 15, scale: 2, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["loja", "data_inicial", "data_final"], name: "index_volume_vendas_on_store_and_period"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "danfes", "users"
   add_foreign_key "despesas", "users"
   add_foreign_key "item_notas", "nota_fiscais", column: "nota_fiscal_id"
   add_foreign_key "metas_mensais", "users"
-  add_foreign_key "orcamentos_mensais", "users"
+  add_foreign_key "orcamento_mensals", "users"
 end

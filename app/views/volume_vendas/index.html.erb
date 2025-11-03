@@ -1,0 +1,42 @@
+<div class="volume-vendas">
+  <h1>Volume de vendas por loja</h1>
+
+  <%= form_with url: volume_vendas_path, method: :get, local: true, class: "volume-vendas__filtro" do %>
+    <div class="campo">
+      <%= label_tag :data_inicial, "Data inicial" %>
+      <%= date_field_tag :data_inicial, @data_inicial, required: true %>
+    </div>
+    <div class="campo">
+      <%= label_tag :data_final, "Data final" %>
+      <%= date_field_tag :data_final, @data_final, required: true %>
+    </div>
+    <div class="acoes">
+      <%= submit_tag "Filtrar", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <% if @volume_vendas.any? %>
+    <table id="volume-vendas" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Loja</th>
+          <th>CNPJ</th>
+          <th>Total de vendas</th>
+          <th>Notas emitidas</th>
+          <th>Ticket médio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: "volume_vendas/volume_venda", collection: @volume_vendas, as: :volume_venda %>
+      </tbody>
+    </table>
+
+    <p id="total-geral" class="total-geral">
+      Total geral: <strong><%= formatar_moeda_br(@total_geral) %></strong>
+    </p>
+  <% else %>
+    <p id="volume-vendas-sem-registros" class="volume-vendas__vazio">
+      Nenhuma venda encontrada para o período selecionado.
+    </p>
+  <% end %>
+</div>

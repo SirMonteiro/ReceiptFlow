@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :volume_vendas, only: [:index]
   # This will be the actual root of your application.
   root "sessions#new"
   get 'home', to: 'pages#home'
@@ -8,7 +9,7 @@ Rails.application.routes.draw do
   get    'login',  to: 'sessions#new',     as: :new_session
   post   'login',  to: 'sessions#create',  as: :sessions
   delete 'logout', to: 'sessions#destroy', as: :destroy_session
-  
+
   # root "uploads#new"
 
   resources :uploads, only: [:new, :create]
@@ -61,7 +62,7 @@ Rails.application.routes.draw do
   post 'controle_financeiro/despesas', to: 'controle_financeiro#criar_despesa'
   delete 'controle_financeiro/despesas/:id', to: 'controle_financeiro#deletar_despesa', as: :deletar_despesa
 
-  
+
   # Rotas para faturamento
   resources :faturamento, only: [:index] do
     collection do

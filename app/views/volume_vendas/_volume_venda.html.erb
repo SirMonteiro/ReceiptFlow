@@ -1,0 +1,7 @@
+<tr id="volume-venda-<%= volume_venda.loja.parameterize %>">
+	<td><%= volume_venda.loja %></td>
+	<td><%= volume_venda.cnpj.presence || "--" %></td>
+	<td><%= formatar_moeda_br(volume_venda.valor_total) %></td>
+	<td><%= volume_venda.quantidade_notas %></td>
+	<td><%= formatar_moeda_br(volume_venda.ticket_medio) %></td>
+</tr>
