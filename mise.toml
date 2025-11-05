@@ -1,6 +1,6 @@
 # https://mise.jdx.dev/mise-cookbook/ruby.html
 [tools]
-ruby = "3.4.5"
+ruby = "3.4.6"
 "github:qltysh/qlty" = "latest"
 
 [tasks."bundle:install"]
