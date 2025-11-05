@@ -133,14 +133,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_26_10_230001) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "orcamento_mensals", force: :cascade do |t|
+  create_table "orcamento_mensais", force: :cascade do |t|
     t.integer "mes"
     t.integer "ano"
     t.decimal "valor"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_orcamento_mensals_on_user_id"
+    t.index ["user_id"], name: "index_orcamento_mensais_on_user_id"
   end
 
   create_table "pedido", force: :cascade do |t|
