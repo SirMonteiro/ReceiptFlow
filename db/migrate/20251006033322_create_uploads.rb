@@ -1,4 +1,7 @@
-class CreateUploads < ActiveRecord::Migration[7.1] # <-- THIS NAME MUST BE CORRECT
+# frozen_string_literal: true
+
+# <-- THIS NAME MUST BE CORRECT
+class CreateUploads < ActiveRecord::Migration[7.1]
   def change
     create_table :uploads do |t|
       t.string   :file_name, null: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ObsoleteChangeDecimalPrecision < ActiveRecord::Migration[7.0]
   def change
     # This migration was superseded and moved to:

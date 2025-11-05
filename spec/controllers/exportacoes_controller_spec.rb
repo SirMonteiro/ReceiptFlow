@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ExportacoesController, type: :controller do
   describe 'GET #exportar' do
     it 'retorna sucesso e um arquivo de planilha' do
-      pedido = Pedido.create!(
+      Pedido.create!(
         cliente: 'Teste',
         valor: 123.45,
         chave_acesso: '12345678901234567890123456789012345678901234',
@@ -34,7 +36,7 @@ RSpec.describe ExportacoesController, type: :controller do
           'razao_social' => 'Transportadora Z',
           'cnpj' => '11222333000144'
         },
-        data_saida: Date.today
+        data_saida: Time.zone.today
       )
       get :exportar, params: { format: 'csv' }
       expect(response).to have_http_status(:success)
@@ -43,7 +45,7 @@ RSpec.describe ExportacoesController, type: :controller do
 
     it 'retorna erro para formato não suportado' do
       get :exportar, params: { format: 'xml' }
-      expect(response).to have_http_status(406)
+      expect(response).to have_http_status(:not_acceptable)
     end
   end
 end

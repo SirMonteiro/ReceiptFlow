@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 class PagesController < ApplicationController
   before_action :require_login, only: [:home]
-  def home
-  end
+  def home; end
 end

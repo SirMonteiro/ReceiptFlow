@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe DanfeParser do
-  describe "#parse" do
-    it "extracts the invoice number (nNF) from the XML" do
+  describe '#parse' do
+    it 'extracts the invoice number (nNF) from the XML' do
       xml_content = <<-XML
         <nfeProc>
           <NFe>
@@ -15,10 +17,10 @@ RSpec.describe DanfeParser do
         </nfeProc>
       XML
 
-      parser = DanfeParser.new(xml_content)
+      parser = described_class.new(xml_content)
       result = parser.parse
 
-      expect(result[:invoice_number]).to eq("12345")
+      expect(result[:invoice_number]).to eq('12345')
     end
   end
 end

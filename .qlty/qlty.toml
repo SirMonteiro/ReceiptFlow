@@ -81,6 +81,8 @@ mode = "comment"
 
 [[plugin]]
 name = "rubocop"
+package_file = "Gemfile"
+package_filters = ["rubocop"]
 drivers = [
   "lint",
 ]

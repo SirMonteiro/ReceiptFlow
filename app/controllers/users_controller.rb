@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
   def new
     @user = User.new
@@ -7,10 +9,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      flash[:notice] = "Usuário cadastrado com sucesso!"
+      flash[:notice] = 'Usuário cadastrado com sucesso!'
       redirect_to new_session_path
     else
-      flash[:alert] = "Erro ao cadastrar usuário. Verifique os campos."
+      flash[:alert] = 'Erro ao cadastrar usuário. Verifique os campos.'
       render :new
     end
   end

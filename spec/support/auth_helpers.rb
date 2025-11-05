@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/support/auth_helpers.rb
 module AuthHelpers
   include Rails.application.routes.url_helpers  # <-- adiciona acesso às rotas

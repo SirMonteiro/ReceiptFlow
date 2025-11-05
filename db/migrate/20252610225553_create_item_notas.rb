@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 class CreateItemNotas < ActiveRecord::Migration[7.0]
   def change
     create_table :item_notas do |t|
-
       t.references :nota_fiscal, null: false, foreign_key: { to_table: :nota_fiscais }
 
       # From <det nItem="...">

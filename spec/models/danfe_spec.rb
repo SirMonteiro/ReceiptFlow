@@ -1,21 +1,22 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Danfe, type: :model do
-
   # precisa de user agora...
   before do
-    @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
-      user.nome = "Usuarilson" 
-      user.password = "123456" 
+    @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
+      user.nome = 'Usuarilson'
+      user.password = '123456'
     end
-  allow_any_instance_of(ApplicationController)
+    allow_any_instance_of(ApplicationController)
       .to receive(:current_user)
       .and_return(@user)
   end
 
   describe 'validações básicas' do
     it 'é válido com todos os campos obrigatórios preenchidos' do
-      danfe = Danfe.new(
+      danfe = described_class.new(
         user: @user,
         cliente: 'Teste',
         valor: 123.45,
@@ -30,25 +31,25 @@ RSpec.describe Danfe, type: :model do
         cst: '060',
         ncm: '12345678',
         transportadora: 'Transportadora Z',
-        data_saida: Date.today
+        data_saida: Time.zone.today
       )
       expect(danfe).to be_valid
     end
 
     it 'não é válido sem cliente' do
-      danfe = Danfe.new(valor: 123.45)
+      danfe = described_class.new(valor: 123.45)
       expect(danfe).not_to be_valid
     end
 
     it 'não é válido sem valor' do
-      danfe = Danfe.new(cliente: 'Teste')
+      danfe = described_class.new(cliente: 'Teste')
       expect(danfe).not_to be_valid
     end
   end
-  
+
   describe 'métodos de faturamento' do
     let(:danfe_jan) do
-      Danfe.new(
+      described_class.new(
         user: @user,
         cliente: 'Cliente A',
         valor: 500.75,
@@ -63,12 +64,12 @@ RSpec.describe Danfe, type: :model do
         cst: '060',
         ncm: '12345678',
         transportadora: { razao_social: 'Transportadora Z' },
-        data_saida: Time.new(2025, 1, 15)
+        data_saida: Time.zone.local(2025, 1, 15)
       )
     end
-    
+
     let(:danfe_jan_2) do
-      Danfe.new(
+      described_class.new(
         user: @user,
         cliente: 'Cliente B',
         valor: 750.25,
@@ -83,12 +84,12 @@ RSpec.describe Danfe, type: :model do
         cst: '060',
         ncm: '87654321',
         transportadora: { razao_social: 'Transportadora W' },
-        data_saida: Time.new(2025, 1, 20)
+        data_saida: Time.zone.local(2025, 1, 20)
       )
     end
-    
+
     let(:danfe_fev) do
-      Danfe.new(
+      described_class.new(
         user: @user,
         cliente: 'Cliente A',
         valor: 1250.50,
@@ -103,35 +104,35 @@ RSpec.describe Danfe, type: :model do
         cst: '060',
         ncm: '23456789',
         transportadora: { razao_social: 'Transportadora Y' },
-        data_saida: Time.new(2025, 2, 5)
+        data_saida: Time.zone.local(2025, 2, 5)
       )
     end
-    
+
     describe '.faturamento_por_mes' do
       it 'agrupa corretamente o faturamento por mês' do
         danfes = [danfe_jan, danfe_jan_2, danfe_fev]
-        resultado = Danfe.faturamento_por_mes(danfes)
-        
-        expect(resultado["Janeiro/2025"]).to eq(1251.0)
-        expect(resultado["Fevereiro/2025"]).to eq(1250.50)
+        resultado = described_class.faturamento_por_mes(danfes)
+
+        expect(resultado['Janeiro/2025']).to eq(1251.0)
+        expect(resultado['Fevereiro/2025']).to eq(1250.50)
       end
-      
+
       it 'retorna hash vazio quando não há pedidos' do
-        expect(Danfe.faturamento_por_mes([])).to eq({})
+        expect(described_class.faturamento_por_mes([])).to eq({})
       end
     end
-    
+
     describe '.faturamento_por_cliente' do
       it 'agrupa corretamente o faturamento por cliente' do
         danfes = [danfe_jan, danfe_jan_2, danfe_fev]
-        resultado = Danfe.faturamento_por_cliente(danfes)
-        
-        expect(resultado["Cliente A"]).to eq(1751.25)
-        expect(resultado["Cliente B"]).to eq(750.25)
+        resultado = described_class.faturamento_por_cliente(danfes)
+
+        expect(resultado['Cliente A']).to eq(1751.25)
+        expect(resultado['Cliente B']).to eq(750.25)
       end
-      
+
       it 'retorna hash vazio quando não há pedidos' do
-        expect(Danfe.faturamento_por_cliente([])).to eq({})
+        expect(described_class.faturamento_por_cliente([])).to eq({})
       end
     end
   end

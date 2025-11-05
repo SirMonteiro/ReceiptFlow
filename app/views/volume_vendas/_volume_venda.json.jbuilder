@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.loja volume_venda.loja
 json.cnpj volume_venda.cnpj
 json.data_inicial volume_venda.data_inicial
