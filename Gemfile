@@ -38,6 +38,8 @@ group :development, :test do
   gem "bundler-audit", require: false
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-factory_bot", require: false
   gem "rspec-rails", "~> 8.0.0"
   gem 'factory_bot_rails'
   gem 'faker'
