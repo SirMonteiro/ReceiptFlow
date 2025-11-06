@@ -8,56 +8,39 @@ Given('que existem pedidos cadastrados no sistema') do
   end
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
-  @danfes = [
-    Danfe.create!(
-      user: @user, cliente: 'Usuarilson',
-      valor: 100.50,
-      chave_acesso: '12345678901234567890123456789012345678901234',
-      natureza_operacao: 'Venda',
-      remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' },
-      destinatario: { razao_social: 'Cliente Y', cnpj: '98765432000195', endereco: 'Rua B, 456' },
-      descricao_produtos: [{ nome: 'Produto 1', quantidade: 2, valor_unitario: 50.25 }],
-      valores_totais: 100.50,
-      impostos: { icms: 18.0, ipi: 5.0 },
-      cfop: '5102',
-      cst: '060',
-      ncm: '12345678',
-      transportadora: { razao_social: 'Transportadora Z', cnpj: '11222333000144' },
-      data_saida: Time.zone.now
-    )
-  ]
-
-  Pedido.create!(
+  Danfe.create!(
+    user: @user, 
     cliente: 'Usuarilson',
     valor: 100.50,
     chave_acesso: '12345678901234567890123456789012345678901234',
     natureza_operacao: 'Venda',
-    remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' },
-    destinatario: { razao_social: 'Cliente Y', cnpj: '98765432000195', endereco: 'Rua B, 456' },
-    descricao_produtos: [{ nome: 'Produto 1', quantidade: 2, valor_unitario: 50.25 }],
+    remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' }.to_json,
+    destinatario: { razao_social: 'Cliente Y', cnpj: '98765432000195', endereco: 'Rua B, 456' }.to_json,
+    descricao_produtos: [{ nome: 'Produto 1', quantidade: 2, valor_unitario: 50.25 }].to_json,
     valores_totais: 100.50,
-    impostos: { icms: 18.0, ipi: 5.0 },
+    impostos: { icms: 18.0, ipi: 5.0 }.to_json,
     cfop: '5102',
     cst: '060',
     ncm: '12345678',
-    transportadora: { razao_social: 'Transportadora Z', cnpj: '11222333000144' },
+    transportadora: { razao_social: 'Transportadora Z', cnpj: '11222333000144' }.to_json,
     data_saida: Time.zone.now
   )
 
-  Pedido.create!(
+  Danfe.create!(
+    user: @user,
     cliente: 'André Jun Hirata',
     valor: 250.00,
     chave_acesso: '98765432109876543210987654321098765432109876',
     natureza_operacao: 'Venda',
-    remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' },
-    destinatario: { razao_social: 'Cliente Z', cnpj: '98765432000195', endereco: 'Rua C, 789' },
-    descricao_produtos: [{ nome: 'Produto 2', quantidade: 5, valor_unitario: 50.00 }],
+    remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' }.to_json,
+    destinatario: { razao_social: 'Cliente Z', cnpj: '98765432000195', endereco: 'Rua C, 789' }.to_json,
+    descricao_produtos: [{ nome: 'Produto 2', quantidade: 5, valor_unitario: 50.00 }].to_json,
     valores_totais: 250.00,
-    impostos: { icms: 45.0, ipi: 12.5 },
+    impostos: { icms: 45.0, ipi: 12.5 }.to_json,
     cfop: '5102',
     cst: '060',
     ncm: '87654321',
-    transportadora: { razao_social: 'Transportadora W', cnpj: '22334455000166' },
+    transportadora: { razao_social: 'Transportadora W', cnpj: '22334455000166' }.to_json,
     data_saida: Time.zone.now
   )
 end
@@ -78,12 +61,12 @@ Then('devo receber um arquivo {string}') do |nome_arquivo|
   expect(page.response_headers['Content-Disposition'].downcase).to include(nome_arquivo.downcase)
 end
 
-Then('o arquivo deve conter os pedidos cadastrados') do
+Then('o arquivo deve conter as danfes cadastradas') do
   # Verifica se o arquivo contém os cabeçalhos esperados
   expect(page.body).to include('Chave de Acesso')
   expect(page.body).to include('Natureza da Operação')
 
-  # Verifica se há pelo menos um pedido no arquivo
+  # Verifica se há pelo menos uma danfe no arquivo
   # Utilizando uma verificação mais flexível para evitar falhas por formato ou ordem diferente
 
   # Verifica a presença do número da chave de acesso ou parte dele
@@ -119,10 +102,10 @@ Given('que não existem pedidos cadastrados no sistema') do
     user.password = '123456'
   end
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-  Pedido.delete_all
+  Danfe.delete_all
 end
 
-Then('o arquivo deve conter apenas o cabeçalho sem pedidos') do
+Then('o arquivo deve conter apenas o cabeçalho sem danfes') do
   expect(page.body).to include('Chave de Acesso')
   expect(page.body).to include('Natureza da Operação')
   expect(page.body).to include('Remetente')
@@ -149,7 +132,7 @@ Then('devo ver a mensagem {string}') do |mensagem|
 end
 
 Given('ocorre uma falha na geração da planilha') do
-  allow(Pedido).to receive(:all).and_raise(StandardError.new('Falha'))
+  allow(Danfe).to receive(:all).and_raise(StandardError.new('Falha'))
 end
 
 Then('devo ver um erro de formato não suportado') do
@@ -161,7 +144,12 @@ When('eu tento exportar no formato {string}') do |formato|
 end
 
 Given('que existe um pedido cadastrado no sistema') do
-  FactoryBot.create(:pedido, cliente: 'Cliente Teste', valor: 100.0)
+  @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
+    user.nome = 'Usuarilson'
+    user.password = '123456'
+  end
+  allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+  FactoryBot.create(:danfe, user: @user, cliente: 'Cliente Teste', valor: 100.0)
 end
 
 When('eu tento exportar os dados') do

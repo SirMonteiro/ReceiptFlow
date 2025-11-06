@@ -133,33 +133,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
     t.decimal "valor"
   end
 
-  create_table "orcamento_mensais", force: :cascade do |t|
+  create_table "orcamento_mensals", force: :cascade do |t|
     t.integer "ano"
     t.datetime "created_at", null: false
     t.integer "mes"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.decimal "valor"
-    t.index ["user_id"], name: "index_orcamento_mensais_on_user_id"
-  end
-
-  create_table "pedido", force: :cascade do |t|
-    t.string "cfop", null: false
-    t.string "chave_acesso", null: false
-    t.string "cliente", null: false
-    t.datetime "created_at", null: false
-    t.string "cst", null: false
-    t.date "data_saida", null: false
-    t.text "descricao_produtos", null: false
-    t.string "destinatario", null: false
-    t.decimal "impostos", null: false
-    t.string "natureza_operacao", null: false
-    t.string "ncm", null: false
-    t.string "remetente", null: false
-    t.string "transportadora", null: false
-    t.datetime "updated_at", null: false
-    t.decimal "valor", null: false
-    t.decimal "valores_totais", null: false
+    t.index ["user_id"], name: "index_orcamento_mensals_on_user_id"
   end
 
   create_table "pedidos", force: :cascade do |t|
@@ -211,5 +192,5 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
   add_foreign_key "despesas", "users"
   add_foreign_key "item_notas", "nota_fiscais", column: "nota_fiscal_id"
   add_foreign_key "metas_mensais", "users"
-  add_foreign_key "orcamento_mensais", "users"
+  add_foreign_key "orcamento_mensals", "users"
 end

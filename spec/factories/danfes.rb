@@ -17,7 +17,7 @@ FactoryBot.define do
     cfop { '5102' }
     cst { '060' }
     ncm { '12345678' }
-    transportadora { { razao_social: 'Transportadora XYZ', cnpj: '11222333000144' } }
+    transportadora { { razao_social: 'Transportadora XYZ', cnpj: '11222333000144' }.to_json }
     data_saida { Time.zone.today }
 
     trait :january_2025 do
