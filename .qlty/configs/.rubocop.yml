@@ -1,0 +1,5 @@
+plugins:
+  - rubocop-rails
+  - rubocop-factory_bot
+AllCops:
+  SuggestExtensions: false
