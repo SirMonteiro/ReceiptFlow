@@ -6,6 +6,7 @@ require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
 require 'rspec/rails'
+# Add additional requires below this line. Rails is not loaded until this point!
 
 
 Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
@@ -31,7 +32,6 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
-
 RSpec.configure do |config|
   
   config.fixture_paths = [Rails.root.join('spec/fixtures')]
