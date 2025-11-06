@@ -15,7 +15,7 @@ RSpec.describe FaturamentoController, type: :controller do
   end
 
   describe 'GET #index' do
-    context 'quando não existem pedidos' do
+    context 'quando não existem danfes' do
       before do
         allow(Danfe).to receive(:where).with(user: @user).and_return([])
       end
@@ -26,7 +26,7 @@ RSpec.describe FaturamentoController, type: :controller do
       end
     end
 
-    context 'quando existem pedidos' do
+    context 'quando existem danfes' do
       let(:danfes) { double('ActiveRecord::Relation') }
 
       before do
@@ -74,7 +74,7 @@ RSpec.describe FaturamentoController, type: :controller do
   end
 
   describe 'GET #exportar' do
-    context 'quando não existem pedidos' do
+    context 'quando não existem danfes' do
       before do
         allow(Danfe).to receive(:all).and_return([])
       end
@@ -86,17 +86,17 @@ RSpec.describe FaturamentoController, type: :controller do
       end
     end
 
-    context 'quando existem pedidos' do
+    context 'quando existem danfes' do
       let(:danfes) { double('ActiveRecord::Relation') }
 
       before do
         allow(danfes).to receive_messages(empty?: false, count: 5)
         allow(danfes).to receive(:each).and_yield(
-          double('Pedido',
+          double('Danfe',
                  data_saida: Date.new(2025, 2, 15),
                  cliente: 'Cliente A',
                  valor: 123.45,
-                 to_s: 'Pedido teste')
+                 to_s: 'Danfe teste')
         )
         allow(Danfe).to receive(:all).and_return(danfes)
       end
@@ -110,7 +110,6 @@ RSpec.describe FaturamentoController, type: :controller do
     end
   end
 
-  # Testes para métodos privados
   describe 'métodos privados' do
     described_class.new
 
@@ -128,7 +127,7 @@ RSpec.describe FaturamentoController, type: :controller do
 
       it 'agrupa corretamente o faturamento por mês', skip: 'Implementar quando o método for acessível' do
         # Este teste requer o método ser acessível ou usar send
-        # resultado = controller.send(:calcular_faturamento_por_mes, pedidos)
+        # resultado = controller.send(:calcular_faturamento_por_mes, danfes)
         # expect(resultado["Janeiro/2025"]).to eq(1251.0)
         # expect(resultado["Fevereiro/2025"]).to eq(1250.50)
       end

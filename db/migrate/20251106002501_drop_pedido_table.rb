@@ -1,5 +1,9 @@
 class DropPedidoTable < ActiveRecord::Migration[7.1]
-  def change
-    drop_table :pedido, if_exists: true
+  def up
+    drop_table :pedidos, if_exists: true
+  end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end

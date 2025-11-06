@@ -143,19 +143,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
     t.index ["user_id"], name: "index_orcamento_mensals_on_user_id"
   end
 
-  create_table "pedidos", force: :cascade do |t|
-    t.string "chave_acesso"
-    t.string "cliente"
-    t.datetime "created_at", null: false
-    t.text "descricao_produtos"
-    t.string "destinatario"
-    t.string "natureza_operacao"
-    t.string "remetente"
-    t.datetime "updated_at", null: false
-    t.decimal "valor"
-    t.string "valores_totais"
-  end
-
   create_table "uploads", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.binary "file_data", null: false

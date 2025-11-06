@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Given('que existem pedidos cadastrados no sistema') do
-  # precisa de user agora...
   @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
     user.nome = 'Usuarilson'
     user.password = '123456'
@@ -56,7 +55,6 @@ end
 
 Then('devo receber um arquivo {string}') do |nome_arquivo|
   puts "Response headers: #{page.response_headers}"
-  # Verifica se o cabeçalho Content-Disposition existe e contém o nome do arquivo
   expect(page.response_headers['Content-Disposition']).to be_present
   expect(page.response_headers['Content-Disposition'].downcase).to include(nome_arquivo.downcase)
 end
@@ -66,29 +64,20 @@ Then('o arquivo deve conter as danfes cadastradas') do
   expect(page.body).to include('Chave de Acesso')
   expect(page.body).to include('Natureza da Operação')
 
-  # Verifica se há pelo menos uma danfe no arquivo
-  # Utilizando uma verificação mais flexível para evitar falhas por formato ou ordem diferente
-
-  # Verifica a presença do número da chave de acesso ou parte dele
   expect(page.body).to match(/1234567890/)
 
-  # Verifica a natureza da operação
   expect(page.body).to include('Venda')
 
-  # Verifica os dados do remetente
   expect(page.body).to include('Empresa X')
   expect(page.body).to include('12345678000195')
 
-  # Verifica os dados do destinatário
   expect(page.body).to include('Cliente')
   expect(page.body).to include('987654320')
 
-  # Outras verificações
   expect(page.body).to include('5102') # CFOP
   expect(page.body).to include('060')  # CST
   expect(page.body).to include('1234') # Parte do NCM
 
-  # Verificações adicionais
   expect(page.body).to include('Transportadora')
   expect(page.body).to include('Produto')
 
@@ -96,7 +85,6 @@ Then('o arquivo deve conter as danfes cadastradas') do
 end
 
 Given('que não existem pedidos cadastrados no sistema') do
-  # precisa de user agora...
   @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
     user.nome = 'Usuarilson'
     user.password = '123456'
