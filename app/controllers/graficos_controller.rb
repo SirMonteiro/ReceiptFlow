@@ -1,30 +1,36 @@
 class GraficosController < ApplicationController
   before_action :require_login, only: [:index]
   def index
-    notas = NotaGrafico.all
-    despesas = Despesa.all
-    meta = MetaMensal.last
+    @user = current_user
 
-    if notas.empty?
-      @nenhum_dado = true
-      return
-    end
+    # serão usados no gráfico de pizza
+    @mes_atual = Date.today.month
+    @ano_atual = Date.today.year
+    @meta_atual = @user.metas_mensais.find_by(mes: @mes_atual, ano: @ano_atual) 
 
-    # Cenário: Exibir gráfico de vendas mensais (gráfico de barras)
-    @ganhos_mensais = notas.group_by { |n| n.data.strftime("%B") }
-                           .transform_values { |ns| ns.sum(&:valor) }
 
-    # Cenário: Exibir gráfico de despesas/ganhos (gráfico de barras duplas)
-    @lucros = @ganhos_mensais
-    @despesas = despesas.group_by { |d| d.data.strftime("%B") }
-                        .transform_values { |ds| ds.sum(&:valor) }
+    # vendas nos últimos 6 meses (contando com o mês atual)
+    @vendas = @user.danfes
+              .where("natureza_operacao ILIKE ?", 'venda')
+              .where("data_saida >= ?", 5.months.ago.beginning_of_month) # como que isso existe
+              .select("DATE_TRUNC('month', data_saida) AS mes_ano, SUM(valor) AS total")
+              .group("mes_ano")
+              .order("mes_ano ASC")
+              # look at my ruby daaaawg ts just sql :(
 
-    # Cenário: Exibir gráfico de vendas/meta (gráfico de pizza)
-    total_arrecadado = notas.sum(&:valor)
-    if meta.present?
-      @vendas_meta = { "Arrecadado" => total_arrecadado, "Meta" => meta.valor_meta }
-    else
-      @vendas_meta = nil
-    end
+    # despesas nos últimos 6 meses
+    @despesas = @user.despesas
+                .where("data >= ?", 5.months.ago.beginning_of_month)
+                .select("DATE_TRUNC('month', data) AS mes_ano, SUM(valor) AS total")
+                .group("mes_ano")
+                .order("mes_ano ASC")
+    
+    # últimas 6 metas (verificação de datas deve ser feita posteriormente)
+    @metas = @user.metas_mensais
+              .order(ano: :desc, mes: :desc)
+              .limit(6)
+
   end
 end
+
+
