@@ -3,11 +3,16 @@ require 'date'
 World(ActionView::Helpers::NumberHelper, ActionView::Helpers::DateHelper)
 
 Given("que eu estou autenticado") do
-  user = User.create!(nome: "Gerente", email: "gerente@exemplo.com", password: "senha123")
+  # Use @user (variável de instância) em vez de user (local)
+  @user = User.create!(nome: "Gerente", email: "gerente@exemplo.com", password: "senha123")
+  
   visit new_session_path
-  fill_in "E-mail", with: user.email
+  fill_in "E-mail", with: @user.email  # Use @user aqui também
   fill_in "Senha", with: "senha123"
   click_button "Entrar"
+
+  # Adicione uma verificação para garantir que o login funcionou
+  expect(page).to have_content("Bem-vindo, #{@user.nome}")
 end
 
 Given("existem as seguintes notas fiscais:") do |table|
