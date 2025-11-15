@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_26_10_230005) do
+ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -58,10 +58,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230005) do
     t.date "data_saida", null: false
     t.text "descricao_produtos", null: false
     t.string "destinatario", null: false
+    t.string "emitter_cnpj"
     t.text "impostos", null: false
     t.string "natureza_operacao", null: false
     t.string "ncm", null: false
+    t.integer "number"
+    t.decimal "products_value", precision: 14, scale: 2
+    t.string "recipient_cnpj"
     t.string "remetente", null: false
+    t.integer "series"
     t.string "transportadora", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
@@ -107,22 +112,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230005) do
   create_table "month_receipts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "nota_fiscais", force: :cascade do |t|
-    t.string "access_key"
-    t.datetime "created_at", null: false
-    t.date "emission_date"
-    t.string "emitter_cnpj"
-    t.string "emitter_name"
-    t.integer "number"
-    t.decimal "products_value", precision: 14, scale: 2
-    t.string "recipient_cnpj"
-    t.string "recipient_name"
-    t.integer "series"
-    t.decimal "total_value", precision: 14, scale: 2
-    t.datetime "updated_at", null: false
-    t.index ["access_key"], name: "index_nota_fiscais_on_access_key", unique: true
   end
 
   create_table "nota_graficos", force: :cascade do |t|
