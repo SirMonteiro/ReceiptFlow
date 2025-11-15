@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
+ActiveRecord::Schema[8.1].define(version: 2025_26_10_230005) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -82,15 +82,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
 
   create_table "item_notas", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "danfe_id", null: false
     t.text "description"
     t.integer "item_number"
-    t.bigint "nota_fiscal_id", null: false
     t.string "product_code"
     t.decimal "quantity", precision: 14, scale: 4
     t.decimal "total_price", precision: 14, scale: 2
     t.decimal "unit_price", precision: 14, scale: 2
     t.datetime "updated_at", null: false
-    t.index ["nota_fiscal_id"], name: "index_item_notas_on_nota_fiscal_id"
+    t.index ["danfe_id"], name: "index_item_notas_on_danfe_id"
   end
 
   create_table "metas_mensais", force: :cascade do |t|
@@ -125,11 +125,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
     t.index ["access_key"], name: "index_nota_fiscais_on_access_key", unique: true
   end
 
-  create_table "month_receipts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "nota_graficos", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.date "data"
@@ -138,14 +133,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
     t.decimal "valor"
   end
 
-  create_table "orcamento_mensais", force: :cascade do |t|
+  create_table "orcamento_mensals", force: :cascade do |t|
     t.integer "ano"
     t.datetime "created_at", null: false
     t.integer "mes"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.decimal "valor"
-    t.index ["user_id"], name: "index_orcamento_mensais_on_user_id"
+    t.index ["user_id"], name: "index_orcamento_mensals_on_user_id"
   end
 
   create_table "pedido", force: :cascade do |t|
@@ -214,7 +209,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "danfes", "users"
   add_foreign_key "despesas", "users"
-  add_foreign_key "item_notas", "nota_fiscais", column: "nota_fiscal_id"
+  add_foreign_key "item_notas", "danfes"
   add_foreign_key "metas_mensais", "users"
-  add_foreign_key "orcamento_mensais", "users"
+  add_foreign_key "orcamento_mensals", "users"
 end

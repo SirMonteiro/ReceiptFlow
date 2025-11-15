@@ -7,5 +7,5 @@ class ItemNota < ApplicationRecord
     # Each item belongs to one invoice
     belongs_to :nota_fiscal,
                class_name: "NotaFiscal",
-               foreign_key: "nota_fiscal_id"
+               foreign_key: "danfe_id"
   end
