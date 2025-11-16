@@ -69,7 +69,7 @@ class FaturamentoController < ApplicationController
       return
     end
 
-    Rails.logger.info("Exportando dados de faturamento: #{@danfes.count} pedidos")
+    Rails.logger.info("Exportando dados de faturamento: #{@danfes.count} danfes")
 
     meses_pt = {
       'January' => 'Janeiro',

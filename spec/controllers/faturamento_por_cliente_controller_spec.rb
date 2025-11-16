@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe FaturamentoPorClienteController, type: :controller do
-  # precisa de user agora...
   before do
     @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
       user.nome = 'Usuarilson'
@@ -27,7 +26,6 @@ RSpec.describe FaturamentoPorClienteController, type: :controller do
     end
 
     it 'configura o faturamento por cliente' do
-      # Mock de pedidos para o ambiente de teste
       danfes = double('ActiveRecord::Relation')
       allow(danfes).to receive_messages(empty?: false, where: danfes, sum: 2501.50)
       allow(Danfe).to receive(:where).with(user: @user).and_return(danfes)
@@ -40,7 +38,6 @@ RSpec.describe FaturamentoPorClienteController, type: :controller do
     end
 
     it 'calcula o faturamento total corretamente' do
-      # Mock de pedidos para o ambiente de teste
       danfes = double('ActiveRecord::Relation')
       allow(danfes).to receive_messages(empty?: false, where: danfes, sum: 2501.50)
       allow(Danfe).to receive(:where).with(user: @user).and_return(danfes)

@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe Danfe, type: :model do
-  # precisa de user agora...
   before do
     @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
       user.nome = 'Usuarilson'
@@ -117,7 +116,7 @@ RSpec.describe Danfe, type: :model do
         expect(resultado['Fevereiro/2025']).to eq(1250.50)
       end
 
-      it 'retorna hash vazio quando não há pedidos' do
+      it 'retorna hash vazio quando não há danfes' do
         expect(described_class.faturamento_por_mes([])).to eq({})
       end
     end
@@ -131,7 +130,7 @@ RSpec.describe Danfe, type: :model do
         expect(resultado['Cliente B']).to eq(750.25)
       end
 
-      it 'retorna hash vazio quando não há pedidos' do
+      it 'retorna hash vazio quando não há danfes' do
         expect(described_class.faturamento_por_cliente([])).to eq({})
       end
     end
