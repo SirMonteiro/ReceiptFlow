@@ -44,7 +44,7 @@
 
 <h2>Orçamento Mensal</h2>
 <% if @orcamento_atual %>
-  <p>Sua orçamento de <%= meses[@mes_atual] %>/<%= @ano_atual %>: <strong><%= 
+  <p>Seu orçamento de <%= meses[@mes_atual] %>/<%= @ano_atual %>: <strong><%= 
   number_to_currency(@orcamento_atual.valor, unit: "R$ ", separator: ",", delimiter: ".")%></strong></p>
 
   <%= form_with model: @orcamento_atual, url: atualizar_orcamento_path(@orcamento_atual), method: :patch do |f| %>
