@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given('que estou na página de cadastro') do
   visit new_user_path
 end
@@ -11,6 +13,6 @@ When('eu confirmo o cadastro') do
 end
 
 Then('devo ser redirecionado para a tela de login') do
-  expect(page).to have_current_path(new_session_path) 
-  expect(page).to have_content('Login') 
+  expect(page).to have_current_path(new_session_path)
+  expect(page).to have_content('Login')
 end

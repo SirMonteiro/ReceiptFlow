@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateOrcamentoMensals < ActiveRecord::Migration[7.1]
   def change
     create_table :orcamento_mensals do |t|
@@ -5,8 +7,6 @@ class CreateOrcamentoMensals < ActiveRecord::Migration[7.1]
       t.integer :ano
       t.decimal :valor
       t.references :user, null: false, foreign_key: true
-    
-
 
       t.timestamps
     end

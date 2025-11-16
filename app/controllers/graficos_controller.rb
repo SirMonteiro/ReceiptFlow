@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GraficosController < ApplicationController
   before_action :require_login, only: [:index]
   def index

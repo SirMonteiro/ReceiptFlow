@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
 
@@ -10,8 +12,8 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    unless logged_in?
-      redirect_to new_session_path, alert: "Você precisa estar logado para acessar essa página."
-    end
+    return if logged_in?
+
+    redirect_to new_session_path, alert: 'Você precisa estar logado para acessar essa página.'
   end
 end

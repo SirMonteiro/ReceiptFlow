@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class Danfe < ApplicationRecord
-    self.table_name = "danfes"
-    belongs_to :user
-    
-    # Validações para garantir que os campos obrigatórios estejam preenchidos
+  self.table_name = 'danfes'
+  belongs_to :user
+
+  # Validações para garantir que os campos obrigatórios estejam preenchidos
   validates :cliente, presence: true
   validates :valor, presence: true
 
@@ -20,14 +22,14 @@ class Danfe < ApplicationRecord
   validates :transportadora, presence: true
   validates :data_saida, presence: true
 
-  scope :do_periodo, ->(data_inicial:, data_final:) {
+  scope :do_periodo, lambda { |data_inicial:, data_final:|
     where(data_saida: data_inicial..data_final)
   }
 
   def impostos_hash
-    return {} unless impostos.present?
+    return {} if impostos.blank?
     return impostos if impostos.is_a?(Hash)
-    
+
     # Se é uma string, tentar fazer o parse JSON
     if impostos.is_a?(String)
       begin
@@ -42,14 +44,14 @@ class Danfe < ApplicationRecord
         Rails.logger.error "Erro ao fazer parse do JSON de impostos: #{impostos}"
       end
     end
-    
+
     {}
   end
-  
+
   def remetente_hash
-    return {} unless remetente.present?
+    return {} if remetente.blank?
     return remetente if remetente.is_a?(Hash)
-    
+
     if remetente.is_a?(String)
       begin
         first_parse = JSON.parse(remetente)
@@ -63,14 +65,14 @@ class Danfe < ApplicationRecord
         Rails.logger.error "Erro ao fazer parse do JSON de remetente: #{remetente}"
       end
     end
-    
+
     {}
   end
-  
+
   def destinatario_hash
-    return {} unless destinatario.present?
+    return {} if destinatario.blank?
     return destinatario if destinatario.is_a?(Hash)
-    
+
     if destinatario.is_a?(String)
       begin
         first_parse = JSON.parse(destinatario)
@@ -84,7 +86,7 @@ class Danfe < ApplicationRecord
         Rails.logger.error "Erro ao fazer parse do JSON de destinatario: #{destinatario}"
       end
     end
-    
+
     {}
   end
 
@@ -96,79 +98,79 @@ class Danfe < ApplicationRecord
   def destinatario_razao_social
     destinatario_hash['razao_social']
   end
-  
+
   def self.faturamento_por_mes(danfes)
     resultado = {}
-    
+
     meses_pt = {
-      "January" => "Janeiro",
-      "February" => "Fevereiro",
-      "March" => "Março",
-      "April" => "Abril",
-      "May" => "Maio",
-      "June" => "Junho",
-      "July" => "Julho",
-      "August" => "Agosto",
-      "September" => "Setembro",
-      "October" => "Outubro",
-      "November" => "Novembro",
-      "December" => "Dezembro"
+      'January' => 'Janeiro',
+      'February' => 'Fevereiro',
+      'March' => 'Março',
+      'April' => 'Abril',
+      'May' => 'Maio',
+      'June' => 'Junho',
+      'July' => 'Julho',
+      'August' => 'Agosto',
+      'September' => 'Setembro',
+      'October' => 'Outubro',
+      'November' => 'Novembro',
+      'December' => 'Dezembro'
     }
-    
+
     danfes.each do |danfe|
-      mes_en = danfe.data_saida.strftime("%B")
+      mes_en = danfe.data_saida.strftime('%B')
       mes_pt = meses_pt[mes_en]
-      ano = danfe.data_saida.strftime("%Y")
-      
+      ano = danfe.data_saida.strftime('%Y')
+
       chave = "#{mes_pt}/#{ano}"
       resultado[chave] ||= 0
       resultado[chave] += danfe.valor
     end
-    
+
     resultado
   end
-  
+
   def self.faturamento_por_cliente(danfes)
     resultado = {}
-    
+
     danfes.each do |danfe|
       resultado[danfe.cliente] ||= 0
       resultado[danfe.cliente] += danfe.valor
     end
-    
+
     resultado
   end
-  
+
   def self.impostos_por_mes(danfes)
     resultado = {}
-    
+
     meses_pt = {
-      "January" => "Janeiro",
-      "February" => "Fevereiro",
-      "March" => "Março",
-      "April" => "Abril",
-      "May" => "Maio",
-      "June" => "Junho",
-      "July" => "Julho",
-      "August" => "Agosto",
-      "September" => "Setembro",
-      "October" => "Outubro",
-      "November" => "Novembro",
-      "December" => "Dezembro"
+      'January' => 'Janeiro',
+      'February' => 'Fevereiro',
+      'March' => 'Março',
+      'April' => 'Abril',
+      'May' => 'Maio',
+      'June' => 'Junho',
+      'July' => 'Julho',
+      'August' => 'Agosto',
+      'September' => 'Setembro',
+      'October' => 'Outubro',
+      'November' => 'Novembro',
+      'December' => 'Dezembro'
     }
-    
+
     danfes.each do |danfe|
-      mes_en = danfe.data_saida.strftime("%B")
+      mes_en = danfe.data_saida.strftime('%B')
       mes_pt = meses_pt[mes_en]
-      ano = danfe.data_saida.strftime("%Y")
-      
+      ano = danfe.data_saida.strftime('%Y')
+
       chave = "#{mes_pt}/#{ano}"
-      
+
       impostos_data = danfe.impostos_hash
       icms = (impostos_data['icms'] || 0).to_f
       ipi = (impostos_data['ipi'] || 0).to_f
       total_impostos = icms + ipi
-      
+
       if resultado[chave]
         resultado[chave][:icms] += icms
         resultado[chave][:ipi] += ipi
@@ -184,23 +186,23 @@ class Danfe < ApplicationRecord
         }
       end
     end
-    
-    resultado.each do |mes, dados|
-      dados[:percentual] = (dados[:total] / dados[:valor_vendas] * 100).round(2) if dados[:valor_vendas] > 0
+
+    resultado.each_value do |dados|
+      dados[:percentual] = (dados[:total] / dados[:valor_vendas] * 100).round(2) if dados[:valor_vendas].positive?
     end
-    
+
     resultado
   end
-  
+
   def self.impostos_por_cliente(danfes)
     resultado = {}
-    
+
     danfes.each do |danfe|
       impostos_data = danfe.impostos_hash
       icms = (impostos_data['icms'] || 0).to_f
       ipi = (impostos_data['ipi'] || 0).to_f
       total_impostos = icms + ipi
-      
+
       if resultado[danfe.cliente]
         resultado[danfe.cliente][:icms] += icms
         resultado[danfe.cliente][:ipi] += ipi
@@ -216,14 +218,14 @@ class Danfe < ApplicationRecord
         }
       end
     end
-    
-    resultado.each do |cliente, dados|
-      dados[:percentual] = (dados[:total] / dados[:valor_vendas] * 100).round(2) if dados[:valor_vendas] > 0
+
+    resultado.each_value do |dados|
+      dados[:percentual] = (dados[:total] / dados[:valor_vendas] * 100).round(2) if dados[:valor_vendas].positive?
     end
-    
+
     resultado
   end
-  
+
   def self.total_impostos(danfes)
     total = 0
     danfes.each do |danfe|

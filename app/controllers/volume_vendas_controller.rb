@@ -1,4 +1,6 @@
-require "bigdecimal"
+# frozen_string_literal: true
+
+require 'bigdecimal'
 
 class VolumeVendasController < ApplicationController
   before_action :require_login
@@ -10,7 +12,7 @@ class VolumeVendasController < ApplicationController
       data_final: @data_final,
       danfes: danfes_do_usuario
     )
-    @total_geral = @volume_vendas.reduce(BigDecimal("0")) do |acumulado, registro|
+    @total_geral = @volume_vendas.reduce(BigDecimal('0')) do |acumulado, registro|
       acumulado + BigDecimal(registro.valor_total.to_s)
     end
     respond_to do |format|
@@ -19,8 +21,10 @@ class VolumeVendasController < ApplicationController
     end
   rescue ArgumentError
     respond_to do |format|
-      format.html { redirect_to volume_vendas_path, alert: "Intervalo de datas inválido. Ajuste as datas e tente novamente." }
-      format.json { render json: { error: "Intervalo de datas inválido." }, status: :unprocessable_content }
+      format.html do
+        redirect_to volume_vendas_path, alert: 'Intervalo de datas inválido. Ajuste as datas e tente novamente.'
+      end
+      format.json { render json: { error: 'Intervalo de datas inválido.' }, status: :unprocessable_content }
     end
   end
 

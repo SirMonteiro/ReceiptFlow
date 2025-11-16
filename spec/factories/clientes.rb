@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :cliente do
     codigo { Faker::Number.number(digits: 10) }
     descricao { Faker::Lorem.paragraph }
 
     trait :blue do
-      codigo { "#{Faker::Number.number(digits: 10)}" }
-      descricao { "20 Araras Azuis" }
+      codigo { Faker::Number.number(digits: 10).to_s }
+      descricao { '20 Araras Azuis' }
     end
 
     trait :red do
-      codigo { "#{Faker::Number.number(digits: 10)}" }
-      descricao { "20 Flamingos Vermelhos" }
+      codigo { Faker::Number.number(digits: 10).to_s }
+      descricao { '20 Flamingos Vermelhos' }
     end
   end
 end

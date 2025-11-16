@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 
 class DanfeParser
@@ -8,7 +10,7 @@ class DanfeParser
 
   def parse
     {
-      invoice_number: @doc.at_xpath("//ide/nNF")&.text
+      invoice_number: @doc.at_xpath('//ide/nNF')&.text
     }
   end
 end

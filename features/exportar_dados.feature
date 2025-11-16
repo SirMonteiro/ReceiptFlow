@@ -7,15 +7,15 @@ Feature: Exportação de dados para planilha
         Given que existem pedidos cadastrados no sistema
         When eu acesso a página de exportação de dados
         And clico em "Exportar para Excel"
-        Then devo receber um arquivo "pedidos.csv"
-        And o arquivo deve conter os pedidos cadastrados
+        Then devo receber um arquivo "danfes.csv"
+        And o arquivo deve conter as danfes cadastradas
 
     Scenario: Dono da loja tenta exportar sem dados cadastrados
         Given que não existem pedidos cadastrados no sistema
         When eu acesso a página de exportação de dados
         And clico em "Exportar para Excel"
-        Then devo receber um arquivo "pedidos.csv"
-        And o arquivo deve conter apenas o cabeçalho sem pedidos
+        Then devo receber um arquivo "danfes.csv"
+        And o arquivo deve conter apenas o cabeçalho sem danfes
 
     Scenario: Ocorre um erro inesperado durante a exportação
         Given que existe um pedido cadastrado no sistema

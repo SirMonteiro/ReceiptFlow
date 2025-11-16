@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   resources :volume_vendas, only: [:index]
   # This will be the actual root of your application.
-  root "sessions#new"
+  root 'sessions#new'
   get 'home', to: 'pages#home'
   resources :month_receipts
   # The second root route takes precedence, so this one can be removed.
@@ -12,7 +14,7 @@ Rails.application.routes.draw do
 
   # root "uploads#new"
 
-  resources :uploads, only: [:new, :create]
+  resources :uploads, only: %i[new create]
 
   # 1. GET /products -> products#index
   # 2. POST /products/import -> products#import
@@ -21,7 +23,6 @@ Rails.application.routes.draw do
       post :import
     end
   end
-
 
   # Routes for NF-e (DANFE) import
   resources :notas_fiscais, only: [:index] do
@@ -37,9 +38,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get "up" => "rails/health#show", as: :rails_health_check
-  resources :users, only: [:new, :create]
-
+  get 'up' => 'rails/health#show', as: :rails_health_check
+  resources :users, only: %i[new create]
 
   # Rota para busca
   get '/busca', to: 'busca#index'
@@ -63,7 +63,7 @@ Rails.application.routes.draw do
   # Rota para visualizar danfes
   resources :danfes, only: [:index]
 
-   # Rotas para Controle Financeiro (metas, orçamento e despesas)
+  # Rotas para Controle Financeiro (metas, orçamento e despesas)
   get 'controle_financeiro', to: 'controle_financeiro#index'
 
   post 'controle_financeiro/metas', to: 'controle_financeiro#criar_meta'
@@ -77,7 +77,6 @@ Rails.application.routes.draw do
   post 'controle_financeiro/despesas', to: 'controle_financeiro#criar_despesa'
   delete 'controle_financeiro/despesas/:id', to: 'controle_financeiro#deletar_despesa', as: :deletar_despesa
 
-
   # Rotas para faturamento
   resources :faturamento, only: [:index] do
     collection do
@@ -89,9 +88,11 @@ Rails.application.routes.draw do
   # Rota especial para testes de visualização por cliente
   get 'faturamento_por_cliente', to: 'faturamento_por_cliente#index'
 
+  get 'operacoes', to: 'operacoes#index'
+
   resources :danfes, only: [:index]
-  get    'filtrar',  to: 'danfes#filter',     as: :filter_danfes
-  get    'resultado',  to: 'danfes#result',  as: :result_danfes
+  get    'filtrar',  to: 'danfes#filter', as: :filter_danfes
+  get    'resultado',  to: 'danfes#result', as: :result_danfes
 
   # Rotas para impostos
   resources :impostos, only: [:index] do
@@ -99,5 +100,5 @@ Rails.application.routes.draw do
       get :exportar
     end
   end
-  get "/debug", to: "uploads#debug"
+  get '/debug', to: 'uploads#debug'
 end
