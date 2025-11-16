@@ -1,0 +1,259 @@
+/* Estilos para a página de impostos */
+
+.impostos-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.impostos-header {
+  margin-bottom: 2rem;
+}
+
+.impostos-header h1 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Card de filtros */
+.filtros-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+  border: none;
+}
+
+.filtros-card .card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+  padding: 1.5rem;
+  border: none;
+}
+
+.filtros-card .card-body {
+  padding: 1.5rem;
+}
+
+/* Botão de filtrar */
+.btn-filtrar {
+  background: #2ecc71;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 0.95rem;
+}
+
+.btn-filtrar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Botão de exportar */
+.btn-exportar {
+  background: #2ecc71;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-exportar:hover {
+  background: #27ae60;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+  color: white;
+}
+
+/* Cards de métricas (Análise de Margem) */
+.metrica-card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.metrica-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.metrica-card.vendas {
+  background: #667eea;
+}
+
+.metrica-card.impostos {
+  background: #e74c3c;
+}
+
+.metrica-card.margem {
+  background: #3498db;
+}
+
+.metrica-card.percentual {
+  background: #2ecc71;
+}
+
+.metrica-card .card-body {
+  padding: 1.5rem;
+}
+
+.metrica-card h5 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  opacity: 0.95;
+}
+
+.metrica-card h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Tabela de impostos */
+.impostos-table-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: none;
+  overflow: hidden;
+}
+
+.impostos-table-card .card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  border: none;
+}
+
+.impostos-table-card .card-header h4 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.impostos-table-card .card-header p {
+  margin: 0.5rem 0 0 0;
+  opacity: 0.9;
+}
+
+.impostos-table {
+  margin: 0;
+}
+
+.impostos-table thead {
+  background: #f8f9fa;
+}
+
+.impostos-table thead th {
+  border: none;
+  padding: 1rem;
+  font-weight: 600;
+  color: #495057;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.impostos-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.impostos-table tbody tr:hover {
+  background: #f8f9fa;
+  transform: scale(1.01);
+}
+
+.impostos-table tbody td {
+  padding: 1rem;
+  border-color: #e9ecef;
+  color: #495057;
+}
+
+.impostos-table tfoot {
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+.impostos-table tfoot th {
+  padding: 1rem;
+  border-top: 2px solid #dee2e6;
+  color: #2c3e50;
+}
+
+/* Campos de formulário */
+.form-label {
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.form-select,
+.form-control {
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  padding: 0.5rem 0.75rem;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  height: auto;
+}
+
+.form-select:focus,
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Espaçamento entre colunas do formulário */
+.filtros-card .row .col-md-4,
+.filtros-card .row .col-md-3,
+.filtros-card .row .col-md-2 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+/* Alert sem dados */
+.alert-sem-dados {
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.alert-sem-dados p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .impostos-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .metrica-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .impostos-table {
+    font-size: 0.9rem;
+  }
+
+  .impostos-table thead th,
+  .impostos-table tbody td,
+  .impostos-table tfoot th {
+    padding: 0.75rem 0.5rem;
+  }
+}

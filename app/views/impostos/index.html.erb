@@ -1,8 +1,10 @@
-<div class="container mt-4">
-  <h1>Análise de Impostos</h1>
+<div class="impostos-container">
+  <div class="impostos-header">
+    <h1>Análise de Impostos</h1>
+  </div>
   
   <% if @sem_dados %>
-    <div class="alert alert-info mt-3">
+    <div class="alert-sem-dados">
       <p>Não há dados de impostos disponíveis</p>
     </div>
     
@@ -16,11 +18,11 @@
       <%= link_to "Exportar Relatório de Impostos", exportar_impostos_path, class: "btn btn-success" %>
     </div>
   <% else %>
-    <div class="card mb-4">
+    <div class="card filtros-card mb-4">
       <div class="card-header">
-        <div class="row">
+        <div class="row align-items-center">
           <div class="col-md-6">
-            <h4>Filtros</h4>
+            <h4 class="mb-0">Filtros</h4>
           </div>
           <div class="col-md-6 text-end">
             <%= link_to "Exportar Relatório de Impostos", 
@@ -29,7 +31,7 @@
                   data_inicio: @data_inicio,
                   data_fim: @data_fim
                 ), 
-                class: "btn btn-success", 
+                class: "btn btn-exportar", 
                 data: { turbo: false } %>
           </div>
         </div>
@@ -50,14 +52,14 @@
               <%= f.date_field :data_fim, value: @data_fim, class: "form-control" %>
             </div>
             <div class="col-md-2 d-flex align-items-end">
-              <%= f.submit "Filtrar", class: "btn btn-primary w-100" %>
+              <%= f.submit "Filtrar", class: "btn btn-filtrar w-100" %>
             </div>
           </div>
         <% end %>
       </div>
     </div>
 
-    <div class="card">
+    <div class="card impostos-table-card">
       <div class="card-header">
         <h4 id="titulo-impostos">
           <% if @visualizacao == "Por Cliente" %>
@@ -78,7 +80,7 @@
         <% if @visualizacao == "Análise de Margem" %>
           <div class="row">
             <div class="col-md-3">
-              <div class="card bg-primary text-white">
+              <div class="card metrica-card vendas text-white">
                 <div class="card-body">
                   <h5>Total de Vendas</h5>
                   <h3><%= number_to_currency(@total_vendas, unit: "R$ ", separator: ",", delimiter: ".") %></h3>
@@ -86,7 +88,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="card bg-danger text-white">
+              <div class="card metrica-card impostos text-white">
                 <div class="card-body">
                   <h5>Total de Impostos</h5>
                   <h3><%= number_to_currency(@total_impostos, unit: "R$ ", separator: ",", delimiter: ".") %></h3>
@@ -94,7 +96,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="card bg-success text-white">
+              <div class="card metrica-card margem text-white">
                 <div class="card-body">
                   <h5>Margem Líquida</h5>
                   <h3><%= number_to_currency(@margem_liquida, unit: "R$ ", separator: ",", delimiter: ".") %></h3>
@@ -102,7 +104,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <div class="card bg-info text-white">
+              <div class="card metrica-card percentual text-white">
                 <div class="card-body">
                   <h5>Margem Líquida (%)</h5>
                   <h3><%= sprintf("%.2f%%", @percentual_margem) %></h3>
@@ -112,7 +114,7 @@
           </div>
         <% elsif @visualizacao == "Por Cliente" %>
           <% if @impostos_por_cliente.present? %>
-            <table class="table table-striped">
+            <table class="table impostos-table">
               <thead>
                 <tr>
                   <th>Cliente</th>
@@ -148,7 +150,7 @@
           <% end %>
         <% else %>
           <% if @impostos_por_mes.present? %>
-            <table class="table table-striped">
+            <table class="table impostos-table">
               <thead>
                 <tr>
                   <th>Mês/Ano</th>
