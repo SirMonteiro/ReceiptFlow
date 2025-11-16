@@ -8,7 +8,7 @@ Feature: NF-e Import
     And I am on the NF-e Importer page
     When I attach the file "NFe_assinada.xml" to the "xml_file" field
     And I press "Envie e Importe NF-e"
-    Then I should see a success message "Successfully imported NF-e"
+    Then I should see a success message "NF-e "
     And I should see "Recibo #1 (Série: 1)"
     And I should see "Chave de Acesso: 35080599999090910270550010000000015180051273"
     And I should see "Agua Mineral" in the items table

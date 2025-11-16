@@ -6,6 +6,10 @@ Given("existem notas fiscais emitidas para as lojas:") do |table|
   table.hashes.each_with_index do |row, index|
     valor = BigDecimal(row["valor"].to_s)
     Danfe.create!(
+      # --- CORREÇÃO AQUI ---
+      number: row["number"], # 1. Adiciona o 'number' da tabela
+      # --- FIM DA CORREÇÃO ---
+      
       user: @user,
       cliente: "Cliente #{index + 1}",
       valor: valor,
@@ -19,8 +23,8 @@ Given("existem notas fiscais emitidas para as lojas:") do |table|
       cfop: "5102",
       cst: "060",
       ncm: "12345678",
-  transportadora: "Transportadora #{index + 1}",
-  data_saida: Date.parse(row["data"])
+      transportadora: "Transportadora #{index + 1}",
+      data_saida: Date.parse(row["data"])
     )
   end
 end

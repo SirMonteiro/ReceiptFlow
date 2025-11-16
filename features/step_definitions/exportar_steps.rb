@@ -1,27 +1,27 @@
 Given("que existem pedidos cadastrados no sistema") do
-  # precisa de user agora... 
   @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
-  user.nome = "Usuarilson" 
-  user.password = "123456" 
+    user.nome = "Usuarilson" 
+    user.password = "123456" 
   end 
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
   @danfes = [
-  Danfe.create!(
-    user: @user, cliente: "Usuarilson",
-    valor: 100.50,
-    chave_acesso: "12345678901234567890123456789012345678901234",
-    natureza_operacao: "Venda",
-    remetente: { razao_social: "Empresa X", cnpj: "12345678000195", endereco: "Rua A, 123" },
-    destinatario: { razao_social: "Cliente Y", cnpj: "98765432000195", endereco: "Rua B, 456" },
-    descricao_produtos: [{ nome: "Produto 1", quantidade: 2, valor_unitario: 50.25 }],
-    valores_totais: 100.50,
-    impostos: { icms: 18.0, ipi: 5.0 },
-    cfop: "5102",
-    cst: "060",
-    ncm: "12345678",
-    transportadora: { razao_social: "Transportadora Z", cnpj: "11222333000144" },
-    data_saida: Time.now)
+    Danfe.create!(
+      number: 1,
+      user: @user, cliente: "Usuarilson",
+      valor: 100.50,
+      chave_acesso: "12345678901234567890123456789012345678901234",
+      natureza_operacao: "Venda",
+      remetente: { razao_social: "Empresa X", cnpj: "12345678000195", endereco: "Rua A, 123" },
+      destinatario: { razao_social: "Cliente Y", cnpj: "98765432000195", endereco: "Rua B, 456" },
+      descricao_produtos: [{ nome: "Produto 1", quantidade: 2, valor_unitario: 50.25 }],
+      valores_totais: 100.50,
+      impostos: { icms: 18.0, ipi: 5.0 },
+      cfop: "5102",
+      cst: "060",
+      ncm: "12345678",
+      transportadora: { razao_social: "Transportadora Z", cnpj: "11222333000144" },
+      data_saida: Time.now)
   ]
 
   Pedido.create!(
@@ -110,13 +110,13 @@ Then("o arquivo deve conter os pedidos cadastrados") do
 end
 
 Given("que não existem pedidos cadastrados no sistema") do
-  # precisa de user agora... 
   @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
-  user.nome = "Usuarilson" 
-  user.password = "123456" 
+    user.nome = "Usuarilson" 
+    user.password = "123456" 
   end 
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   Pedido.delete_all
+  Danfe.delete_all
 end
 
 Then("o arquivo deve conter apenas o cabeçalho sem pedidos") do
@@ -138,7 +138,7 @@ end
 
 Given("que eu estou logado como cliente comum") do
   user = User.create!(email: "cliente@teste.com", password: "123456", role: "cliente")
-  login_as(user, scope: :user) # Usar o método login_as para simular login com Warden
+  login_as(user, scope: :user)
 end
 
 Then("devo ver a mensagem {string}") do |mensagem|

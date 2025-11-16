@@ -1,5 +1,7 @@
 Given("que existem danfes com impostos em diferentes meses") do
+  @user = User.first || FactoryBot.create(:user) # Garante que o usuário exista
   Danfe.create!(
+    number: 1, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Cliente Janeiro",
     valor: 1000.00,
     chave_acesso: "12345678901234567890123456789012345678901234",
@@ -14,10 +16,11 @@ Given("que existem danfes com impostos em diferentes meses") do
     ncm: "12345678",
     transportadora: { razao_social: "Transportadora Z", cnpj: "11222333000144" },
     data_saida: Date.parse("15/01/2025"),
-    user: User.first || FactoryBot.create(:user)
+    user: @user # Garante que o usuário está associado
   )
 
   Danfe.create!(
+    number: 2, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Cliente Fevereiro",
     valor: 1500.00,
     chave_acesso: "98765432109876543210987654321098765432109876",
@@ -32,10 +35,11 @@ Given("que existem danfes com impostos em diferentes meses") do
     ncm: "87654321",
     transportadora: { razao_social: "Transportadora W", cnpj: "22334455000166" },
     data_saida: Date.parse("10/02/2025"),
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 
   Danfe.create!(
+    number: 3, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Cliente Março",
     valor: 2000.00,
     chave_acesso: "11111111111111111111111111111111111111111111",
@@ -50,12 +54,14 @@ Given("que existem danfes com impostos em diferentes meses") do
     ncm: "11223344",
     transportadora: { razao_social: "Transportadora Y", cnpj: "33445566000177" },
     data_saida: Date.parse("20/03/2025"),
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 end
 
 Given("que existem danfes de diferentes clientes com impostos") do
+  @user = User.first || FactoryBot.create(:user)
   Danfe.create!(
+    number: 4, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Empresa Alpha",
     valor: 5000.00,
     chave_acesso: "12345678901234567890123456789012345678901234",
@@ -70,10 +76,11 @@ Given("que existem danfes de diferentes clientes com impostos") do
     ncm: "12345678",
     transportadora: { razao_social: "Transportadora Z", cnpj: "11222333000144" },
     data_saida: Time.now,
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 
   Danfe.create!(
+    number: 5, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Empresa Beta",
     valor: 3000.00,
     chave_acesso: "98765432109876543210987654321098765432109876",
@@ -88,10 +95,11 @@ Given("que existem danfes de diferentes clientes com impostos") do
     ncm: "87654321",
     transportadora: { razao_social: "Transportadora W", cnpj: "22334455000166" },
     data_saida: Time.now,
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 
   Danfe.create!(
+    number: 6, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Empresa Gamma",
     valor: 2000.00,
     chave_acesso: "11111111111111111111111111111111111111111111",
@@ -106,12 +114,14 @@ Given("que existem danfes de diferentes clientes com impostos") do
     ncm: "11223344",
     transportadora: { razao_social: "Transportadora Y", cnpj: "33445566000177" },
     data_saida: Time.now,
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 end
 
 Given("que existem danfes com impostos em diferentes períodos") do
+  @user = User.first || FactoryBot.create(:user)
   Danfe.create!(
+    number: 7, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Cliente Q1",
     valor: 1200.00,
     chave_acesso: "12345678901234567890123456789012345678901234",
@@ -126,10 +136,11 @@ Given("que existem danfes com impostos em diferentes períodos") do
     ncm: "12345678",
     transportadora: { razao_social: "Transportadora Z", cnpj: "11222333000144" },
     data_saida: Date.parse("15/02/2025"),
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 
   Danfe.create!(
+    number: 8, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Cliente Q2",
     valor: 1800.00,
     chave_acesso: "98765432109876543210987654321098765432109876",
@@ -144,12 +155,14 @@ Given("que existem danfes com impostos em diferentes períodos") do
     ncm: "87654321",
     transportadora: { razao_social: "Transportadora W", cnpj: "22334455000166" },
     data_saida: Date.parse("25/06/2025"),
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 end
 
 Given("que existem danfes cadastradas com impostos") do
+  @user = User.first || FactoryBot.create(:user)
   Danfe.create!(
+    number: 9, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Cliente Export",
     valor: 2500.00,
     chave_acesso: "12345678901234567890123456789012345678901234",
@@ -164,12 +177,14 @@ Given("que existem danfes cadastradas com impostos") do
     ncm: "12345678",
     transportadora: { razao_social: "Transportadora Z", cnpj: "11222333000144" },
     data_saida: Time.now,
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 end
 
 Given("que existem danfes com valores e impostos") do
+  @user = User.first || FactoryBot.create(:user)
   Danfe.create!(
+    number: 10, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Cliente Margem A",
     valor: 10000.00,
     chave_acesso: "12345678901234567890123456789012345678901234",
@@ -184,10 +199,11 @@ Given("que existem danfes com valores e impostos") do
     ncm: "12345678",
     transportadora: { razao_social: "Transportadora Z", cnpj: "11222333000144" },
     data_saida: Time.now,
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 
   Danfe.create!(
+    number: 11, # <-- CORREÇÃO: Adicionado 'number'
     cliente: "Cliente Margem B",
     valor: 8000.00,
     chave_acesso: "98765432109876543210987654321098765432109876",
@@ -202,7 +218,7 @@ Given("que existem danfes com valores e impostos") do
     ncm: "87654321",
     transportadora: { razao_social: "Transportadora W", cnpj: "22334455000166" },
     data_saida: Time.now,
-    user: User.first || FactoryBot.create(:user)
+    user: @user
   )
 end
 
@@ -300,4 +316,3 @@ end
 Then("eu devo ver a mensagem de impostos {string}") do |mensagem|
   expect(page).to have_content(mensagem)
 end
-
