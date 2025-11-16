@@ -41,7 +41,7 @@ builder:
   remote: ssh://docker@168.138.133.66
   # Pass in additional build args needed for your Dockerfile.
   args:
-    RUBY_VERSION: 3.4.5
+    RUBY_VERSION: 3.4.6
   secrets:
     - KAMAL_REGISTRY_PASSWORD
     - RAILS_MASTER_KEY
