@@ -53,6 +53,15 @@ RSpec.describe GraficosController, type: :controller do
               ano: 2025
             )
         end
+      
+      (0..6).each do |i|
+            OrcamentoMensal.create!(
+              user: @user,
+              valor: 200 * (i + 1),
+              mes: (11 - i),
+              ano: 2025
+            )
+        end
 
         get :index
       end
@@ -78,6 +87,11 @@ RSpec.describe GraficosController, type: :controller do
       it "pega somente as 6 metas mais recentes" do
         expect(assigns(:metas).length).to eq(6)
       end
+
+      it "pega somente os 6 orçamentos mais recentes" do
+        expect(assigns(:orcamentos).length).to eq(6)
+      end
+
     end
   end
 end
