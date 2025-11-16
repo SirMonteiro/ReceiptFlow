@@ -53,7 +53,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
     t.string "cfop", null: false
     t.string "chave_acesso", null: false
     t.string "cliente", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at"
     t.string "cst", null: false
     t.date "data_saida", null: false
     t.text "descricao_produtos", null: false
@@ -63,13 +63,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
     t.string "natureza_operacao", null: false
     t.string "ncm", null: false
     t.integer "number", null: false
-    t.decimal "products_value", precision: 14, scale: 2,null: false
-    t.string "recipient_cnpj", null: false
+    t.decimal "products_value", precision: 14, scale: 2
+    t.string "recipient_cnpj"
     t.string "remetente", null: false
-    t.integer "series", null: false
+    t.integer "series"
     t.string "transportadora", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.datetime "updated_at"
+    t.bigint "user_id"
     t.decimal "valor", null: false
     t.decimal "valores_totais", null: false
     t.index ["user_id"], name: "index_danfes_on_user_id"
