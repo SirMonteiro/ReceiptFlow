@@ -1,5 +1,24 @@
 plugins:
   - rubocop-rails
   - rubocop-factory_bot
+
 AllCops:
   SuggestExtensions: false
+  Exclude:
+    - "db/**/*"
+    - "script/**/*"
+    - "bin/**/*"
+    - "config/**/*"
+    - "storage/**/*"
+
+Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  ExcludedMethods: ["describe", "context", "feature", "scenario", "let"]
+
+AsciiComments:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false

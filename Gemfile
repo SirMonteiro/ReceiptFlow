@@ -35,9 +35,9 @@ gem 'nokogiri', '~> 1.18'
 gem 'pg_search'
 
 group :development, :test do
-  gem 'brakeman', require: false
-  gem 'bundler-audit', require: false
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
+  gem 'bundler-audit', require: false
+  gem 'brakeman', require: false
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails', '~> 8.0.0'
