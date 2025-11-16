@@ -1,0 +1,44 @@
+<h1>Classificação de Notas por Tipo de Operação</h1>
+
+<%= form_with url: operacoes_path, method: :get, local: true do %>
+  <div>
+    <label>Selecione o tipo de operação:</label>
+    <%= select_tag :operacao,
+      options_for_select(@tipos_operacao, @operacao_selecionada),
+      include_blank: "Todas" %>
+  </div>
+
+  <br>
+
+  <%= submit_tag "Filtrar", class: "btn btn-primary" %>
+<% end %>
+
+<br><hr><br>
+
+<table border="1" cellpadding="6">
+  <thead>
+    <tr>
+      <th>Data Saída</th>
+      <th>Cliente</th>
+      <th>Valor</th>
+      <th>Natureza da Operação</th>
+      <th>Chave de Acesso</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @danfes.each do |d| %>
+      <tr>
+        <td><%= d.data_saida.strftime("%d/%m/%Y") %></td>
+        <td><%= d.cliente %></td>
+        <td><%= number_to_currency(d.valor) %></td>
+        <td><%= d.natureza_operacao %></td>
+        <td><%= d.chave_acesso %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if @danfes.empty? %>
+  <p>Nenhuma nota encontrada para esse filtro.</p>
+<% end %>
