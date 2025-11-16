@@ -62,11 +62,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
     t.text "impostos", null: false
     t.string "natureza_operacao", null: false
     t.string "ncm", null: false
-    t.integer "number"
-    t.decimal "products_value", precision: 14, scale: 2
-    t.string "recipient_cnpj"
+    t.integer "number", null: false
+    t.decimal "products_value", precision: 14, scale: 2,null: false
+    t.string "recipient_cnpj", null: false
     t.string "remetente", null: false
-    t.integer "series"
+    t.integer "series", null: false
     t.string "transportadora", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false

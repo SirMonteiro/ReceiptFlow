@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
 
   has_many :danfes
+  has_many :nota_fiscais, class_name: "NotaFiscal", dependent: :destroy
   has_many :metas_mensais, class_name: "MetaMensal"
   has_many :orcamentos_mensais, class_name: "OrcamentoMensal"
   has_many :despesas

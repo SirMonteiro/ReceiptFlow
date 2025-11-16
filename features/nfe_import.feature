@@ -4,7 +4,8 @@ Feature: NF-e Import
   So that the data is imported into the database and displayed.
 
   Scenario: Successfully uploading a valid NF-e XML
-    Given I am on the NF-e Importer page
+    Given I am logged in as a user
+    And I am on the NF-e Importer page
     When I attach the file "NFe_assinada.xml" to the "xml_file" field
     And I press "Envie e Importe NF-e"
     Then I should see a success message "Successfully imported NF-e"
