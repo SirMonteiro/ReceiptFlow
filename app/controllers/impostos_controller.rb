@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ImpostosController < ApplicationController
+  before_action :require_login, only: %i[index exportar]
+
   def index
     @visualizacao = params[:visualizacao] || 'Por Mês'
     @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Time.zone.today.beginning_of_month

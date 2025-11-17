@@ -213,6 +213,11 @@ Given('que não existem danfes cadastradas no sistema') do
 end
 
 When('eu acesso a página de cálculo de impostos') do
+  user = User.first || FactoryBot.create(:user)
+  visit new_session_path
+  fill_in 'email', with: user.email
+  fill_in 'password', with: 'senha123'
+  click_button 'Entrar'
   visit impostos_path
 end
 
