@@ -56,7 +56,7 @@ class FaturamentoController < ApplicationController
     @data_inicio = params[:data_inicio] ? Date.parse(params[:data_inicio]) : Time.zone.today.beginning_of_month
     @data_fim = params[:data_fim] ? Date.parse(params[:data_fim]) : Time.zone.today.end_of_month
 
-    @danfes = Danfe.all
+    @danfes = Danfe.where(user: current_user)
 
     if params[:data_inicio] || params[:data_fim]
       @danfes = @danfes.where('data_saida >= ? AND data_saida <= ?', @data_inicio.beginning_of_day,

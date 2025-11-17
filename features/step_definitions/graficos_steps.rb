@@ -1,54 +1,39 @@
 # frozen_string_literal: true
 
-Given('que existem notas fiscais cadastradas no sistema') do
-  @notas = FactoryBot.create_list(:nota_grafico, 5, valor: 1000.0, data: Time.zone.today)
+Given("existe o valor meta 800") do
+  MetaMensal.create!(
+    user: @user,
+    valor_meta: 800,
+    mes: Date.today.month,
+    ano: Date.today.year
+  )
 end
 
-Given('que existem notas fiscais e o valor de despesas cadastrados no sistema') do
-  @notas = FactoryBot.create_list(:nota_grafico, 5, valor: 1000.0, data: Time.zone.today)
-  @despesas = FactoryBot.create_list(:despesa, 3, valor: 500.0, data: Time.zone.today)
-end
-
-Given('que existem notas fiscais cadastradas em certo mês no sistema e o valor meta mensal') do
-  @notas = FactoryBot.create_list(:nota_grafico, 5, valor: 1000.0, data: Time.zone.today.beginning_of_month)
-  @meta = FactoryBot.create(:meta_mensal, mes: Time.zone.today.month, valor_meta: 6000.0)
-end
-
-Given('que não existem notas cadastradas no sistema') do
-  NotaGrafico.delete_all
-end
-
-Given('que não existe valor meta') do
-  MetaMensal.delete_all
-  FactoryBot.create_list(:nota_grafico, 5, valor: 1000.0, data: Time.zone.today)
+Given("que não existe valor meta") do
 end
 
 When('eu acesso a página de gráficos') do
   visit graficos_path
 end
 
-Then('devo visualizar um gráfico de barras mostrando o valor total de vendas por mês') do
-  expect(page).to have_css('#grafico_vendas_mensais')
+Then("devo visualizar o gráfico de Vendas X Despesas X Orçamento") do
+  expect(page).to have_css('#grafico_vendas_despesas_orcamento_div')
 end
 
-Then('devo visualizar um gráfico de barras com os valores de despesas e ganhos por mês') do
-  expect(page).to have_css('#grafico_despesas_ganhos')
+Then("devo visualizar o gráfico de Metas X Vendas") do
+  expect(page).to have_css('#grafico_vendas_metas_div')
+end
+
+
+Then("devo visualizar o gráfico de pizza de Meta X Vendas") do
+  expect(page).to have_css('#grafico_pizza_meta')
 end
 
 Then('devo visualizar um gráfico de pizza com o valor total arrecadado no mês e o valor meta') do
   expect(page).to have_css('#grafico_vendas_meta')
 end
 
-Then('devo ver a mensagem {string} nos gráficos') do |mensagem|
+Then("devo ver a mensagem {string} no gráfico de vendas meta") do |mensagem|
   expect(page).to have_content(mensagem)
 end
 
-Then('não devo ver gráficos') do
-  expect(page).not_to have_css('canvas') # ou ids específicos dos gráficos
-end
-
-Then('devo ver a mensagem {string} no gráfico de vendas meta') do |mensagem|
-  within('#grafico_vendas_meta') do
-    expect(page).to have_content(mensagem)
-  end
-end

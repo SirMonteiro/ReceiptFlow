@@ -76,7 +76,7 @@ RSpec.describe FaturamentoController, type: :controller do
   describe 'GET #exportar' do
     context 'quando não existem danfes' do
       before do
-        allow(Danfe).to receive(:all).and_return([])
+        allow(Danfe).to receive(:where).with(user: @user).and_return([])
       end
 
       it 'redireciona para a página de faturamento com mensagem de erro' do
@@ -90,6 +90,7 @@ RSpec.describe FaturamentoController, type: :controller do
       let(:danfes) { double('ActiveRecord::Relation') }
 
       before do
+        allow(Danfe).to receive(:where).with(user: @user).and_return(danfes)
         allow(danfes).to receive_messages(empty?: false, count: 5)
         allow(danfes).to receive(:each).and_yield(
           double('Danfe',

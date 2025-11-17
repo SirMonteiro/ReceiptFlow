@@ -1,30 +1,119 @@
-<h1>Gráficos da Silvaaaa</h1>
-
-<% if @nenhum_dado %>
-  <p>Nenhum dado disponível para exibição</p>
-<% else %>
-  <!-- 1) Vendas mensais -->
-  <div id="grafico_vendas_mensais">
-    <h2>Vendas Mensais</h2>
-    <%= column_chart @ganhos_mensais %>
-  </div>
-
-  <!-- 2) Despesas x Ganhos -->
-  <div id="grafico_despesas_ganhos">
-    <h2>Despesas x Ganhos</h2>
-    <%= column_chart [
-        { name: "Lucros", data: @lucros },
-        { name: "Despesas", data: @despesas }
-      ] %>
-  </div>
-
-  <!-- 3) Vendas x Meta -->
-  <div id="grafico_vendas_meta">
-    <h2>Vendas x Meta</h2>
-    <% if @vendas_meta.present? %>
-      <%= pie_chart @vendas_meta %>
-    <% else %>
-      <p>Não há uma meta estabelecida</p>
-    <% end %>
-  </div>
+<%= content_for :helpers do %>
+  <%= ActionController::Base.helpers %>
 <% end %>
+<!-- Precisa pro number_to_currency -->
+
+<h1>Gráficos</h1>
+  <!-- Vendas X Despesas X Orçamento -->
+  <div id="grafico_vendas_despesas_orcamento_div" style="width:100%;height:400px;"></div>
+   <!-- Horroroso mas foi o único jeito que funcionou -->
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+      var labels = <%= raw @labels.to_json %>;
+
+      var vendas = {
+        x: labels,
+        y: <%= raw @vendas_values.to_json %>,
+        name: 'Vendas',
+        type: 'bar'
+      };
+
+      var despesas = {
+        x: labels,
+        y: <%= raw @despesas_values.to_json %>,
+        name: 'Despesas',
+        type: 'bar'
+      };
+
+      var orcamentos = {
+        x: labels,
+        y: <%= raw @orcamentos_values.to_json %>,
+        name: 'Orçamento',
+        type: 'bar'
+      };
+
+      var data = [vendas, despesas, orcamentos];
+
+      var layout = {
+        title: "Vendas x Despesas x Orçamento (Últimos 6 meses)",
+        barmode: 'group'
+      };
+
+      Plotly.newPlot('grafico_vendas_despesas_orcamento_div', data, layout);
+    });
+    </script>
+
+
+  <!-- Metas X Vendas barras -->
+  <div id="grafico_vendas_metas_div" style="width:100%;height:400px;"></div>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+      var labels = <%= raw @labels.to_json %>;
+
+      var vendas = {
+        x: labels,
+        y: <%= raw @vendas_values.to_json %>,
+        name: 'Vendas',
+        type: 'bar'
+      };
+
+      var metas = {
+        x: labels,
+        y: <%= raw @metas_values.to_json %>,
+        name: 'Meta',
+        type: 'bar'
+      };
+
+      var data = [vendas, metas];
+
+      var layout = {
+        title: "Vendas x Metas (Últimos 6 meses)",
+        barmode: 'group'
+      };
+
+      Plotly.newPlot('grafico_vendas_metas_div', data, layout);
+    });
+    </script>
+
+
+ <!-- Meta X Vendas Pizza -->
+  <%if !@meta_atual %>
+    <p>Você ainda não registrou nenhuma meta de vendas para o mês atual :( </p>
+  <% else %>
+    <% if @restante > 0 %>
+      <p>
+        Ainda restam 
+        <strong><%= number_to_currency(@restante, unit: "R$", separator: ",", delimiter: ".") %></strong>
+        para atingir a meta!
+      </p>
+    <% else %>
+      <p>Parabéns! Você atingiu a sua meta de vendas neste mês!</p>
+    <% end %>
+    <div id="grafico_pizza_meta" style="width:400px;height:350px;"></div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+      var data = [{
+        values: [
+          <%= @vendas_atuais.to_f %>,
+          <%= @restante.to_f %>
+        ],
+        labels: ['Atingido', 'Faltando'],
+        type: 'pie'
+      }];
+
+      var layout = {
+        title: "Progresso da Meta (Mês Atual)"
+      };
+
+      Plotly.newPlot('grafico_pizza_meta', data, layout);
+    });
+    </script>
+ <% end %>
