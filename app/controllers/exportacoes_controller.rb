@@ -13,7 +13,6 @@ class ExportacoesController < ApplicationController
 
         Rails.logger.info("Número de danfes encontradas: #{danfes.count}")
 
-
         if Rails.env.test?
           Rails.logger.info('Adicionando dados de teste manualmente para garantir conteúdo consistente')
           csv_data = "Chave de Acesso,Natureza da Operação,Remetente - Razão Social,Remetente - CNPJ,Remetente - Endereço,Destinatário - Razão Social,Destinatário - CNPJ,Destinatário - Endereço,Descrição dos Produtos,Valores Totais,Impostos - ICMS,Impostos - IPI,CFOP,CST,NCM,Transportadora - Razão Social,Transportadora - CNPJ,Data de Saída\n12345678901234567890123456789012345678901234,Venda,Empresa X,12345678000195,Rua A, 123,Cliente Y,98765432000195,Rua B, 456,Produto 1,100.5,18.0,5.0,5102,060,12345678,Transportadora Z,11222333000144,#{Time.zone.now}\n98765432109876543210987654321098765432109876,Venda,Empresa X,12345678000195,Rua A, 123,Cliente Z,98765432000195,Rua C, 789,Produto 2,250.0,45.0,12.5,5102,060,87654321,Transportadora W,22334455000166,#{Time.zone.now}"
@@ -28,38 +27,36 @@ class ExportacoesController < ApplicationController
             ]
 
             danfes.each do |danfe|
-              begin
-                remetente_data = danfe.remetente_hash
-                destinatario_data = danfe.destinatario_hash
-                impostos_data = danfe.impostos_hash
-                
-                csv << [
-                  danfe.chave_acesso,
-                  danfe.natureza_operacao,
-                  remetente_data['razao_social'],
-                  remetente_data['cnpj'],
-                  remetente_data['endereco'],
-                  destinatario_data['razao_social'],
-                  destinatario_data['cnpj'],
-                  destinatario_data['endereco'],
-                  if danfe.descricao_produtos.is_a?(Array)
-                    danfe.descricao_produtos.map { |prod| prod['nome'] }.join(', ')
-                  else
-                    danfe.descricao_produtos
-                  end,
-                  danfe.valores_totais,
-                  impostos_data['icms'],
-                  impostos_data['ipi'],
-                  danfe.cfop,
-                  danfe.cst,
-                  danfe.ncm,
-                  danfe.transportadora.is_a?(Hash) ? danfe.transportadora['razao_social'] : danfe.transportadora,
-                  danfe.transportadora.is_a?(Hash) ? danfe.transportadora['cnpj'] : '',
-                  danfe.data_saida
-                ]
-              rescue StandardError => e
-                Rails.logger.error("Erro ao processar danfe ID #{danfe.id}: #{e.message}")
-              end
+              remetente_data = danfe.remetente_hash
+              destinatario_data = danfe.destinatario_hash
+              impostos_data = danfe.impostos_hash
+
+              csv << [
+                danfe.chave_acesso,
+                danfe.natureza_operacao,
+                remetente_data['razao_social'],
+                remetente_data['cnpj'],
+                remetente_data['endereco'],
+                destinatario_data['razao_social'],
+                destinatario_data['cnpj'],
+                destinatario_data['endereco'],
+                if danfe.descricao_produtos.is_a?(Array)
+                  danfe.descricao_produtos.map { |prod| prod['nome'] }.join(', ')
+                else
+                  danfe.descricao_produtos
+                end,
+                danfe.valores_totais,
+                impostos_data['icms'],
+                impostos_data['ipi'],
+                danfe.cfop,
+                danfe.cst,
+                danfe.ncm,
+                danfe.transportadora.is_a?(Hash) ? danfe.transportadora['razao_social'] : danfe.transportadora,
+                danfe.transportadora.is_a?(Hash) ? danfe.transportadora['cnpj'] : '',
+                danfe.data_saida
+              ]
+            rescue StandardError => e
+              Rails.logger.error("Erro ao processar danfe ID #{danfe.id}: #{e.message}")
             end
           end
         end

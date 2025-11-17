@@ -9,9 +9,9 @@ Given('existem notas fiscais emitidas para as lojas:') do |table|
     valor = BigDecimal(row['valor'].to_s)
     Danfe.create!(
       # --- CORREÇÃO AQUI ---
-      number: row["number"], # 1. Adiciona o 'number' da tabela
+      number: row['number'], # 1. Adiciona o 'number' da tabela
       # --- FIM DA CORREÇÃO ---
-      
+
       user: @user,
       cliente: "Cliente #{index + 1}",
       valor: valor,
@@ -22,11 +22,11 @@ Given('existem notas fiscais emitidas para as lojas:') do |table|
       descricao_produtos: "Produto #{index + 1}",
       valores_totais: valor,
       impostos: { icms: 18.0, ipi: 5.0 }.to_json,
-      cfop: "5102",
-      cst: "060",
-      ncm: "12345678",
+      cfop: '5102',
+      cst: '060',
+      ncm: '12345678',
       transportadora: "Transportadora #{index + 1}",
-      data_saida: Date.parse(row["data"])
+      data_saida: Date.parse(row['data'])
     )
   end
 end

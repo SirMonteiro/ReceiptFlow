@@ -1,48 +1,49 @@
-Given("que existem pedidos cadastrados no sistema") do
-  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
-    user.nome = "Usuarilson" 
-    user.password = "123456" 
-  end 
+Given('que existem pedidos cadastrados no sistema') do
+  @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
+    user.nome = 'Usuarilson'
+    user.password = '123456'
+  end
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
   @danfes = [
     Danfe.create!(
       number: 1,
-      user: @user, cliente: "Usuarilson",
+      user: @user, cliente: 'Usuarilson',
       valor: 100.50,
-      chave_acesso: "12345678901234567890123456789012345678901234",
-      natureza_operacao: "Venda",
-      remetente: { razao_social: "Empresa X", cnpj: "12345678000195", endereco: "Rua A, 123" },
-      destinatario: { razao_social: "Cliente Y", cnpj: "98765432000195", endereco: "Rua B, 456" },
-      descricao_produtos: [{ nome: "Produto 1", quantidade: 2, valor_unitario: 50.25 }],
+      chave_acesso: '12345678901234567890123456789012345678901234',
+      natureza_operacao: 'Venda',
+      remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' },
+      destinatario: { razao_social: 'Cliente Y', cnpj: '98765432000195', endereco: 'Rua B, 456' },
+      descricao_produtos: [{ nome: 'Produto 1', quantidade: 2, valor_unitario: 50.25 }],
       valores_totais: 100.50,
       impostos: { icms: 18.0, ipi: 5.0 },
-      cfop: "5102",
-      cst: "060",
-      ncm: "12345678",
-      transportadora: { razao_social: "Transportadora Z", cnpj: "11222333000144" },
-      data_saida: Time.now)
+      cfop: '5102',
+      cst: '060',
+      ncm: '12345678',
+      transportadora: { razao_social: 'Transportadora Z', cnpj: '11222333000144' },
+      data_saida: Time.now
+    )
   ]
 
   Pedido.create!(
-    cliente: "Usuarilson",
+    cliente: 'Usuarilson',
     valor: 100.50,
-    chave_acesso: "12345678901234567890123456789012345678901234",
-    natureza_operacao: "Venda",
-    remetente: { razao_social: "Empresa X", cnpj: "12345678000195", endereco: "Rua A, 123" },
-    destinatario: { razao_social: "Cliente Y", cnpj: "98765432000195", endereco: "Rua B, 456" },
-    descricao_produtos: [{ nome: "Produto 1", quantidade: 2, valor_unitario: 50.25 }],
+    chave_acesso: '12345678901234567890123456789012345678901234',
+    natureza_operacao: 'Venda',
+    remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' },
+    destinatario: { razao_social: 'Cliente Y', cnpj: '98765432000195', endereco: 'Rua B, 456' },
+    descricao_produtos: [{ nome: 'Produto 1', quantidade: 2, valor_unitario: 50.25 }],
     valores_totais: 100.50,
     impostos: { icms: 18.0, ipi: 5.0 },
-    cfop: "5102",
-    cst: "060",
-    ncm: "12345678",
-    transportadora: { razao_social: "Transportadora Z", cnpj: "11222333000144" },
+    cfop: '5102',
+    cst: '060',
+    ncm: '12345678',
+    transportadora: { razao_social: 'Transportadora Z', cnpj: '11222333000144' },
     data_saida: Time.now
   )
 
   Pedido.create!(
-    cliente: "André Jun Hirata",
+    cliente: 'André Jun Hirata',
     valor: 250.00,
     chave_acesso: '98765432109876543210987654321098765432109876',
     natureza_operacao: 'Venda',
@@ -99,11 +100,11 @@ Then('o arquivo deve conter as danfes cadastradas') do
   puts "Conteúdo do CSV: #{page.body}"
 end
 
-Given("que não existem pedidos cadastrados no sistema") do
-  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
-    user.nome = "Usuarilson" 
-    user.password = "123456" 
-  end 
+Given('que não existem pedidos cadastrados no sistema') do
+  @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
+    user.nome = 'Usuarilson'
+    user.password = '123456'
+  end
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   Danfe.delete_all
 end
@@ -125,8 +126,8 @@ Then('o arquivo deve conter apenas o cabeçalho sem danfes') do
   expect(page.body).not_to match(/Usuarilson|André Jun Hirata/)
 end
 
-Given("que eu estou logado como cliente comum") do
-  user = User.create!(email: "cliente@teste.com", password: "123456", role: "cliente")
+Given('que eu estou logado como cliente comum') do
+  user = User.create!(email: 'cliente@teste.com', password: '123456', role: 'cliente')
   login_as(user, scope: :user)
 end
 

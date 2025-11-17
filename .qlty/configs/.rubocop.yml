@@ -6,11 +6,11 @@ AllCops:
   SuggestExtensions: false
   NewCops: disable
   Exclude:
-    - "db/**/*"
-    - "script/**/*"
-    - "bin/**/*"
-    - "config/**/*"
-    - "storage/**/*"
+    - "../../db/**/*"
+    - "../../script/**/*"
+    - "../../bin/**/*"
+    - "../../config/**/*"
+    - "../../storage/**/*"
 
 Style/Documentation:
   Enabled: false

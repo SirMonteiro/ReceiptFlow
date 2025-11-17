@@ -20,11 +20,11 @@ class NotasFiscaisController < ApplicationController
       # Passe o 'current_user' para o serviço
       imported_nota = NfeImportService.call(file, current_user)
       # --- FIM DA MUDANÇA ---
-      
+
       redirect_to notas_fiscais_path, notice: "NF-e ##{imported_nota.number} importada com sucesso!"
     rescue ActiveRecord::RecordInvalid => e
       redirect_to notas_fiscais_path, alert: "Erro de validação: #{e.message}"
-    rescue => e
+    rescue StandardError => e
       redirect_to notas_fiscais_path, alert: "Erro na importação do arquivo: #{e.message}"
     end
   end

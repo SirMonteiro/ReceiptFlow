@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :danfe do
     association :user
     sequence(:number) { |n| n }
-    cliente { "Cliente Teste" }
+    cliente { 'Cliente Teste' }
     valor { 1000.00 }
     chave_acesso { '12345678901234567890123456789012345678901234' }
     natureza_operacao { 'Venda' }

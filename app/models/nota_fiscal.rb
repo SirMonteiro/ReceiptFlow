@@ -2,7 +2,7 @@
 
 class NotaFiscal < ApplicationRecord
   # 1. Apontar o modelo para a tabela 'danfes'
-  self.table_name = "danfes"
+  self.table_name = 'danfes'
 
   # 2. Mapear atributos do XML/antigos para as colunas da tabela 'danfes'
   alias_attribute :access_key,     :chave_acesso
@@ -13,8 +13,8 @@ class NotaFiscal < ApplicationRecord
 
   # 3. Associações
   has_many :item_notas,
-           class_name: "ItemNota",
-           foreign_key: "danfe_id",
+           class_name: 'ItemNota',
+           foreign_key: 'danfe_id',
            dependent: :destroy
 
   # Esta é a associação que estava causando o erro de validação

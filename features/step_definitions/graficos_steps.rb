@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Given("existe o valor meta 800") do
+Given('existe o valor meta 800') do
   MetaMensal.create!(
     user: @user,
     valor_meta: 800,
@@ -9,23 +9,22 @@ Given("existe o valor meta 800") do
   )
 end
 
-Given("que não existe valor meta") do
+Given('que não existe valor meta') do
 end
 
 When('eu acesso a página de gráficos') do
   visit graficos_path
 end
 
-Then("devo visualizar o gráfico de Vendas X Despesas X Orçamento") do
+Then('devo visualizar o gráfico de Vendas X Despesas X Orçamento') do
   expect(page).to have_css('#grafico_vendas_despesas_orcamento_div')
 end
 
-Then("devo visualizar o gráfico de Metas X Vendas") do
+Then('devo visualizar o gráfico de Metas X Vendas') do
   expect(page).to have_css('#grafico_vendas_metas_div')
 end
 
-
-Then("devo visualizar o gráfico de pizza de Meta X Vendas") do
+Then('devo visualizar o gráfico de pizza de Meta X Vendas') do
   expect(page).to have_css('#grafico_pizza_meta')
 end
 
@@ -33,7 +32,6 @@ Then('devo visualizar um gráfico de pizza com o valor total arrecadado no mês 
   expect(page).to have_css('#grafico_vendas_meta')
 end
 
-Then("devo ver a mensagem {string} no gráfico de vendas meta") do |mensagem|
+Then('devo ver a mensagem {string} no gráfico de vendas meta') do |mensagem|
   expect(page).to have_content(mensagem)
 end
-

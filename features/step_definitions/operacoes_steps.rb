@@ -8,67 +8,66 @@ World(ActionView::Helpers::NumberHelper, ActionView::Helpers::DateHelper)
 # para que outros steps possam criar DANFEs para ele.
 
 # Este step foi adaptado do seu modelo para usar @user.id
-Given("existem as seguintes notas fiscais para o usuário atual:") do |table|
+Given('existem as seguintes notas fiscais para o usuário atual:') do |table|
   table.hashes.each do |row|
     Danfe.create!(
       # --- CORREÇÃO AQUI ---
-      number: row["number"], # 1. Adiciona o 'number' da tabela
+      number: row['number'], # 1. Adiciona o 'number' da tabela
       # --- FIM DA CORREÇÃO ---
-      
+
       user_id: @user.id, # Usa o ID do usuário logado
-      cliente: row["cliente"],
-      valor: row["valor"].gsub(/[R$\s]/, '').tr(',', '.').to_f,
-      chave_acesso: row["chave_acesso"],
-      natureza_operacao: row["natureza_operacao"],
-      remetente: row["remetente"],
-      destinatario: row["destinatario"],
-      descricao_produtos: row["descricao_produtos"],
-      valores_totais: row["valores_totais"].gsub(/[R$\s]/, '').tr(',', '.').to_f,
-      impostos: row["impostos"].gsub(/[R$\s]/, '').tr(',', '.').to_f,
-      cfop: row["cfop"],
-      cst: row["cst"],
-      ncm: row["ncm"],
-      transportadora: row["transportadora"],
-      data_saida: Date.strptime(row["data_saida"], "%d/%m/%Y")
+      cliente: row['cliente'],
+      valor: row['valor'].gsub(/[R$\s]/, '').tr(',', '.').to_f,
+      chave_acesso: row['chave_acesso'],
+      natureza_operacao: row['natureza_operacao'],
+      remetente: row['remetente'],
+      destinatario: row['destinatario'],
+      descricao_produtos: row['descricao_produtos'],
+      valores_totais: row['valores_totais'].gsub(/[R$\s]/, '').tr(',', '.').to_f,
+      impostos: row['impostos'].gsub(/[R$\s]/, '').tr(',', '.').to_f,
+      cfop: row['cfop'],
+      cst: row['cst'],
+      ncm: row['ncm'],
+      transportadora: row['transportadora'],
+      data_saida: Date.strptime(row['data_saida'], '%d/%m/%Y')
     )
   end
 end
 
 # Step novo para o teste de segurança (scoping)
-Given("existe uma nota fiscal para outro usuário:") do |table|
-  outro_usuario = User.create!(nome: "Outro Usuario", email: "outro@exemplo.com", password: "senha123")
-  
+Given('existe uma nota fiscal para outro usuário:') do |table|
+  outro_usuario = User.create!(nome: 'Outro Usuario', email: 'outro@exemplo.com', password: 'senha123')
+
   table.hashes.each do |row|
     Danfe.create!(
       # --- CORREÇÃO AQUI ---
-      number: row["number"], # 1. Adiciona o 'number' da tabela
+      number: row['number'], # 1. Adiciona o 'number' da tabela
       # --- FIM DA CORREÇÃO ---
 
       user_id: outro_usuario.id, # Usa o ID do *outro* usuário
-      cliente: row["cliente"],
-      valor: row["valor"].gsub(/[R$\s]/, '').tr(',', '.').to_f,
-      chave_acesso: row["chave_acesso"],
-      natureza_operacao: row["natureza_operacao"],
-      remetente: row["remetente"],
-      destinatario: row["destinatario"],
-      descricao_produtos: row["descricao_produtos"],
-      valores_totais: row["valores_totais"].gsub(/[R$\s]/, '').tr(',', '.').to_f,
-      impostos: row["impostos"].gsub(/[R$\s]/, '').tr(',', '.').to_f,
-      cfop: row["cfop"],
-      cst: row["cst"],
-      ncm: row["ncm"],
-      transportadora: row["transportadora"],
-      data_saida: Date.strptime(row["data_saida"], "%d/%m/%Y")
+      cliente: row['cliente'],
+      valor: row['valor'].gsub(/[R$\s]/, '').tr(',', '.').to_f,
+      chave_acesso: row['chave_acesso'],
+      natureza_operacao: row['natureza_operacao'],
+      remetente: row['remetente'],
+      destinatario: row['destinatario'],
+      descricao_produtos: row['descricao_produtos'],
+      valores_totais: row['valores_totais'].gsub(/[R$\s]/, '').tr(',', '.').to_f,
+      impostos: row['impostos'].gsub(/[R$\s]/, '').tr(',', '.').to_f,
+      cfop: row['cfop'],
+      cst: row['cst'],
+      ncm: row['ncm'],
+      transportadora: row['transportadora'],
+      data_saida: Date.strptime(row['data_saida'], '%d/%m/%Y')
     )
   end
 end
 
-Given("que eu filtrei por {string}") do |operacao|
+Given('que eu filtrei por {string}') do |operacao|
   # O 'select_tag :operacao' na view gera um campo com id/name "operacao"
-  select(operacao, from: "operacao")
-  click_button "Filtrar"
+  select(operacao, from: 'operacao')
+  click_button 'Filtrar'
 end
-
 
 # --- ACTIONS (When) ---
 
@@ -82,9 +81,6 @@ When('eu seleciono {string} no campo {string}') do |option, field_name|
   # Isto segue o seu modelo que usa o ID/name do campo (ex: "data_inicial")
   select(option, from: field_name)
 end
-
-
-
 
 # --- ASSERTIONS (Then) ---
 

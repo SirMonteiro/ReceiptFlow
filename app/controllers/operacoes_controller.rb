@@ -2,11 +2,11 @@ class OperacoesController < ApplicationController
   before_action :require_login, only: [:index]
 
   TIPOS_OPERACAO = [
-    "Venda",
-    "Devolução",
-    "Serviço",
-    "Transferência / Remessa",
-    "Complementar"
+    'Venda',
+    'Devolução',
+    'Serviço',
+    'Transferência / Remessa',
+    'Complementar'
   ].freeze
 
   def index
@@ -19,8 +19,8 @@ class OperacoesController < ApplicationController
     @danfes = current_user.danfes
 
     # filtra se o usuário escolheu uma operação
-    if @operacao_selecionada.present?
-      @danfes = @danfes.where(natureza_operacao: @operacao_selecionada)
-    end
+    return unless @operacao_selecionada.present?
+
+    @danfes = @danfes.where(natureza_operacao: @operacao_selecionada)
   end
 end

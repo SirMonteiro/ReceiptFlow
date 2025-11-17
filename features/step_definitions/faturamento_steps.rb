@@ -1,8 +1,8 @@
-Given("que existem pedidos em diferentes meses") do
-  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
-    user.nome = "Usuarilson" 
-    user.password = "123456" 
-  end 
+Given('que existem pedidos em diferentes meses') do
+  @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
+    user.nome = 'Usuarilson'
+    user.password = '123456'
+  end
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   # Cria pedidos em Janeiro/2025
   Danfe.create!(
@@ -65,21 +65,21 @@ Given("que existem pedidos em diferentes meses") do
   )
 end
 
-Given("que existem pedidos de diferentes clientes") do
-  step "que existem pedidos em diferentes meses"
-  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
-    user.nome = "Usuarilson" 
-    user.password = "123456" 
-  end 
+Given('que existem pedidos de diferentes clientes') do
+  step 'que existem pedidos em diferentes meses'
+  @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
+    user.nome = 'Usuarilson'
+    user.password = '123456'
+  end
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 end
 
-Given("que existem pedidos em diferentes períodos") do
-  step "que existem pedidos em diferentes meses"
-  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
-    user.nome = "Usuarilson" 
-    user.password = "123456" 
-  end 
+Given('que existem pedidos em diferentes períodos') do
+  step 'que existem pedidos em diferentes meses'
+  @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
+    user.nome = 'Usuarilson'
+    user.password = '123456'
+  end
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
   # Adicionar pedido em Junho/2025
