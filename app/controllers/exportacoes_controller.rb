@@ -9,7 +9,7 @@ class ExportacoesController < ApplicationController
 
     if params[:format] == 'csv'
       begin
-        danfes = Danfe.all.to_a
+        danfes = Danfe.where(user: current_user).to_a
 
         Rails.logger.info("Número de danfes encontradas: #{danfes.count}")
 
