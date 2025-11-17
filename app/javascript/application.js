@@ -2,5 +2,6 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "./signup"
-import "chartkick"
-import "Chart.bundle"
+// import "Chart.bundle"
+// import "chartkick"
+import "plotly"

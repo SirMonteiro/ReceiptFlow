@@ -1,10 +1,22 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "NotasFiscais", type: :request do
+RSpec.describe 'NotasFiscais', type: :request do
   let(:file) do
     Rack::Test::UploadedFile.new(
       Rails.root.join('spec/fixtures/files/NFe_assinada.xml'),
       'text/xml'
+    )
+  end
+
+  # --- ADIÇÃO 1: Criar o usuário de teste ---
+  let(:user) do
+    User.create!(
+      nome: "Test User",
+      email: "test@example.com",
+      password: "password123",
+      password_confirmation: "password123"
     )
   end
 
@@ -35,16 +47,16 @@ RSpec.describe "NotasFiscais", type: :request do
       # --- Agora o 'current_user' existe e o teste de importação pode rodar ---
       expect {
         post import_notas_fiscais_path, params: { xml_file: file }
-      }.to change(NotaFiscal, :count).by(1)
+      end.to change(NotaFiscal, :count).by(1)
 
       expect(response).to redirect_to(notas_fiscais_path)
       expect(flash[:notice]).to start_with("NF-e ")
     end
 
-    it "handles cases where no file is uploaded" do
-      expect {
+    it 'handles cases where no file is uploaded' do
+      expect do
         post import_notas_fiscais_path, params: { xml_file: nil }
-      }.to_not change(NotaFiscal, :count)
+      end.not_to change(NotaFiscal, :count)
 
       expect(NotaFiscal.count).to eq(0)
       expect(response).to redirect_to(notas_fiscais_path)

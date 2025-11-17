@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/services/nfe_import_service.rb
 require 'nokogiri'
 

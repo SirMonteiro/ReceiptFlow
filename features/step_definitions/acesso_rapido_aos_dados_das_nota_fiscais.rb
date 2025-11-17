@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'action_view'
 require 'date'
 World(ActionView::Helpers::NumberHelper, ActionView::Helpers::DateHelper)
@@ -40,14 +42,14 @@ Given("existem as seguintes notas fiscais:") do |table|
   end
 end
 
-When("eu clico em notas fiscais na home page") do
-  click_link "DANFEs por período"
+When('eu clico em notas fiscais na home page') do
+  click_link 'DANFEs por período'
 end
 
 When(/^eu filtro as notas fiscais pelo período de "([^"]+)" até "([^"]+)"$/) do |data_inicial, data_final|
-  fill_in "data_inicial", with: data_inicial
-  fill_in "data_final", with: data_final
-  click_button "Filtrar"
+  fill_in 'data_inicial', with: data_inicial
+  fill_in 'data_final', with: data_final
+  click_button 'Filtrar'
 end
 
 Then(/^eu devo ver todos os dados das notas fiscais listadas:$/) do |table|
@@ -57,9 +59,9 @@ Then(/^eu devo ver todos os dados das notas fiscais listadas:$/) do |table|
 end
 
 Then('eu devo ver todos os dados da nota fiscal listada:') do |table|
-  step "eu devo ver todos os dados das notas fiscais listadas:", table
+  step 'eu devo ver todos os dados das notas fiscais listadas:', table
 end
 
-Then("eu não devo ver nenhuma nota fiscal listada") do
-  expect(page).to have_content("Nenhum resultado encontrado")
+Then('eu não devo ver nenhuma nota fiscal listada') do
+  expect(page).to have_content('Nenhum resultado encontrado')
 end

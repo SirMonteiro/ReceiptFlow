@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDanfes < ActiveRecord::Migration[7.1]
   def change
     create_table :danfes do |t|

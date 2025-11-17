@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe NfeImportService do
@@ -47,8 +49,7 @@ RSpec.describe NfeImportService do
       
       expect(nota.access_key).to eq("35080599999090910270550010000000015180051273")
       expect(nota.number).to eq(1)
-      expect(nota.emitter_name).to eq("NF-e Associacao NF-e")
-      # Adicione mais 'expects' para os novos campos (cfop, cliente, etc.) se quiser
+      expect(nota.emitter_name).to eq('NF-e Associacao NF-e')
     end
 
     it "correctly populates the first ItemNota attributes" do
@@ -57,7 +58,7 @@ RSpec.describe NfeImportService do
       item = nota.item_notas.first
       
       expect(item.item_number).to eq(1)
-      expect(item.description).to eq("Agua Mineral")
+      expect(item.description).to eq('Agua Mineral')
     end
     
     # Este teste verifica se a transação funciona.
@@ -71,7 +72,7 @@ RSpec.describe NfeImportService do
       nota_count_before = NotaFiscal.count
       item_count_before = ItemNota.count
 
-      file.rewind 
+      file.rewind
 
       expect {
         # --- ADIÇÃO 7: Passe o 'user' (na segunda chamada, que falha) ---

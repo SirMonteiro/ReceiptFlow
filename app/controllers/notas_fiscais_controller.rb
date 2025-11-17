@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NotasFiscaisController < ApplicationController
   # Assume-se que 'before_action :require_login' (ou similar)
   # esteja protegendo este controlador.

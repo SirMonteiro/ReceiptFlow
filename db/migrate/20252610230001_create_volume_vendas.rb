@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateVolumeVendas < ActiveRecord::Migration[7.1]
   def change
     create_table :volume_vendas do |t|
@@ -12,6 +14,6 @@ class CreateVolumeVendas < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_index :volume_vendas, [:loja, :data_inicial, :data_final], name: "index_volume_vendas_on_store_and_period"
+    add_index :volume_vendas, %i[loja data_inicial data_final], name: 'index_volume_vendas_on_store_and_period'
   end
 end

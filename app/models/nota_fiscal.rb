@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NotaFiscal < ApplicationRecord
   # 1. Apontar o modelo para a tabela 'danfes'
   self.table_name = "danfes"

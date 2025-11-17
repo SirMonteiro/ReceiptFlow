@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ItemNota < ApplicationRecord
     # --- ADD THIS LINE ---
     # Tell Rails the table name is 'item_notas' (plural)

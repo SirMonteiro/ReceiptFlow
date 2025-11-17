@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
-
-Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 # --- ADD THIS LINE ---
 require 'capybara/rspec' # This will fix your feature specs
 
@@ -33,10 +34,8 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
-  
   config.fixture_paths = [Rails.root.join('spec/fixtures')]
 
- 
   config.use_transactional_fixtures = true
 
   config.include Devise::Test::IntegrationHelpers, type: :request
@@ -51,5 +50,4 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.infer_spec_type_from_file_location!
-
 end
