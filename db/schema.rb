@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
+ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -53,18 +53,23 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
     t.string "cfop", null: false
     t.string "chave_acesso", null: false
     t.string "cliente", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at"
     t.string "cst", null: false
     t.date "data_saida", null: false
     t.text "descricao_produtos", null: false
     t.string "destinatario", null: false
+    t.string "emitter_cnpj"
     t.text "impostos", null: false
     t.string "natureza_operacao", null: false
     t.string "ncm", null: false
+    t.integer "number", null: false
+    t.decimal "products_value", precision: 14, scale: 2
+    t.string "recipient_cnpj"
     t.string "remetente", null: false
+    t.integer "series"
     t.string "transportadora", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.datetime "updated_at"
+    t.bigint "user_id"
     t.decimal "valor", null: false
     t.decimal "valores_totais", null: false
     t.index ["user_id"], name: "index_danfes_on_user_id"
@@ -82,15 +87,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
 
   create_table "item_notas", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "danfe_id", null: false
     t.text "description"
     t.integer "item_number"
-    t.bigint "nota_fiscal_id", null: false
     t.string "product_code"
     t.decimal "quantity", precision: 14, scale: 4
     t.decimal "total_price", precision: 14, scale: 2
     t.decimal "unit_price", precision: 14, scale: 2
     t.datetime "updated_at", null: false
-    t.index ["nota_fiscal_id"], name: "index_item_notas_on_nota_fiscal_id"
+    t.index ["danfe_id"], name: "index_item_notas_on_danfe_id"
   end
 
   create_table "metas_mensais", force: :cascade do |t|
@@ -107,22 +112,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
   create_table "month_receipts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "nota_fiscais", force: :cascade do |t|
-    t.string "access_key"
-    t.datetime "created_at", null: false
-    t.date "emission_date"
-    t.string "emitter_cnpj"
-    t.string "emitter_name"
-    t.integer "number"
-    t.decimal "products_value", precision: 14, scale: 2
-    t.string "recipient_cnpj"
-    t.string "recipient_name"
-    t.integer "series"
-    t.decimal "total_value", precision: 14, scale: 2
-    t.datetime "updated_at", null: false
-    t.index ["access_key"], name: "index_nota_fiscais_on_access_key", unique: true
   end
 
   create_table "nota_graficos", force: :cascade do |t|
@@ -177,7 +166,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230004) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "danfes", "users"
   add_foreign_key "despesas", "users"
-  add_foreign_key "item_notas", "nota_fiscais", column: "nota_fiscal_id"
+  add_foreign_key "item_notas", "danfes"
   add_foreign_key "metas_mensais", "users"
   add_foreign_key "orcamento_mensals", "users"
 end

@@ -1,14 +1,12 @@
-# frozen_string_literal: true
-
-Given('que existem pedidos em diferentes meses') do
-  # precisa de user agora...
-  @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
-    user.nome = 'Usuarilson'
-    user.password = '123456'
-  end
+Given("que existem pedidos em diferentes meses") do
+  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
+    user.nome = "Usuarilson" 
+    user.password = "123456" 
+  end 
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
   # Cria pedidos em Janeiro/2025
   Danfe.create!(
+    number: 1,
     user: @user,
     cliente: 'Cliente A',
     valor: 500.75,
@@ -28,6 +26,7 @@ Given('que existem pedidos em diferentes meses') do
 
   # Cria pedidos em Fevereiro/2025
   Danfe.create!(
+    number: 2,
     user: @user,
     cliente: 'Cliente B',
     valor: 750.25,
@@ -47,6 +46,7 @@ Given('que existem pedidos em diferentes meses') do
 
   # Cria pedidos em Março/2025
   Danfe.create!(
+    number: 3,
     user: @user,
     cliente: 'Cliente C',
     valor: 1250.50,
@@ -65,27 +65,26 @@ Given('que existem pedidos em diferentes meses') do
   )
 end
 
-Given('que existem pedidos de diferentes clientes') do
-  step 'que existem pedidos em diferentes meses'
-  # precisa de user agora...
-  @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
-    user.nome = 'Usuarilson'
-    user.password = '123456'
-  end
+Given("que existem pedidos de diferentes clientes") do
+  step "que existem pedidos em diferentes meses"
+  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
+    user.nome = "Usuarilson" 
+    user.password = "123456" 
+  end 
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 end
 
-Given('que existem pedidos em diferentes períodos') do
-  step 'que existem pedidos em diferentes meses'
-  # precisa de user agora...
-  @user = User.find_or_create_by!(email: 'teste@teste.com') do |user|
-    user.nome = 'Usuarilson'
-    user.password = '123456'
-  end
+Given("que existem pedidos em diferentes períodos") do
+  step "que existem pedidos em diferentes meses"
+  @user = User.find_or_create_by!(email: "teste@teste.com") do |user| 
+    user.nome = "Usuarilson" 
+    user.password = "123456" 
+  end 
   allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
   # Adicionar pedido em Junho/2025
   Danfe.create!(
+    number: 4,
     user: @user,
     cliente: 'Cliente D',
     valor: 875.30,
@@ -105,6 +104,7 @@ Given('que existem pedidos em diferentes períodos') do
 
   # Adicionar pedido em Julho/2025
   Danfe.create!(
+    number: 5,
     user: @user,
     cliente: 'Cliente E',
     valor: 1500.00,

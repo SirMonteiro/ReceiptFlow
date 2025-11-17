@@ -6,13 +6,13 @@ Feature: Classificação de Notas Fiscais por Tipo de Operação
   Background:
     Given que eu estou autenticado
     And existem as seguintes notas fiscais para o usuário atual:
-      | cliente           | valor     | chave_acesso | natureza_operacao | remetente    | destinatario      | descricao_produtos | valores_totais | impostos  | cfop | cst | ncm      | transportadora | data_saida |
-      | Cliente Venda A   | R$ 100,00 | VDA-001      | Venda             | Loja Exemplo | Cliente Venda A   | Produto Venda A    | R$ 100,00      | R$ 10,00  | 5102 | 000 | 12345678 | TransA         | 01/11/2025 |
-      | Cliente Venda B   | R$ 200,00 | VDA-002      | Venda             | Loja Exemplo | Cliente Venda B   | Produto Venda B    | R$ 200,00      | R$ 20,00  | 5102 | 000 | 12345678 | TransA         | 02/11/2025 |
-      | Cliente Devolução | R$ 50,00  | DEV-001      | Devolução         | Loja Exemplo | Cliente Devolução | Produto Devolução  | R$ 50,00       | R$ 5,00   | 1202 | 000 | 12345678 | TransB         | 03/11/2025 |
+      | number | cliente           | valor     | chave_acesso | natureza_operacao | remetente    | destinatario      | descricao_produtos  | valores_totais | impostos | cfop | cst | ncm      | transportadora | data_saida |
+      | 1      | Cliente Venda A   | R$ 100,00 | VDA-001      | Venda             | Loja Exemplo | Cliente Venda A   | Produto Venda A   | R$ 100,00      | R$ 10,00 | 5102 | 000 | 12345678 | TransA         | 01/11/2025 |
+      | 2      | Cliente Venda B   | R$ 200,00 | VDA-002      | Venda             | Loja Exemplo | Cliente Venda B   | Produto Venda B   | R$ 200,00      | R$ 20,00 | 5102 | 000 | 12345678 | TransA         | 02/11/2025 |
+      | 3      | Cliente Devolução | R$ 50,00  | DEV-001      | Devolução         | Loja Exemplo | Cliente Devolução | Produto Devolução | R$ 50,00       | R$ 5,00  | 1202 | 000 | 12345678 | TransB         | 03/11/2025 |
     And existe uma nota fiscal para outro usuário:
-      | cliente           | valor     | chave_acesso | natureza_operacao | remetente    | destinatario      | descricao_produtos | valores_totais | impostos  | cfop | cst | ncm      | transportadora | data_saida |
-      | Cliente Outro     | R$ 999,00 | OUTRO-001    | Venda             | Outra Loja   | Cliente Outro     | Produto Outro      | R$ 999,00      | R$ 99,00  | 5102 | 000 | 87654321 | TransC         | 04/11/2025 |
+      | number | cliente       | valor     | chave_acesso | natureza_operacao | remetente  | destinatario  | descricao_produtos | valores_totais | impostos | cfop | cst | ncm      | transportadora | data_saida |
+      | 4      | Cliente Outro | R$ 999,00 | OUTRO-001    | Venda             | Outra Loja | Cliente Outro | Produto Outro    | R$ 999,00      | R$ 99,00 | 5102 | 000 | 87654321 | TransC         | 04/11/2025 |
     When eu clico em "Classificação por Tipo de Operação" na home page
 
   Scenario: Visualizar todas as operações ao carregar a página

@@ -11,6 +11,10 @@ World(ActionView::Helpers::NumberHelper, ActionView::Helpers::DateHelper)
 Given("existem as seguintes notas fiscais para o usuário atual:") do |table|
   table.hashes.each do |row|
     Danfe.create!(
+      # --- CORREÇÃO AQUI ---
+      number: row["number"], # 1. Adiciona o 'number' da tabela
+      # --- FIM DA CORREÇÃO ---
+      
       user_id: @user.id, # Usa o ID do usuário logado
       cliente: row["cliente"],
       valor: row["valor"].gsub(/[R$\s]/, '').tr(',', '.').to_f,
@@ -36,6 +40,10 @@ Given("existe uma nota fiscal para outro usuário:") do |table|
   
   table.hashes.each do |row|
     Danfe.create!(
+      # --- CORREÇÃO AQUI ---
+      number: row["number"], # 1. Adiciona o 'number' da tabela
+      # --- FIM DA CORREÇÃO ---
+
       user_id: outro_usuario.id, # Usa o ID do *outro* usuário
       cliente: row["cliente"],
       valor: row["valor"].gsub(/[R$\s]/, '').tr(',', '.').to_f,
@@ -104,4 +112,3 @@ But('eu não devo ver a nota com chave {string} na página') do |chave|
   # Este step verifica a página inteira, garantindo o escopo do controller
   expect(page).to_not have_content(chave)
 end
-
