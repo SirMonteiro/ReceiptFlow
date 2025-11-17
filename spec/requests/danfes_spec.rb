@@ -22,10 +22,12 @@ RSpec.describe "DanfesController", type: :request do
       end
     end
   end
+  
   describe "GET /results" do
     context "com duas notas no período" do
       it "exibe as notas retornadas pelo stub do scope(stub)" do
         danfe1 = Danfe.create!(
+          number: 1,
           user: user,
           cliente: "Cliente 1",
           valor: 100.0,
@@ -44,6 +46,7 @@ RSpec.describe "DanfesController", type: :request do
         )
 
         danfe2 = Danfe.create!(
+          number: 2,
           user: user,
           cliente: "Cliente 2",
           valor: 200.0,
@@ -75,6 +78,7 @@ RSpec.describe "DanfesController", type: :request do
       it "exibe todas as notas retornadas pelo stub do scope" do
         danfes = (1..10).map do |i|
           Danfe.create!(
+            number: i,
             user: user,
             cliente: "Cliente #{i}",
             valor: i * 100.0,
@@ -113,9 +117,10 @@ RSpec.describe "DanfesController", type: :request do
       end
     end
 
-     context "com duas notas no período" do
+    context "com duas notas no período" do
       it "exibe as notas do período" do
         Danfe.create!(
+          number: 3,
           user: user,
           cliente: "Cliente 1",
           valor: 100.0,
@@ -134,6 +139,7 @@ RSpec.describe "DanfesController", type: :request do
         )
 
         Danfe.create!(
+          number: 4,
           user: user,
           cliente: "Cliente 2",
           valor: 200.0,
@@ -163,6 +169,7 @@ RSpec.describe "DanfesController", type: :request do
       it "exibe todas as notas do período" do
         (1..10).each do |i|
           Danfe.create!(
+            number: i + 10,
             user: user,
             cliente: "Cliente #{i}",
             valor: i * 100.0,
