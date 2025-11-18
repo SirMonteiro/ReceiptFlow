@@ -65,9 +65,9 @@ env:
 #   shell: app exec --interactive --reuse "bash"
 
 # Use a different ssh user than root
-#
-# ssh:
-#   user: app
+
+ssh:
+  user: docker
 
 # Use a persistent storage volume.
 #
