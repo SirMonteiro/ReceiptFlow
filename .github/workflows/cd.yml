@@ -46,4 +46,4 @@ jobs:
         run: echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u sirmonteiro --password-stdin
 
       - name: Deploy with Kamal
-        run: bundle exec kamal deploy --config config/deploy.yml
+        run: bundle exec kamal deploy
