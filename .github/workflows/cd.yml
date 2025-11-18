@@ -14,9 +14,8 @@ jobs:
       contents: read
       packages: write
     env:
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      DOCKER_BUILDKIT: 1
+      RAILS_ENV: production
 
     steps:
       - name: Checkout code
@@ -34,8 +33,10 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/id_ed25519
           if [ -n "$SSH_KNOWN_HOSTS" ]; then
             echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
           else
@@ -43,7 +44,16 @@ jobs:
           fi
 
       - name: Authenticate with GHCR
-        run: echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u sirmonteiro --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u sirmonteiro --password-stdin
 
       - name: Deploy with Kamal
-        run: bundle exec kamal deploy
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        run: |
+            echo -n "${{ secrets.RAILS_MASTER_KEY }}" > config/credentials/production.key
+            echo "KAMAL_REGISTRY_PASSWORD=${{ secrets.GITHUB_TOKEN }}" >> .env
+            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+            bundle exec kamal deploy
+
