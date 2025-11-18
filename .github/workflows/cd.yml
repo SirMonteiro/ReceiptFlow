@@ -45,5 +45,8 @@ jobs:
       - name: Authenticate with GHCR
         run: echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u sirmonteiro --password-stdin
 
+      - name: Push Kamal env/secrets
+        run: bundle exec kamal env push
+
       - name: Deploy with Kamal
         run: bundle exec kamal deploy
