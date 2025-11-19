@@ -52,7 +52,7 @@ jobs:
           KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         run: |
-            echo "RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}" > config/credentials/production.key
+            echo -n "${{ secrets.RAILS_MASTER_KEY }}" > config/credentials/production.key
             echo "KAMAL_REGISTRY_PASSWORD=${{ secrets.GITHUB_TOKEN }}" >> .env
             echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
             bundle exec kamal deploy
