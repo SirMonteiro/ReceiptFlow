@@ -57,7 +57,6 @@ env:
   secret:
     - POSTGRES_PASSWORD
     - RAILS_MASTER_KEY
-    - KAMAL_REGISTRY_PASSWORD
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal app logs -r job" will tail logs from the first server in the job section.
