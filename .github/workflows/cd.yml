@@ -48,8 +48,12 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u sirmonteiro --password-stdin
 
       - name: Deploy with Kamal
-        run: bundle exec kamal deploy
         env:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        run: |
+            echo "KAMAL_REGISTRY_PASSWORD=${{ secrets.GITHUB_TOKEN }}" >> .env
+            echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+            kamal deploy
+
