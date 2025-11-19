@@ -44,8 +44,8 @@ jobs:
             ssh-keyscan -H 168.138.133.66 >> ~/.ssh/known_hosts
           fi
 
-      #- name: Authenticate with GHCR
-      #  run: echo "${{ secrets.KAMAL_REGISTRY_PASSWORD }}" | docker login ghcr.io -u sirmonteiro --password-stdin
+      - name: Authenticate with GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u sirmonteiro --password-stdin
 
       - name: Deploy with Kamal
         run: bundle exec kamal deploy
