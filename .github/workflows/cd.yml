@@ -55,5 +55,5 @@ jobs:
         run: |
             echo "KAMAL_REGISTRY_PASSWORD=${{ secrets.GITHUB_TOKEN }}" >> .env
             echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-            kamal deploy
+            bundle exec kamal deploy
 
