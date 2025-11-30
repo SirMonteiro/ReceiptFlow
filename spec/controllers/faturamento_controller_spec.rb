@@ -113,25 +113,5 @@ RSpec.describe FaturamentoController, type: :controller do
 
   describe 'métodos privados' do
     described_class.new
-
-    describe '#calcular_faturamento_por_mes' do
-      let(:danfe1) do
-        instance_double(Danfe, valor: 500.75, data_saida: Time.zone.local(2025, 1, 15), cliente: 'Cliente A')
-      end
-      let(:danfe2) do
-        instance_double(Danfe, valor: 750.25, data_saida: Time.zone.local(2025, 1, 20), cliente: 'Cliente B')
-      end
-      let(:danfe3) do
-        instance_double(Danfe, valor: 1250.50, data_saida: Time.zone.local(2025, 2, 5), cliente: 'Cliente C')
-      end
-      let(:danfes) { [danfe1, danfe2, danfe3] }
-
-      it 'agrupa corretamente o faturamento por mês', skip: 'Implementar quando o método for acessível' do
-        # Este teste requer o método ser acessível ou usar send
-        # resultado = controller.send(:calcular_faturamento_por_mes, danfes)
-        # expect(resultado["Janeiro/2025"]).to eq(1251.0)
-        # expect(resultado["Fevereiro/2025"]).to eq(1250.50)
-      end
-    end
   end
 end

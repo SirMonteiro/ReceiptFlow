@@ -25,37 +25,22 @@ Given('que existem pedidos cadastrados no sistema') do
     )
   ]
 
-  Pedido.create!(
-    cliente: 'Usuarilson',
-    valor: 100.50,
-    chave_acesso: '12345678901234567890123456789012345678901234',
-    natureza_operacao: 'Venda',
-    remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' },
-    destinatario: { razao_social: 'Cliente Y', cnpj: '98765432000195', endereco: 'Rua B, 456' },
-    descricao_produtos: [{ nome: 'Produto 1', quantidade: 2, valor_unitario: 50.25 }],
-    valores_totais: 100.50,
-    impostos: { icms: 18.0, ipi: 5.0 },
-    cfop: '5102',
-    cst: '060',
-    ncm: '12345678',
-    transportadora: { razao_social: 'Transportadora Z', cnpj: '11222333000144' },
-    data_saida: Time.now
-  )
-
-  Pedido.create!(
+  @danfes << Danfe.create!(
+    number: 2,
+    user: @user,
     cliente: 'André Jun Hirata',
     valor: 250.00,
     chave_acesso: '98765432109876543210987654321098765432109876',
     natureza_operacao: 'Venda',
-    remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' }.to_json,
-    destinatario: { razao_social: 'Cliente Z', cnpj: '98765432000195', endereco: 'Rua C, 789' }.to_json,
-    descricao_produtos: [{ nome: 'Produto 2', quantidade: 5, valor_unitario: 50.00 }].to_json,
+    remetente: { razao_social: 'Empresa X', cnpj: '12345678000195', endereco: 'Rua A, 123' },
+    destinatario: { razao_social: 'Cliente Z', cnpj: '98765432000195', endereco: 'Rua C, 789' },
+    descricao_produtos: [{ nome: 'Produto 2', quantidade: 5, valor_unitario: 50.00 }],
     valores_totais: 250.00,
-    impostos: { icms: 45.0, ipi: 12.5 }.to_json,
+    impostos: { icms: 45.0, ipi: 12.5 },
     cfop: '5102',
     cst: '060',
     ncm: '87654321',
-    transportadora: { razao_social: 'Transportadora W', cnpj: '22334455000166' }.to_json,
+    transportadora: { razao_social: 'Transportadora W', cnpj: '22334455000166' },
     data_saida: Time.zone.now
   )
 end
