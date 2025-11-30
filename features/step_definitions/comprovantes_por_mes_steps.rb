@@ -2,11 +2,15 @@
 
 Given('que existem DANFEs cadastradas no sistema:') do |table|
   @user ||= User.find_by(email: 'joao@contador.com') || create(:user, email: 'joao@contador.com')
+  @danfe_sequence ||= 0
 
   @danfes = []
   table.hashes.each do |row|
+    @danfe_sequence += 1
+    numero = row['numero'].presence || row['number'].presence || @danfe_sequence
     danfe = Danfe.create!(
       user: @user,
+      number: numero.to_i,
       cliente: row['cliente'],
       valor: row['valor'].to_f,
       chave_acesso: row['chave_acesso'] || '12345678901234567890123456789012345678901234',
@@ -87,7 +91,7 @@ Quando('eu clico em {string} para {string}') do |botao, cliente|
 end
 
 Então('eu devo ser redirecionado para a página de detalhes da DANFE') do
-  expect(current_path).to match(%r{/danfes/\d+})
+  expect(current_path).to match(%r{/month_receipts/\d+})
 end
 
 Então('a primeira linha da tabela deve conter {string}') do |texto|
@@ -124,7 +128,7 @@ end
 
 Given('que eu estou logado como {string} com senha {string}') do |email, senha|
   visit new_session_path
-  fill_in 'Email', with: email
-  fill_in 'Password', with: senha
+  fill_in 'E-mail', with: email
+  fill_in 'Senha', with: senha
   click_button 'Entrar'
 end
