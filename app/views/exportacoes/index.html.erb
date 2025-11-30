@@ -1,9 +1,18 @@
-<h1>Exportar Dados</h1>
+<div class="exportacao-container">
+  <div class="exportacao-header">
+    <h1>Exportar Dados</h1>
+    <p>Exporte seus dados de notas fiscais para análise</p>
+  </div>
 
-<p>Escolha o formato para exportar os dados:</p>
-
-<ul>
-  <li>
-    <a href="<%= exportar_exportacoes_path(format: 'csv') %>">Exportar para Excel</a>
-  </li>
-</ul>
+  <div class="card exportacao-card">
+    <div class="card-header">
+      <h4>Exportação de Dados</h4>
+    </div>
+    <div class="card-body">
+      <p style="margin-bottom: 1.5rem; color: #555;">Clique no botão abaixo para exportar todas as suas notas fiscais em formato CSV.</p>
+      <a href="<%= exportar_exportacoes_path(format: 'csv') %>" class="btn-exportar-dados">
+        Exportar para CSV
+      </a>
+    </div>
+  </div>
+</div>
