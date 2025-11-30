@@ -82,38 +82,44 @@ RSpec.describe MonthReceiptsController, type: :controller do
     end
 
     context 'query optimization' do
-      it 'uses a single query to fetch danfes' do
+      it 'keeps the number of SQL queries low' do
         create_list(:danfe, 5, user: user, data_saida: Date.new(2025, 10, 15))
 
-        # Adjust based on your app's query count
-        expect do
+        query_count = count_sql_queries do
           get :index, params: { month: 10, year: 2025 }
-        end.to make_database_queries(count: 2..5)
+        end
+
+        expect(query_count).to be_between(1, 5)
       end
     end
   end
 
-  describe 'private methods' do
-    describe '#set_month_receipt' do
-      it 'is called before show, edit, update, destroy actions' do
-        expect(controller).to receive(:set_month_receipt).and_call_original
+  describe 'GET #show' do
+    let(:danfe) { create(:danfe, user: user) }
 
-        month_receipt = MonthReceipt.create!
-        get :show, params: { id: month_receipt.id }
-      end
+    it 'assigns the requested danfe' do
+      get :show, params: { id: danfe.id }
+      expect(assigns(:danfe)).to eq(danfe)
+      expect(response).to be_successful
     end
 
-    describe '#month_receipt_params' do
-      it 'permits the expected parameters' do
-        params = ActionController::Parameters.new(
-          month_receipt: { some_field: 'value' }
-        )
-
-        controller.params = params
-        result = controller.send(:month_receipt_params)
-
-        expect(result).to be_a(ActionController::Parameters)
-      end
+    it 'redirects to index when the danfe is not found' do
+      get :show, params: { id: '999999' }
+      expect(response).to redirect_to(month_receipts_path)
+      expect(flash[:alert]).to eq('Não encontramos este comprovante.')
     end
   end
+end
+
+def count_sql_queries(&block)
+  queries = 0
+  callback = lambda do |_name, _start, _finish, _message_id, payload|
+    next if payload[:cached] || payload[:name]&.match?(/SCHEMA|TRANSACTION/)
+
+    queries += 1
+  end
+
+  ActiveSupport::Notifications.subscribed(callback, 'sql.active_record', &block)
+
+  queries
 end
