@@ -32,8 +32,12 @@ RSpec.describe 'month_receipts/index', type: :view do
              valor: 2500.00)
     end
 
+    let(:danfes_relation) do
+      Danfe.where(id: [danfe1.id, danfe2.id]).order(data_saida: :desc)
+    end
+
     before do
-      assign(:danfes, [danfe2, danfe1])
+      assign(:danfes, danfes_relation)
     end
 
     it 'renders the page title' do
@@ -114,15 +118,15 @@ RSpec.describe 'month_receipts/index', type: :view do
       expect(rendered).to match(/Comprovantes de Outubro de 2025/)
     end
 
-    it "renders 'Ver' link for each danfe" do
+    it "renders 'Ver Detalhes' link for each danfe" do
       render
-      expect(rendered).to have_link('Ver', count: 2)
+      expect(rendered).to have_link('Ver Detalhes', href: month_receipt_path(danfe2))
+      expect(rendered).to have_link('Ver Detalhes', href: month_receipt_path(danfe1))
     end
 
     it 'truncates long chave_acesso' do
       render
-      # The view should truncate to 20 characters
-      expect(rendered).to match(/12345678901234567890/)
+      expect(rendered).to include('12345678901234567...')
     end
 
     it 'does not display the empty state warning' do
@@ -133,7 +137,7 @@ RSpec.describe 'month_receipts/index', type: :view do
 
   context 'when no danfes exist' do
     before do
-      assign(:danfes, [])
+      assign(:danfes, Danfe.none)
     end
 
     it 'renders the month selector form' do
@@ -170,7 +174,7 @@ RSpec.describe 'month_receipts/index', type: :view do
 
   context 'form behavior' do
     before do
-      assign(:danfes, [])
+      assign(:danfes, Danfe.none)
     end
 
     it 'submits the form on month change' do
@@ -196,7 +200,7 @@ RSpec.describe 'month_receipts/index', type: :view do
 
   context 'responsive design' do
     before do
-      assign(:danfes, [])
+      assign(:danfes, Danfe.none)
     end
 
     it 'uses Bootstrap grid classes' do
@@ -207,7 +211,7 @@ RSpec.describe 'month_receipts/index', type: :view do
 
     it 'uses table-responsive wrapper' do
       danfe = create(:danfe, user: user, data_saida: Date.new(2025, 10, 15))
-      assign(:danfes, [danfe])
+      assign(:danfes, Danfe.where(id: danfe.id))
 
       render
       expect(rendered).to have_selector('.table-responsive')
@@ -215,7 +219,7 @@ RSpec.describe 'month_receipts/index', type: :view do
 
     it 'uses Bootstrap table classes' do
       danfe = create(:danfe, user: user, data_saida: Date.new(2025, 10, 15))
-      assign(:danfes, [danfe])
+      assign(:danfes, Danfe.where(id: danfe.id))
 
       render
       expect(rendered).to have_selector('.table.table-striped.table-hover')

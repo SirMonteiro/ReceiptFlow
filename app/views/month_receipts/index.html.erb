@@ -74,7 +74,7 @@
                   <td><%= danfe.destinatario_razao_social %></td>
                   <td><%= number_to_currency(danfe.valor, unit: "R$ ", separator: ",", delimiter: ".") %></td>
                   <td>
-                    <%= link_to "Ver Detalhes", "#", class: "btn btn-sm btn-primary", data: { danfe_id: danfe.id } %>
+                    <%= link_to "Ver Detalhes", month_receipt_path(danfe), class: "btn btn-sm btn-primary" %>
                   </td>
                 </tr>
               <% end %>
