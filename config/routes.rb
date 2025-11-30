@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # This will be the actual root of your application.
   root 'sessions#new'
   get 'home', to: 'pages#home'
-  resources :month_receipts
+  resources :month_receipts, only: %i[index show]
   # The second root route takes precedence, so this one can be removed.
   # login
   get    'login',  to: 'sessions#new',     as: :new_session
@@ -47,7 +47,7 @@ Rails.application.routes.draw do
   # Rota para gráficos
   # This was duplicated, one instance removed
   resources :graficos, only: [:index]
-  
+
   # Rotas para faturamento
   resources :faturamento, only: [:index] do
     collection do
@@ -55,7 +55,7 @@ Rails.application.routes.draw do
       get :filtrar
     end
   end
-  
+
   # Rota especial para testes de visualização por cliente
   get 'faturamento_por_cliente', to: 'faturamento_por_cliente#index'
   resources :graficos, only: [:index]
