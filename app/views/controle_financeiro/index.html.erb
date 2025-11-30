@@ -13,7 +13,7 @@
     </p>
 
     <%= form_with model: @meta_atual, url: atualizar_meta_path(@meta_atual), method: :patch do |f| %>
-      <%= f.label :valor_meta %>
+      <%= f.label :valor_meta, "Valor de meta"  %>
       <%= f.number_field :valor_meta, step: 0.01 %>
       <%= f.submit "Atualizar meta" %>
     <% end %>
@@ -27,8 +27,8 @@
     <%= form_with model: @nova_meta, url: controle_financeiro_metas_path do |f| %>
       <%= f.hidden_field :mes, value: @mes_atual %>
       <%= f.hidden_field :ano, value: @ano_atual %>
-      <%= f.label :valor_meta %>
-      <%= f.number_field :valor_meta, step: 0.01 %>
+      <%= f.label :valor_meta, "Valor de meta" %>
+      <%= f.number_field :valor_meta, step: 0.01, placeholder: "Valor de meta" %>
       <%= f.submit "Criar meta" %>
     <% end %>
   <% end %>
@@ -38,7 +38,7 @@
     <% @metas_anteriores.each do |m| %>
       <li>
         <%= meses[m.mes] %>/<%= m.ano %> — 
-        <%= number_to_currency(m.valor_meta) %>
+        <%= number_to_currency(m.valor_meta, unit: "R$ ", separator: ",", delimiter: ".") %>
         <%= button_to "Excluir", deletar_meta_path(m), method: :delete, class: "btn-danger btn-sm" %>
       </li>
     <% end %>
@@ -49,10 +49,11 @@
   <h2>Orçamento Mensal</h2>
 
   <% if @orcamento_atual %>
-    <p>Orçamento atual: <strong><%= number_to_currency(@orcamento_atual.valor) %></strong></p>
+    <p>Seu orçamento de <%= meses[@mes_atual] %>/<%= @ano_atual %>: <strong><%=
+    number_to_currency(@orcamento_atual.valor, unit: "R$ ", separator: ",", delimiter: ".")%></strong></p>
 
     <%= form_with model: @orcamento_atual, url: atualizar_orcamento_path(@orcamento_atual), method: :patch do |f| %>
-      <%= f.label :valor %>
+      <%= f.label :valor, "Valor do orçamento" %>
       <%= f.number_field :valor, step: 0.01 %>
       <%= f.submit "Atualizar orçamento" %>
     <% end %>
@@ -61,28 +62,31 @@
           method: :delete, class: "btn-danger", data: { confirm: "Tem certeza?" } %>
 
   <% else %>
-    <p>Você não tem orçamento para este mês.</p>
+  <p>Você não tem orçamento para <%= meses[@mes_atual] %>/<%= @ano_atual %>.</p>
 
     <%= form_with model: @novo_orcamento, url: controle_financeiro_orcamentos_path do |f| %>
-      <%= f.label :valor %>
-      <%= f.number_field :valor, step: 0.01 %>
+      <%= f.hidden_field :mes, value: @mes_atual %>
+      <%= f.hidden_field :ano, value: @ano_atual %>
+      <%= f.label :valor, "Valor do orçamento" %>
+      <%= f.number_field :valor, step: 0.01, placeholder: "Valor do orçamento" %>
       <%= f.submit "Criar orçamento" %>
-    <% end %>
   <% end %>
+<% end %>
 </div>
 
 <div class="card">
   <h2>Despesas</h2>
 
-  <%= form_with model: @nova_despesa, url: controle_financeiro_despesas_path do |f| %>
-    <%= f.label :valor %>
-    <%= f.number_field :valor, step: 0.01 %>
-    <%= f.label :data %>
-    <%= f.date_field :data %>
-    <%= f.label :descricao %>
-    <%= f.text_field :descricao %>
-    <%= f.submit "Adicionar" %>
-  <% end %>
+<%= form_with model: @nova_despesa, url: controle_financeiro_despesas_path do |f| %>
+  <%= f.label :valor, "Valor" %>
+  <%= f.number_field :valor, step: 0.01, placeholder: "Valor" %>
+  <%= f.label :data, "Data" %>
+  <%= f.date_field :data %>
+  <%= f.label :descricao, "Descrição" %>
+  <%= f.text_field :descricao, placeholder: "Descrição" %>
+  <%= f.submit "Adicionar" %>
+
+<% end %>
 
   <table>
     <thead>
@@ -98,9 +102,9 @@
         <tr>
           <td><%= d.data.strftime("%d/%m/%Y") %></td>
           <td><%= d.descricao %></td>
-          <td><%= number_to_currency(d.valor) %></td>
+          <td><%= number_to_currency(d.valor, unit: "R$ ", separator: ",", delimiter: ".") %></td>
           <td>
-            <%= button_to "Excluir", deletar_despesa_path(d),
+            <%= button_to "Excluir despesa", deletar_despesa_path(d),
                   method: :delete, class: "btn-danger btn-sm" %>
           </td>
         </tr>
