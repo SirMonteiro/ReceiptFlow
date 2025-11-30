@@ -173,7 +173,7 @@ Then('eu devo ver o faturamento total agrupado por cliente') do
 end
 
 Then('eu devo ver apenas o faturamento desse período') do
-  expect(page).to have_content('Faturamento: 01/01/2025 a 31/03/2025')
+  expect(page).to have_content('Período: 01/01/2025 a 31/03/2025')
   expect(page).to have_content('Total')
   expect(page).to have_content('R$ 2.501,50')
 
