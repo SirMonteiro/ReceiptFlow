@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
+ActiveRecord::Schema[8.1].define(version: 2025_26_10_230009) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -53,7 +53,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
     t.string "cfop", null: false
     t.string "chave_acesso", null: false
     t.string "cliente", null: false
-    t.datetime "created_at"
+    t.datetime "created_at", null: false
     t.string "cst", null: false
     t.date "data_saida", null: false
     t.text "descricao_produtos", null: false
@@ -62,14 +62,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
     t.text "impostos", null: false
     t.string "natureza_operacao", null: false
     t.string "ncm", null: false
-    t.integer "number", null: false
+    t.integer "number"
     t.decimal "products_value", precision: 14, scale: 2
     t.string "recipient_cnpj"
     t.string "remetente", null: false
     t.integer "series"
     t.string "transportadora", null: false
-    t.datetime "updated_at"
-    t.bigint "user_id"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.decimal "valor", null: false
     t.decimal "valores_totais", null: false
     t.index ["user_id"], name: "index_danfes_on_user_id"
@@ -122,14 +122,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
     t.decimal "valor"
   end
 
-  create_table "orcamento_mensals", force: :cascade do |t|
+  create_table "orcamentos_mensais", force: :cascade do |t|
     t.integer "ano"
     t.datetime "created_at", null: false
     t.integer "mes"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.decimal "valor"
-    t.index ["user_id"], name: "index_orcamento_mensals_on_user_id"
+    t.index ["user_id"], name: "index_orcamentos_mensais_on_user_id"
   end
 
   create_table "uploads", force: :cascade do |t|
@@ -168,5 +168,5 @@ ActiveRecord::Schema[8.1].define(version: 2025_26_10_230008) do
   add_foreign_key "despesas", "users"
   add_foreign_key "item_notas", "danfes"
   add_foreign_key "metas_mensais", "users"
-  add_foreign_key "orcamento_mensals", "users"
+  add_foreign_key "orcamentos_mensais", "users"
 end

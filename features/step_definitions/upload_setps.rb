@@ -27,3 +27,7 @@ end
 Então('eu devo ver a mensagem de alerta {string}') do |mensagem|
   expect(page).to have_css('.flash-alert', text: mensagem)
 end
+
+Então('o campo de nome do arquivo deve mostrar {string}') do |nome_do_arquivo|
+  expect(page).to have_css('#file-name-display', text: nome_do_arquivo)
+end

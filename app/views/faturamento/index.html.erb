@@ -1,8 +1,10 @@
-<div class="container mt-4">
-  <h1>Análise de Faturamento</h1>
+<div class="faturamento-container">
+  <div class="faturamento-header">
+    <h1>Análise de Faturamento</h1>
+  </div>
   
   <% if @sem_dados %>
-    <div class="alert alert-info mt-3">
+    <div class="alert-sem-dados-faturamento">
       <p>Não há dados de faturamento disponíveis</p>
     </div>
     
@@ -20,14 +22,14 @@
       <%= button_to "Exportar Relatório", exportar_faturamento_index_path, method: :get, class: "btn btn-success" %>
     </div>
   <% else %>
-    <div class="card mb-4">
+    <div class="card filtros-card-faturamento mb-4">
       <div class="card-header">
-        <div class="row">
+        <div class="row align-items-center">
           <div class="col-md-6">
-            <h4>Filtros</h4>
+            <h4 class="mb-0">Filtros</h4>
           </div>
           <div class="col-md-6 text-end">
-            <%= link_to "Exportar Relatório", exportar_faturamento_index_path, class: "btn btn-success", data: { turbo: false } %>
+            <%= link_to "Exportar Relatório", exportar_faturamento_index_path, class: "btn btn-exportar-faturamento", data: { turbo: false } %>
           </div>
         </div>
       </div>
@@ -35,26 +37,26 @@
         <%= form_with url: faturamento_index_path, method: :get, data: { turbo: false } do |f| %>
           <div class="row mb-3">
             <div class="col-md-4">
-              <%= f.label :visualizacao, "Visualização:", class: "form-label" %>
-              <%= f.select :visualizacao, ["Por Mês", "Por Cliente"], { selected: @visualizacao }, { class: "form-select", id: "visualizacao" } %>
+              <%= f.label :visualizacao, "Visualização:", class: "faturamento-form-label" %>
+              <%= f.select :visualizacao, ["Por Mês", "Por Cliente"], { selected: @visualizacao }, { class: "form-select faturamento-form-select", id: "visualizacao" } %>
             </div>
             <div class="col-md-3" id="data_inicio_container" style="display: <%= @visualizacao == 'Por Mês' ? 'block' : 'none' %>">
-              <%= f.label :data_inicio, "Data Início:", class: "form-label" %>
-              <%= f.date_field :data_inicio, value: @data_inicio, class: "form-control" %>
+              <%= f.label :data_inicio, "Data Início:", class: "faturamento-form-label" %>
+              <%= f.date_field :data_inicio, value: @data_inicio, class: "form-control faturamento-form-control" %>
             </div>
             <div class="col-md-3" id="data_fim_container" style="display: <%= @visualizacao == 'Por Mês' ? 'block' : 'none' %>">
-              <%= f.label :data_fim, "Data Fim:", class: "form-label" %>
-              <%= f.date_field :data_fim, value: @data_fim, class: "form-control" %>
+              <%= f.label :data_fim, "Data Fim:", class: "faturamento-form-label" %>
+              <%= f.date_field :data_fim, value: @data_fim, class: "form-control faturamento-form-control" %>
             </div>
             <div class="col-md-2 d-flex align-items-end">
-              <%= f.submit "Filtrar", class: "btn btn-primary w-100" %>
+              <%= f.submit "Filtrar", class: "btn btn-filtrar-faturamento w-100" %>
             </div>
           </div>
         <% end %>
       </div>
     </div>
 
-    <div class="card">
+    <div class="card faturamento-table-card">
       <div class="card-header">
         <h4 id="titulo-faturamento">
           <% if @visualizacao == "Por Cliente" %>
@@ -64,13 +66,13 @@
           <% end %>
         </h4>
         <p class="text-muted">
-          Faturamento: <%= @data_inicio.strftime("%d/%m/%Y") %> a <%= @data_fim.strftime("%d/%m/%Y") %>
+          Período: <%= @data_inicio.strftime("%d/%m/%Y") %> a <%= @data_fim.strftime("%d/%m/%Y") %>
         </p>
       </div>
       <div class="card-body">
         <% if @visualizacao == "Por Cliente" %>
           <% if @faturamento_por_cliente.present? %>
-            <table class="table table-striped">
+            <table class="table faturamento-table">
               <thead>
                 <tr>
                   <th>Cliente</th>
@@ -97,7 +99,7 @@
           <% end %>
         <% else %>
           <% if @faturamento_por_mes.present? %>
-            <table class="table table-striped">
+            <table class="table faturamento-table">
               <thead>
                 <tr>
                   <th>Mês/Ano</th>

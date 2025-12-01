@@ -244,12 +244,10 @@ RSpec.describe '/month_receipts', type: :request do
       let!(:user1_danfe) { create(:danfe, user: user, data_saida: Date.new(2025, 10, 15)) }
       let!(:user2_danfe) { create(:danfe, user: user2, data_saida: Date.new(2025, 10, 15)) }
 
-      it 'shows all danfes regardless of user' do
+      it 'only lists danfes that belong to the current user' do
         get month_receipts_url, params: { month: 10, year: 2025 }
 
-        # Adjust this test based on your authorization logic
-        # If the feature should filter by user, modify accordingly
-        expect(assigns(:danfes).count).to eq(2)
+        expect(assigns(:danfes)).to contain_exactly(user1_danfe)
       end
     end
   end

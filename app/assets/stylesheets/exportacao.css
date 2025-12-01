@@ -1,0 +1,240 @@
+/* Estilos para a página de exportação */
+
+.exportacao-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.exportacao-header {
+  margin-bottom: 2rem;
+}
+
+.exportacao-header h1 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.exportacao-header p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+/* Card principal */
+.exportacao-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: none;
+}
+
+.exportacao-card .card-header {
+  background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+  color: white;
+  padding: 1.5rem;
+  border: none;
+}
+
+.exportacao-card .card-header h4 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.exportacao-card .card-body {
+  padding: 2.5rem;
+}
+
+/* Grid de opções de exportação */
+.export-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.export-option {
+  background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 12px rgba(22, 160, 133, 0.2);
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  color: white;
+}
+
+.export-option:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(22, 160, 133, 0.3);
+  color: white;
+}
+
+.export-option .icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.export-option h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.export-option p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+/* Botão de exportação alternativo */
+.btn-exportar-dados {
+  background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(22, 160, 133, 0.3);
+}
+
+.btn-exportar-dados:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(22, 160, 133, 0.4);
+  color: white;
+}
+
+.btn-exportar-dados .icon {
+  margin-right: 0.5rem;
+}
+
+/* Info card */
+.info-card {
+  background: #ecf8f5;
+  border-left: 4px solid #1abc9c;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.info-card h5 {
+  color: #16a085;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.info-card p {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.info-card ul {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1.5rem;
+  color: #2c3e50;
+}
+
+.info-card ul li {
+  margin: 0.25rem 0;
+}
+
+/* Lista de formatos disponíveis */
+.format-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.format-list li {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.format-list li:hover {
+  background: #e3f2fd;
+  transform: translateX(5px);
+}
+
+.format-list .format-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.format-list .format-icon {
+  font-size: 2rem;
+}
+
+.format-list .format-details h5 {
+  margin: 0 0 0.25rem 0;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.format-list .format-details p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+/* Estatísticas */
+.export-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(22, 160, 133, 0.2);
+}
+
+.stat-card .number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card .label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .exportacao-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .export-options {
+    grid-template-columns: 1fr;
+  }
+
+  .export-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .exportacao-card .card-body {
+    padding: 1.5rem;
+  }
+}

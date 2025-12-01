@@ -19,6 +19,7 @@ RSpec.describe GraficosController, type: :controller do
         (0..6).each do |i|
           Danfe.create!(
             user: @user,
+            number: i,
             cliente: 'Dr.Strangelove',
             valor: 100 * (i + 1),
             chave_acesso: "CHAVE#{i}",

@@ -64,8 +64,11 @@ Funcionalidade: Visualizar Comprovantes por Mês
       | Cliente A  | 1500.00 | 2025-10-15 |
     Quando eu visito a página de comprovantes por mês
     E eu seleciono o mês "Outubro" e ano "2025"
-    E eu clico em "Ver" para "Cliente A"
+    E eu clico em "Ver Detalhes" para "Cliente A"
     Então eu devo ser redirecionado para a página de detalhes da DANFE
+    E eu devo ver "Detalhes do Comprovante"
+    E eu devo ver "Cliente A"
+    E eu devo ver "R$ 1.500,00"
 
   Cenário: Visualizar comprovantes ordenados por data
     Dado que existem DANFEs cadastradas no sistema:
@@ -96,7 +99,7 @@ Funcionalidade: Visualizar Comprovantes por Mês
     Quando eu visito a página de comprovantes por mês
     E eu seleciono o mês "Outubro" e ano "2025"
     Então eu devo ver "15/10/2025" na tabela
-    E eu devo ver "12345678901234567890" na tabela
+    E eu devo ver "12345678901234567..." na tabela
     E eu devo ver "Cliente A" na tabela
     E eu devo ver "R$ 1.500,00" na tabela
 

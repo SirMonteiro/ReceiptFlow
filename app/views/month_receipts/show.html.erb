@@ -1,0 +1,116 @@
+<% remetente = @danfe.remetente_hash %>
+<% destinatario = @danfe.destinatario_hash %>
+<% impostos = @danfe.impostos_hash %>
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Detalhes do Comprovante</h1>
+    <%= link_to '← Voltar para Comprovantes', month_receipts_path(month: @danfe.data_saida.month, year: @danfe.data_saida.year), class: 'btn btn-link' %>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <p class="text-muted mb-1">Data de Saída</p>
+          <p class="fw-semibold"><%= l(@danfe.data_saida, format: :long) %></p>
+        </div>
+        <div class="col-md-4">
+          <p class="text-muted mb-1">Cliente</p>
+          <p class="fw-semibold"><%= @danfe.cliente %></p>
+        </div>
+        <div class="col-md-4">
+          <p class="text-muted mb-1">Valor</p>
+          <p class="fw-semibold"><%= number_to_currency(@danfe.valor, unit: 'R$ ', separator: ',', delimiter: '.') %></p>
+        </div>
+      </div>
+      <hr>
+      <p class="text-muted mb-1">Chave de Acesso</p>
+      <code class="d-block"><%= @danfe.chave_acesso %></code>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header">Remetente</div>
+        <div class="card-body">
+          <p class="mb-1"><strong><%= remetente['razao_social'] %></strong></p>
+          <p class="mb-1">CNPJ: <%= remetente['cnpj'] || 'N/D' %></p>
+          <p class="mb-0"><%= remetente['endereco'] || 'Endereço não informado' %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header">Destinatário</div>
+        <div class="card-body">
+          <p class="mb-1"><strong><%= destinatario['razao_social'] %></strong></p>
+          <p class="mb-1">CNPJ: <%= destinatario['cnpj'] || 'N/D' %></p>
+          <p class="mb-0"><%= destinatario['endereco'] || 'Endereço não informado' %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card my-4">
+    <div class="card-header">Informações Fiscais</div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <p class="text-muted mb-1">Natureza</p>
+          <p class="fw-semibold"><%= @danfe.natureza_operacao %></p>
+        </div>
+        <div class="col-md-3">
+          <p class="text-muted mb-1">CFOP</p>
+          <p class="fw-semibold"><%= @danfe.cfop %></p>
+        </div>
+        <div class="col-md-3">
+          <p class="text-muted mb-1">CST</p>
+          <p class="fw-semibold"><%= @danfe.cst %></p>
+        </div>
+        <div class="col-md-3">
+          <p class="text-muted mb-1">NCM</p>
+          <p class="fw-semibold"><%= @danfe.ncm %></p>
+        </div>
+      </div>
+      <hr>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <p class="text-muted mb-1">ICMS</p>
+          <p class="fw-semibold"><%= number_to_currency(impostos['icms'].to_f, unit: 'R$ ', separator: ',', delimiter: '.') %></p>
+        </div>
+        <div class="col-md-4">
+          <p class="text-muted mb-1">IPI</p>
+          <p class="fw-semibold"><%= number_to_currency(impostos['ipi'].to_f, unit: 'R$ ', separator: ',', delimiter: '.') %></p>
+        </div>
+        <div class="col-md-4">
+          <p class="text-muted mb-1">Total de Impostos</p>
+          <p class="fw-semibold"><%= number_to_currency(impostos.values.compact.map(&:to_f).sum, unit: 'R$ ', separator: ',', delimiter: '.') %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">Produtos</div>
+    <div class="card-body">
+      <% produtos = @danfe.descricao_produtos %>
+      <% produtos_lista = produtos.is_a?(String) ? produtos.split(/;|\n/).map(&:strip).reject(&:blank?) : Array.wrap(produtos) %>
+
+      <% if produtos_lista.present? %>
+        <ul class="list-group list-group-flush">
+          <% produtos_lista.each do |item| %>
+            <li class="list-group-item"><%= item %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted mb-0">Nenhuma descrição de produto disponível.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="text-end">
+    <%= link_to 'Voltar para Comprovantes', month_receipts_path(month: @danfe.data_saida.month, year: @danfe.data_saida.year), class: 'btn btn-secondary' %>
+  </div>
+</div>
