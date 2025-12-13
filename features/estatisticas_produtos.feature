@@ -13,7 +13,7 @@ Feature: Estatísticas de Produtos
   Scenario: Visualizar produtos agrupados por NCM
     Given que existem danfes com produtos de mesmo NCM
     When eu acesso a página de estatísticas de produtos
-    And eu seleciono a visualização "Por NCM"
+    And eu seleciono a visualização de produtos "Por NCM"
     Then eu devo ver os produtos agrupados por código NCM
     And eu devo ver o valor total por NCM
 
@@ -26,11 +26,11 @@ Feature: Estatísticas de Produtos
   Scenario: Exportar estatísticas de produtos
     Given que existem danfes com produtos cadastradas
     When eu acesso a página de estatísticas de produtos
-    And eu clico no botão "Exportar Estatísticas"
-    Then eu devo receber um arquivo "produtos.csv"
+    And eu clico no link "Exportar Estatísticas"
+    Then eu devo fazer download do arquivo "produtos.csv"
     And o arquivo deve conter os dados de produtos
 
   Scenario: Nenhum produto cadastrado
-    Given que não existem danfes cadastradas no sistema
+    Given que não existem danfes cadastradas no sistema para produtos
     When eu acesso a página de estatísticas de produtos
     Then eu devo ver a mensagem "Não há dados de produtos disponíveis"

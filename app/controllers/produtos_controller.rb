@@ -38,6 +38,7 @@ class ProdutosController < ApplicationController
   end
 
   def set_danfes
+    return redirect_to '/login' unless current_user
     @danfes = current_user.danfes
                           .where(data_saida: @data_inicio..@data_fim)
                           .order(data_saida: :desc)
