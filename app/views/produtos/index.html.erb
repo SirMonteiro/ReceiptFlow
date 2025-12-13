@@ -1,0 +1,97 @@
+<div class="produtos-container">
+  <h1>Estatísticas de Produtos</h1>
+  
+  <% if @sem_dados %>
+    <div class="alert alert-info mt-3">
+      <p>Não há dados de produtos disponíveis</p>
+    </div>
+  <% else %>
+    <div class="filtros-card-produtos">
+      <div class="filtros-header">
+        <h4>Filtros</h4>
+        <%= link_to "Exportar Estatísticas", exportar_produtos_path, class: "btn-exportar-produtos", data: { turbo: false } %>
+      </div>
+      
+      <%= form_with url: produtos_path, method: :get, data: { turbo: false }, class: "filtros-form" do |f| %>
+        <div class="filtros-row">
+          <div class="filtro-item">
+            <%= f.label :visualizacao, "Visualização:", class: "filtro-label" %>
+            <%= f.select :visualizacao, ["Por Produto", "Por NCM"], { selected: @visualizacao }, { class: "filtro-select", id: "visualizacao" } %>
+          </div>
+          
+          <div class="filtro-item">
+            <%= f.label :data_inicio, "Data Início:", class: "filtro-label" %>
+            <%= f.date_field :data_inicio, value: @data_inicio, class: "filtro-input" %>
+          </div>
+          
+          <div class="filtro-item">
+            <%= f.label :data_fim, "Data Fim:", class: "filtro-label" %>
+            <%= f.date_field :data_fim, value: @data_fim, class: "filtro-input" %>
+          </div>
+          
+          <div class="filtro-item filtro-button">
+            <%= f.submit "Filtrar", class: "btn-filtrar-produtos" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="produtos-card">
+      <div class="produtos-header">
+        <h4 id="titulo-produtos">
+          <% if @visualizacao == "Por NCM" %>
+            Produtos por NCM
+          <% else %>
+            Produtos por Descrição
+          <% end %>
+        </h4>
+        <p class="produtos-periodo">
+          Período: <%= @data_inicio.strftime("%d/%m/%Y") %> a <%= @data_fim.strftime("%d/%m/%Y") %>
+        </p>
+      </div>
+      
+      <div class="produtos-body">
+        <% if @produtos_estatisticas.present? %>
+          <table class="produtos-table">
+            <thead>
+              <tr>
+                <th><%= @visualizacao == "Por NCM" ? "NCM" : "Produto" %></th>
+                <th class="text-end">Quantidade</th>
+                <th class="text-end">Valor Total</th>
+                <th class="text-end">Valor Médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @produtos_estatisticas.each do |chave, dados| %>
+                <tr>
+                  <td>
+                    <% if @visualizacao == "Por NCM" %>
+                      <strong><%= dados[:ncm] %></strong><br>
+                      <small class="text-muted"><%= dados[:descricao] %></small>
+                    <% else %>
+                      <strong><%= dados[:descricao] %></strong><br>
+                      <small class="text-muted">NCM: <%= dados[:ncm] %></small>
+                    <% end %>
+                  </td>
+                  <td class="text-end"><%= dados[:quantidade] %></td>
+                  <td class="text-end"><%= number_to_currency(dados[:valor_total], unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                  <td class="text-end"><%= number_to_currency(dados[:valor_total] / dados[:quantidade], unit: "R$ ", separator: ",", delimiter: ".") %></td>
+                </tr>
+              <% end %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Total</th>
+                <th class="text-end"><%= @produtos_estatisticas.values.sum { |p| p[:quantidade] } %></th>
+                <th class="text-end"><%= number_to_currency(@produtos_estatisticas.values.sum { |p| p[:valor_total] }, unit: "R$ ", separator: ",", delimiter: ".") %></th>
+                <th></th>
+              </tr>
+            </tfoot>
+          </table>
+        <% else %>
+          <p class="sem-dados">Nenhum dado disponível para o período selecionado</p>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

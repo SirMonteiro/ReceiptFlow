@@ -1,0 +1,241 @@
+/* Estatísticas de Produtos - Tema Laranja */
+.produtos-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.produtos-container h1 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+/* Card de Filtros */
+.filtros-card-produtos {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filtros-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.filtros-header h4 {
+  color: white;
+  margin: 0;
+  font-weight: 600;
+}
+
+.btn-exportar-produtos {
+  background-color: white;
+  color: #e67e22;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-exportar-produtos:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Formulário de Filtros */
+.filtros-form {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.filtros-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.filtro-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.filtro-label {
+  color: #2c3e50;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.filtro-select,
+.filtro-input {
+  padding: 0.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+.filtro-select:focus,
+.filtro-input:focus {
+  outline: none;
+  border-color: #f39c12;
+}
+
+.btn-filtrar-produtos {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.btn-filtrar-produtos:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(243, 156, 18, 0.3);
+}
+
+/* Card de Produtos */
+.produtos-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.produtos-header {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  padding: 1.5rem;
+  color: white;
+}
+
+.produtos-header h4 {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.produtos-periodo {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+.produtos-body {
+  padding: 1.5rem;
+}
+
+/* Tabela de Produtos */
+.produtos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.produtos-table thead {
+  background-color: #fff3e0;
+}
+
+.produtos-table th {
+  padding: 1rem;
+  text-align: left;
+  color: #e67e22;
+  font-weight: 600;
+  border-bottom: 2px solid #f39c12;
+}
+
+.produtos-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  color: #2c3e50;
+}
+
+.produtos-table tbody tr:hover {
+  background-color: #fff9f0;
+  transition: background-color 0.2s ease;
+}
+
+.produtos-table tfoot {
+  background-color: #fff3e0;
+  font-weight: 600;
+}
+
+.produtos-table tfoot th {
+  padding: 1rem;
+  color: #e67e22;
+  border-top: 2px solid #f39c12;
+  border-bottom: none;
+}
+
+.text-end {
+  text-align: right;
+}
+
+.text-muted {
+  color: #7f8c8d;
+  font-size: 0.85rem;
+}
+
+.sem-dados {
+  text-align: center;
+  color: #95a5a6;
+  padding: 2rem;
+  font-style: italic;
+}
+
+/* Alert */
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.alert-info {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-left: 4px solid #2196f3;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .produtos-container {
+    padding: 0 0.5rem;
+  }
+
+  .filtros-row {
+    grid-template-columns: 1fr;
+  }
+
+  .filtros-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .btn-exportar-produtos {
+    width: 100%;
+    text-align: center;
+  }
+
+  .produtos-table {
+    font-size: 0.85rem;
+  }
+
+  .produtos-table th,
+  .produtos-table td {
+    padding: 0.6rem;
+  }
+}

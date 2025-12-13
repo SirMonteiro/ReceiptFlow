@@ -100,5 +100,13 @@ Rails.application.routes.draw do
       get :exportar
     end
   end
+
+  # Rotas para estatísticas de produtos
+  resources :produtos, only: [:index] do
+    collection do
+      get :exportar
+    end
+  end
+
   get '/debug', to: 'uploads#debug'
 end
