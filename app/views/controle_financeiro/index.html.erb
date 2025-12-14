@@ -9,7 +9,7 @@
   <h2>Meta de Vendas</h2>
   <% if @meta_atual %>
     <p>Sua meta de <%= meses[@mes_atual] %>/<%= @ano_atual %>: 
-      <strong><%= number_to_currency(@meta_atual.valor_meta) %></strong>
+      <strong><%= number_to_currency(@meta_atual.valor_meta, unit: "R$ ", separator: ",", delimiter: ".") %></strong>
     </p>
 
     <%= form_with model: @meta_atual, url: atualizar_meta_path(@meta_atual), method: :patch do |f| %>

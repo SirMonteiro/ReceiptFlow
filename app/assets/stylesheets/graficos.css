@@ -1,0 +1,57 @@
+
+body {
+background-color: #f6f7fb;
+}
+
+h1 {
+text-align: center;
+margin-bottom: 32px;
+font-size: 2.2rem;
+color: #2c2c54;
+}
+
+
+#grafico_vendas_despesas_orcamento_div,
+#grafico_vendas_metas_div {
+background: #ffffff;
+border-radius: 16px;
+padding: 16px;
+margin-bottom: 32px;
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+
+#grafico_pizza_meta {
+margin: 24px auto;
+background: #ffffff;
+border-radius: 16px;
+padding: 12px;
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+
+p {
+text-align: center;
+font-size: 1.05rem;
+margin-top: 16px;
+color: #333;
+}
+
+
+p strong {
+color: #4caf50;
+font-weight: 700;
+}
+
+
+@media (max-width: 768px) {
+#grafico_vendas_despesas_orcamento_div,
+#grafico_vendas_metas_div {
+height: 320px !important;
+}
+
+#grafico_pizza_meta {
+width: 100% !important;
+height: 300px !important;
+}
+}
