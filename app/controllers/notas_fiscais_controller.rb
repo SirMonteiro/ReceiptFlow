@@ -23,9 +23,9 @@ class NotasFiscaisController < ApplicationController
 
       redirect_to notas_fiscais_path, notice: "NF-e ##{imported_nota.number} importada com sucesso!"
     rescue ActiveRecord::RecordInvalid => e
-      redirect_to notas_fiscais_path, alert: "Erro de validação: #{e.message}"
+      redirect_to notas_fiscais_path, alert: "Erro de validação - #{e.message}"
     rescue StandardError => e
-      redirect_to notas_fiscais_path, alert: "Erro na importação do arquivo: #{e.message}"
+      redirect_to notas_fiscais_path, alert: "Erro na importação do arquivo - #{e.message}"
     end
   end
 end
